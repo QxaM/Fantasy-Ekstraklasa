@@ -1,8 +1,7 @@
 package com.kodilla.fantasy.apifootball.client;
 
 import com.kodilla.fantasy.apifootball.config.ApiFootballConfig;
-import com.kodilla.fantasy.apifootball.dto.GetTeamsDto;
-import com.kodilla.fantasy.apifootball.dto.TeamResponseDto;
+import com.kodilla.fantasy.apifootball.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -27,25 +26,46 @@ public class ApiFootballClient {
 
     public GetTeamsDto fetchTeams() {
         URI url = buildTeamsUrl();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(config.getKeyHeader(), config.getKey());
-        headers.set(config.getHostHeader(), config.getHost());
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<Void> headersEntity = buildHeaders();
 
         try {
             log.info("Started fetching teams");
             ResponseEntity<GetTeamsDto> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
-                    requestEntity,
+                    headersEntity,
                     GetTeamsDto.class);
             log.info("Fetched teams");
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetTeamsDto(new TeamResponseDto[0]));
         } catch (RestClientException e) {
             log.error("Error fetching teams: " + e.getMessage());
-            return new GetTeamsDto();
+            return new GetTeamsDto(new TeamResponseDto[0]);
+        }
+    }
+
+    public GetPlayersDto fetchPlayers(int paging) {
+        URI url = buildPlayersUrl(paging);
+        HttpEntity<Void> headersEntity = buildHeaders();
+
+        try {
+            log.info("Started fetching players at page" + paging);
+            ResponseEntity<GetPlayersDto> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    headersEntity,
+                    GetPlayersDto.class);
+            log.info("Finished fetching players at page" + paging);
+            return Optional.ofNullable(response.getBody())
+                    .orElse(new GetPlayersDto(
+                                new PagingDto(paging, paging),
+                                new PlayerResponseDto[0]));
+        } catch (RestClientException e) {
+            log.error("Error fetching players at page:" + paging + " " + e.getMessage());
+            return new GetPlayersDto(
+                    new PagingDto(paging, paging),
+                    new PlayerResponseDto[0]
+            );
         }
     }
 
@@ -56,5 +76,22 @@ public class ApiFootballClient {
                 .build()
                 .encode()
                 .toUri();
+    }
+
+    private URI buildPlayersUrl(int paging) {
+        return UriComponentsBuilder.fromHttpUrl(config.getUrl() + "/players")
+                .queryParam("league", config.getLeague())
+                .queryParam("season", config.getSeason())
+                .queryParam("page", paging)
+                .build()
+                .encode()
+                .toUri();
+    }
+
+    private HttpEntity<Void> buildHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(config.getKeyHeader(), config.getKey());
+        headers.set(config.getHostHeader(), config.getHost());
+        return new HttpEntity<>(headers);
     }
 }
