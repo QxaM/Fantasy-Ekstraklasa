@@ -4,12 +4,14 @@ import com.kodilla.fantasy.apifootball.client.ApiFootballClient;
 import com.kodilla.fantasy.apifootball.dto.GetPlayersDto;
 import com.kodilla.fantasy.apifootball.dto.GetTeamsDto;
 import com.kodilla.fantasy.apifootball.dto.TeamResponseDto;
+import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.mapper.ApiFootballMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,15 @@ public class ApiFootballFacade {
         return Arrays.stream(apiFootballResponse.getTeamResponse())
                 .map(TeamResponseDto::getTeam)
                 .map(apiFootballMapper::mapToTeam)
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getAllPlayers() {
+        int paging = 35;
+        List<GetPlayersDto> playersResponse = playerPaging(paging, new ArrayList<>());
+        return playersResponse.stream()
+                .flatMap((players) -> Arrays.stream(players.getResponse()))
+                .map(apiFootballMapper::mapToPlayer)
                 .collect(Collectors.toList());
     }
 
