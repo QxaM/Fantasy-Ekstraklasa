@@ -102,8 +102,8 @@ public class ApiFootballClientTests {
 
         ApiFootballPlayerDto player1 = new ApiFootballPlayerDto(357L, "Test name 1", "Test name 1", 21);
         ApiFootballPlayerDto player2 = new ApiFootballPlayerDto(358L, "Test name 2", "Test name 2", 22);
-        PlayerResponseDto response1 = new PlayerResponseDto(player1, statistics1);
-        PlayerResponseDto response2 = new PlayerResponseDto(player2, statistics2);
+        PlayerResponseDto response1 = new PlayerResponseDto(player1, new StatisticsDto[]{statistics1});
+        PlayerResponseDto response2 = new PlayerResponseDto(player2, new StatisticsDto[]{statistics2});
         PagingDto pagingDto = new PagingDto(2, 37);
         GetPlayersDto playersDto = new GetPlayersDto(pagingDto, new PlayerResponseDto[]{response1, response2});
 
@@ -115,8 +115,8 @@ public class ApiFootballClientTests {
         //Then
         assertAll(() -> assertEquals(2, fetchedPlayers.getPaging().getCurrent()),
                 () -> assertEquals(2, fetchedPlayers.getResponse().length),
-                () -> assertEquals(258L, fetchedPlayers.getResponse()[1].getStatistics().getTeam().getId()),
-                () -> assertEquals("Defender", fetchedPlayers.getResponse()[1].getStatistics().getGames().getPosition()),
+                () -> assertEquals(258L, fetchedPlayers.getResponse()[1].getStatistics()[0].getTeam().getId()),
+                () -> assertEquals("Defender", fetchedPlayers.getResponse()[1].getStatistics()[0].getGames().getPosition()),
                 () -> assertEquals(358L, fetchedPlayers.getResponse()[1].getPlayer().getId()));
     }
 

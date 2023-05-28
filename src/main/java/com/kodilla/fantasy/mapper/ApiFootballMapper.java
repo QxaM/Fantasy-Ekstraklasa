@@ -24,7 +24,7 @@ public class ApiFootballMapper {
                 playerResponseDto.getPlayer().getFirstname(),
                 playerResponseDto.getPlayer().getLastname(),
                 playerResponseDto.getPlayer().getAge(),
-                playerResponseDto.getStatistics().getGames().getRating()
+                playerResponseDto.getStatistics()[0].getGames().getRating()
         );
     }
 }

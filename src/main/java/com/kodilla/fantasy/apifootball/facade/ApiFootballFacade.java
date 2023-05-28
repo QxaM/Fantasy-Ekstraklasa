@@ -33,7 +33,7 @@ public class ApiFootballFacade {
     }
 
     public List<Player> getAllPlayers() {
-        int paging = 35;
+        int paging = 1;
         List<GetPlayersDto> playersResponse = playerPaging(paging, new ArrayList<>());
         return playersResponse.stream()
                 .flatMap((players) -> Arrays.stream(players.getResponse()))

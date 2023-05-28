@@ -14,5 +14,5 @@ public class PlayerResponseDto {
     @JsonProperty("player")
     private ApiFootballPlayerDto player;
     @JsonProperty("statistics")
-    private StatisticsDto statistics;
+    private StatisticsDto[] statistics;
 }

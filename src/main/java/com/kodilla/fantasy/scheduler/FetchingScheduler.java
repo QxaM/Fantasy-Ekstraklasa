@@ -24,7 +24,6 @@ public class FetchingScheduler {
         teamDbService.initTeams(teamList);
     }
 
-    @Scheduled(fixedRate = 10000)
     public void fetchPlayers() {
         List<Player> playerList = apiFootballFacade.getAllPlayers();
         playerDbService.initPlayers(playerList);

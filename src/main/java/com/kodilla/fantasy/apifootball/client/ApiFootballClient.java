@@ -49,19 +49,19 @@ public class ApiFootballClient {
         HttpEntity<Void> headersEntity = buildHeaders();
 
         try {
-            log.info("Started fetching players at page" + paging);
+            log.info("Started fetching players at page " + paging);
             ResponseEntity<GetPlayersDto> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     headersEntity,
                     GetPlayersDto.class);
-            log.info("Finished fetching players at page" + paging);
+            log.info("Finished fetching players at page " + paging);
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetPlayersDto(
                                 new PagingDto(paging, paging),
                                 new PlayerResponseDto[0]));
         } catch (RestClientException e) {
-            log.error("Error fetching players at page:" + paging + " " + e.getMessage());
+            log.error("Error fetching players at page: " + paging + " " + e.getMessage());
             return new GetPlayersDto(
                     new PagingDto(paging, paging),
                     new PlayerResponseDto[0]
