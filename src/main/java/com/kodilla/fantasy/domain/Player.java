@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
@@ -26,17 +27,17 @@ public class Player {
     private String lastname;
     @Column(name = "AGE")
     private int age;
-    @Column(name = "RATING")
-    private String rating;
+    @Column(name = "VALUE")
+    private BigDecimal value;
     @Column(name = "POSITION")
     private Position position;
 
-    public Player(Long apiFootballId, String firstname, String lastname, int age, String rating, Position position) {
+    public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position) {
         this.apiFootballId = apiFootballId;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
-        this.rating = rating;
+        this.value = value;
         this.position = position;
     }
 }

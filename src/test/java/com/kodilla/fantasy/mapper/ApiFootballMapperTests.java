@@ -2,6 +2,7 @@ package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.apifootball.dto.*;
 import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,6 @@ public class ApiFootballMapperTests {
                 () -> assertEquals("Test name", mappedPlayer.getFirstname()),
                 () -> assertEquals("Test name", mappedPlayer.getLastname()),
                 () -> assertEquals(21, mappedPlayer.getAge()),
-                () -> assertEquals("6.0", mappedPlayer.getRating()));
+                () -> assertEquals(Position.GK, mappedPlayer.getPosition()));
     }
 }

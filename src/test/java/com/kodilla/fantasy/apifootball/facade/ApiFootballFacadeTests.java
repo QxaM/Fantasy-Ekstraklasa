@@ -3,6 +3,7 @@ package com.kodilla.fantasy.apifootball.facade;
 import com.kodilla.fantasy.apifootball.client.ApiFootballClient;
 import com.kodilla.fantasy.apifootball.dto.*;
 import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.mapper.ApiFootballMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,7 +76,7 @@ public class ApiFootballFacadeTests {
     @Test
     void testShouldFetchPlayers() {
         //Given
-        Player player = new Player(357L, "Test name", "Test name", 21, "6.0");
+        Player player = new Player(357L, "Test name", "Test name", 21, BigDecimal.ONE, Position.GK);
 
         ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
         GamesDto gamesDto = new GamesDto("Goalkeeper", "6.0");

@@ -1,7 +1,9 @@
 package com.kodilla.fantasy.validator;
 
 import com.kodilla.fantasy.domain.Position;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PlayerValidator {
 
     public Position validatePosition(String position) {
@@ -10,6 +12,7 @@ public class PlayerValidator {
             case "Defender" -> Position.DEF;
             case "Midfielder" -> Position.MID;
             case "Attacker" -> Position.ST;
+            default -> null;
         };
     }
 }
