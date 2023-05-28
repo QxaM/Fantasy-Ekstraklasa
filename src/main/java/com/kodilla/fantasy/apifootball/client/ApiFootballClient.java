@@ -2,6 +2,7 @@ package com.kodilla.fantasy.apifootball.client;
 
 import com.kodilla.fantasy.apifootball.config.ApiFootballConfig;
 import com.kodilla.fantasy.apifootball.dto.GetTeamsDto;
+import com.kodilla.fantasy.apifootball.dto.TeamResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -39,7 +41,8 @@ public class ApiFootballClient {
                     requestEntity,
                     GetTeamsDto.class);
             log.info("Fetched teams");
-            return response.getBody();
+            return Optional.ofNullable(response.getBody())
+                    .orElse(new GetTeamsDto(new TeamResponseDto[0]));
         } catch (RestClientException e) {
             log.error("Error fetching teams: " + e.getMessage());
             return new GetTeamsDto();
