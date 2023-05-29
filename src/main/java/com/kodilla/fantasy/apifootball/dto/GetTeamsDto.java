@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GetTeamsDto {
     @JsonProperty("response")
-    private TeamResponseDto[] teamResponse;
+    private List<TeamResponseDto> teamResponse;
 }

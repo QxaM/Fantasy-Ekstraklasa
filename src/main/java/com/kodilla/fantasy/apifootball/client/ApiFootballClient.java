@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Optional;
 
 @Component
@@ -37,10 +38,10 @@ public class ApiFootballClient {
                     GetTeamsDto.class);
             log.info("Fetched teams");
             return Optional.ofNullable(response.getBody())
-                    .orElse(new GetTeamsDto(new TeamResponseDto[0]));
+                    .orElse(new GetTeamsDto(Collections.emptyList()));
         } catch (RestClientException e) {
             log.error("Error fetching teams: " + e.getMessage());
-            return new GetTeamsDto(new TeamResponseDto[0]);
+            return new GetTeamsDto(Collections.emptyList());
         }
     }
 
@@ -59,12 +60,12 @@ public class ApiFootballClient {
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetPlayersDto(
                                 new PagingDto(paging, paging),
-                                new PlayerResponseDto[0]));
+                                Collections.emptyList()));
         } catch (RestClientException e) {
             log.error("Error fetching players at page: " + paging + " " + e.getMessage());
             return new GetPlayersDto(
                     new PagingDto(paging, paging),
-                    new PlayerResponseDto[0]
+                    Collections.emptyList()
             );
         }
     }

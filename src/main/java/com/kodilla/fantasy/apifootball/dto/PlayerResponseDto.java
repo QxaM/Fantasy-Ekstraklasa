@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,5 +16,5 @@ public class PlayerResponseDto {
     @JsonProperty("player")
     private ApiFootballPlayerDto player;
     @JsonProperty("statistics")
-    private StatisticsDto[] statistics;
+    private List<StatisticsDto> statistics;
 }
