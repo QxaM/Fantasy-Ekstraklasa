@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 public class PlayerValueByScore extends PlayerValueDecorator {
 
-    private final static BigDecimal LOW_VALUE = new BigDecimal("10000");
+    private final static BigDecimal LOW_VALUE = BigDecimal.ZERO;
     private final static BigDecimal HIGH_VALUE = new BigDecimal("5000000");
     private final static double LOW_SCORE = 6.0;
     private final static double HIGH_SCORE = 8.0;
