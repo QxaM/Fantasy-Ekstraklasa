@@ -38,4 +38,11 @@ public class Team {
         this.name = name;
         this.code = code;
     }
+
+    public Team(Long apiFootballId, String name, String code, List<Player> players) {
+        this.apiFootballId = apiFootballId;
+        this.name = name;
+        this.code = code;
+        this.players = players;
+    }
 }

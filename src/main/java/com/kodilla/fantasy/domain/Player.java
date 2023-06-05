@@ -27,7 +27,7 @@ public class Player {
     private String lastname;
     @Column(name = "AGE")
     private int age;
-    @Column(name = "VALUE")
+    @Column(name = "PLAYER_COST")
     private BigDecimal value;
     @Column(name = "POSITION")
     private Position position;
