@@ -31,6 +31,9 @@ public class Player {
     private BigDecimal value;
     @Column(name = "POSITION")
     private Position position;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position) {
         this.apiFootballId = apiFootballId;

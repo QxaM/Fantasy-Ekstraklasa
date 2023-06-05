@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +25,13 @@ public class Team {
     private String name;
     @Column(name = "CODE")
     private String code;
+    @OneToMany(
+            targetEntity = Player.class,
+            mappedBy = "team",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    private List<Player> players;
 
     public Team(Long apiFootballId, String name, String code) {
         this.apiFootballId = apiFootballId;

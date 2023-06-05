@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
@@ -25,8 +27,8 @@ public class TeamDbServiceTests {
     @Test
     void shouldInitTeams() {
         //Given
-        Team team1 = new Team(1L, 2L, "Test", "TET");
-        Team team2 = new Team(2L, 3L, "Test2", "TE2");
+        Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
+        Team team2 = new Team(2L, 3L, "Test2", "TE2", new ArrayList<>());
 
         //When
         teamDbService.initTeams(List.of(team1, team2));
