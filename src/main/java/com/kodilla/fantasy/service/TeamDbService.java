@@ -15,8 +15,8 @@ public class TeamDbService {
     private final TeamRepository repository;
 
     @Transactional
-    public List<Team> initTeams(List<Team> teams) {
+    public void initTeams(List<Team> teams) {
         repository.deleteAll();
-        return (List<Team>) repository.saveAll(teams);
+        repository.saveAll(teams);
     }
 }

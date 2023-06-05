@@ -5,6 +5,7 @@ import com.kodilla.fantasy.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -13,8 +14,9 @@ public class PlayerDbService {
 
     private final PlayerRepository repository;
 
-    public List<Player> initPlayers(List<Player> players) {
+    @Transactional
+    public void initPlayers(List<Player> players) {
         repository.deleteAll();
-        return (List<Player>) repository.saveAll(players);
+        repository.saveAll(players);
     }
 }

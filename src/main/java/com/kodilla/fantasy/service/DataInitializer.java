@@ -1,4 +1,4 @@
-package com.kodilla.fantasy.scheduler;
+package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.apifootball.facade.ApiFootballFacade;
 import com.kodilla.fantasy.domain.Player;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class FetchingScheduler {
+public class DataInitializer {
 
     private final ApiFootballFacade apiFootballFacade;
     private final TeamDbService teamDbService;
@@ -24,7 +24,6 @@ public class FetchingScheduler {
         teamDbService.initTeams(teamList);
     }
 
-    @Scheduled(fixedDelay = 10000)
     public void fetchPlayers() {
         List<Player> playerList = apiFootballFacade.getAllPlayers();
         playerDbService.initPlayers(playerList);
