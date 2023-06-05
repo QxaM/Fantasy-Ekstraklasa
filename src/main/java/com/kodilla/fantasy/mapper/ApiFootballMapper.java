@@ -27,7 +27,7 @@ public class ApiFootballMapper {
 
     public Player mapToPlayer(PlayerResponseDto playerResponseDto) {
         PlayerValue playerValue = new DefaultPlayerValue();
-        String playerRating = playerResponseDto.getStatistics()[0].getGames().getRating();
+        String playerRating = playerResponseDto.getStatistics().get(0).getGames().getRating();
         if(playerRating != null) {
             playerValue = new PlayerValueByScore(playerValue, playerRating);
         }
@@ -37,7 +37,7 @@ public class ApiFootballMapper {
                 playerResponseDto.getPlayer().getLastname(),
                 playerResponseDto.getPlayer().getAge(),
                 playerValue.getValue(),
-                validator.validatePosition(playerResponseDto.getStatistics()[0].getGames().getPosition())
+                validator.validatePosition(playerResponseDto.getStatistics().get(0).getGames().getPosition())
         );
 
     }

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,7 +45,7 @@ public class ApiFootballMapperTests {
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeamDto, gamesDto);
         PlayerResponseDto playerResponseDto = new PlayerResponseDto(
                 playerDto,
-                new StatisticsDto[]{statisticsDto}
+                List.of(statisticsDto)
         );
 
         //When

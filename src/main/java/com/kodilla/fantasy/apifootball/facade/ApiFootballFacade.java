@@ -26,7 +26,7 @@ public class ApiFootballFacade {
 
     public List<Team> getAllTeams() {
         GetTeamsDto apiFootballResponse = apiFootballClient.fetchTeams();
-        return Arrays.stream(apiFootballResponse.getTeamResponse())
+        return apiFootballResponse.getTeamResponse().stream()
                 .map(TeamResponseDto::getTeam)
                 .map(apiFootballMapper::mapToTeam)
                 .collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class ApiFootballFacade {
         int paging = 1;
         List<GetPlayersDto> playersResponse = playerPaging(paging, new ArrayList<>());
         return playersResponse.stream()
-                .flatMap((players) -> Arrays.stream(players.getResponse()))
+                .flatMap((players) -> players.getResponse().stream())
                 .map(apiFootballMapper::mapToPlayer)
                 .collect(Collectors.toList());
     }

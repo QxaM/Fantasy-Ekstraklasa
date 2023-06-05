@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,7 +49,7 @@ public class ApiFootballFacadeTests {
 
         TeamResponseDto teamResponse1 = new TeamResponseDto(apiFootballTeam1);
         TeamResponseDto teamResponse2 = new TeamResponseDto(apiFootballTeam2);
-        GetTeamsDto teamsResponse = new GetTeamsDto(new TeamResponseDto[]{teamResponse1, teamResponse2});
+        GetTeamsDto teamsResponse = new GetTeamsDto(List.of(teamResponse1, teamResponse2));
 
         when(apiFootballClient.fetchTeams()).thenReturn(teamsResponse);
         when(apiFootballMapper.mapToTeam(apiFootballTeam1)).thenReturn(team1);
@@ -64,7 +65,7 @@ public class ApiFootballFacadeTests {
     @Test
     void testShouldFetchEmptyTeams() {
         //Given
-        when(apiFootballClient.fetchTeams()).thenReturn(new GetTeamsDto(new TeamResponseDto[0]));
+        when(apiFootballClient.fetchTeams()).thenReturn(new GetTeamsDto(Collections.emptyList()));
 
         //When
         List<Team> fetchedTeams = apiFootballFacade.getAllTeams();
@@ -83,16 +84,16 @@ public class ApiFootballFacadeTests {
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeam1, gamesDto);
         PlayerResponseDto playerResponseDto = new PlayerResponseDto(
                 playerDto,
-                new StatisticsDto[]{statisticsDto}
+                List.of(statisticsDto)
         );
 
         GetPlayersDto getPlayersDto1 = new GetPlayersDto(
                 new PagingDto(1, 2),
-                new PlayerResponseDto[]{playerResponseDto}
+                List.of(playerResponseDto)
         );
         GetPlayersDto getPlayersDto2 = new GetPlayersDto(
                 new PagingDto(2, 2),
-                new PlayerResponseDto[]{playerResponseDto}
+                List.of(playerResponseDto)
         );
 
         when(apiFootballClient.fetchPlayers(1)).thenReturn(getPlayersDto1);
@@ -111,7 +112,7 @@ public class ApiFootballFacadeTests {
         //Given
         GetPlayersDto getPlayersDto = new GetPlayersDto(
                 new PagingDto(3, 3),
-                new PlayerResponseDto[0]
+                Collections.emptyList()
         );
         when(apiFootballClient.fetchPlayers(anyInt())).thenReturn(getPlayersDto);
 

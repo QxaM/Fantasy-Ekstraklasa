@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,7 +62,7 @@ public class ApiFootballClientTests {
 
         ApiFootballTeamDto apiFootballTeam = new ApiFootballTeamDto(357L, "Test", "TET");
         TeamResponseDto teamResponse = new TeamResponseDto(apiFootballTeam);
-        GetTeamsDto getTeamsDto = new GetTeamsDto(new TeamResponseDto[]{teamResponse});
+        GetTeamsDto getTeamsDto = new GetTeamsDto(List.of(teamResponse));
 
         when(restTemplate.exchange(url, HttpMethod.GET, requestEntity, GetTeamsDto.class)).thenReturn(new ResponseEntity<>(getTeamsDto, HttpStatus.OK));
 
@@ -69,10 +70,10 @@ public class ApiFootballClientTests {
         GetTeamsDto fetchedResponse = apiFootballClient.fetchTeams();
 
         //Then
-        assertAll(() -> assertEquals(1, fetchedResponse.getTeamResponse().length),
-                () -> assertEquals(357L, fetchedResponse.getTeamResponse()[0].getTeam().getId()),
-                () -> assertEquals("Test", fetchedResponse.getTeamResponse()[0].getTeam().getName()),
-                () -> assertEquals("TET", fetchedResponse.getTeamResponse()[0].getTeam().getCode()));
+        assertAll(() -> assertEquals(1, fetchedResponse.getTeamResponse().size()),
+                () -> assertEquals(357L, fetchedResponse.getTeamResponse().get(0).getTeam().getId()),
+                () -> assertEquals("Test", fetchedResponse.getTeamResponse().get(0).getTeam().getName()),
+                () -> assertEquals("TET", fetchedResponse.getTeamResponse().get(0).getTeam().getCode()));
     }
 
     @Test
@@ -85,7 +86,7 @@ public class ApiFootballClientTests {
         GetTeamsDto fetchedResponse = apiFootballClient.fetchTeams();
 
         //Then
-        assertEquals(0, fetchedResponse.getTeamResponse().length);
+        assertEquals(0, fetchedResponse.getTeamResponse().size());
     }
 
     @Test
@@ -102,10 +103,10 @@ public class ApiFootballClientTests {
 
         ApiFootballPlayerDto player1 = new ApiFootballPlayerDto(357L, "Test name 1", "Test name 1", 21);
         ApiFootballPlayerDto player2 = new ApiFootballPlayerDto(358L, "Test name 2", "Test name 2", 22);
-        PlayerResponseDto response1 = new PlayerResponseDto(player1, new StatisticsDto[]{statistics1});
-        PlayerResponseDto response2 = new PlayerResponseDto(player2, new StatisticsDto[]{statistics2});
+        PlayerResponseDto response1 = new PlayerResponseDto(player1, List.of(statistics1));
+        PlayerResponseDto response2 = new PlayerResponseDto(player2, List.of(statistics2));
         PagingDto pagingDto = new PagingDto(2, 37);
-        GetPlayersDto playersDto = new GetPlayersDto(pagingDto, new PlayerResponseDto[]{response1, response2});
+        GetPlayersDto playersDto = new GetPlayersDto(pagingDto, List.of(response1, response2));
 
         when(restTemplate.exchange(url, HttpMethod.GET, requestEntity, GetPlayersDto.class)).thenReturn(new ResponseEntity<>(playersDto, HttpStatus.OK));
 
@@ -114,10 +115,10 @@ public class ApiFootballClientTests {
 
         //Then
         assertAll(() -> assertEquals(2, fetchedPlayers.getPaging().getCurrent()),
-                () -> assertEquals(2, fetchedPlayers.getResponse().length),
-                () -> assertEquals(258L, fetchedPlayers.getResponse()[1].getStatistics()[0].getTeam().getId()),
-                () -> assertEquals("Defender", fetchedPlayers.getResponse()[1].getStatistics()[0].getGames().getPosition()),
-                () -> assertEquals(358L, fetchedPlayers.getResponse()[1].getPlayer().getId()));
+                () -> assertEquals(2, fetchedPlayers.getResponse().size()),
+                () -> assertEquals(258L, fetchedPlayers.getResponse().get(1).getStatistics().get(0).getTeam().getId()),
+                () -> assertEquals("Defender", fetchedPlayers.getResponse().get(1).getStatistics().get(0).getGames().getPosition()),
+                () -> assertEquals(358L, fetchedPlayers.getResponse().get(1).getPlayer().getId()));
     }
 
     @Test
@@ -132,6 +133,6 @@ public class ApiFootballClientTests {
         //Then
         assertAll(() -> assertEquals(2, fetchedPlayers.getPaging().getCurrent()),
                 () -> assertEquals(2, fetchedPlayers.getPaging().getTotal()),
-                () -> assertEquals(0, fetchedPlayers.getResponse().length));
+                () -> assertEquals(0, fetchedPlayers.getResponse().size()));
     }
 }
