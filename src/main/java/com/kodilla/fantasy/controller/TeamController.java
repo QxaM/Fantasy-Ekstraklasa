@@ -43,7 +43,7 @@ public class TeamController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) throws ElementNotFoundException {
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         service.deleteTeam(id);
         return ResponseEntity.ok().build();
     }
