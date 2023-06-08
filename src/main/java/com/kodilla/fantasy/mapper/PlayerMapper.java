@@ -20,6 +20,7 @@ public class PlayerMapper {
     public Player mapToPlayer(PlayerDto playerDto) {
         return new Player(
                 playerDto.getId(),
+                0L,
                 playerDto.getFirstname(),
                 playerDto.getLastname(),
                 playerDto.getAge(),
