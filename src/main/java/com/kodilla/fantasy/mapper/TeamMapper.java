@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.dto.TeamDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,10 @@ public class TeamMapper {
     public Team mapToTeam(TeamDto teamDto) {
         return new Team(
                 teamDto.getId(),
+                0L,
                 teamDto.getName(),
-                teamDto.getCode()
+                teamDto.getCode(),
+                new ArrayList<>()
         );
     }
     public TeamDto mapToTeamDto(Team team) {
