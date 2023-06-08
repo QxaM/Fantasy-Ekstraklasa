@@ -52,9 +52,7 @@ public class PlayerMapper {
                 players.getNumber(),
                 players.getTotalPages()
         );
-        List<PlayerDto> mappedPlayers = mapToPlayerDtoList(
-                players.stream().toList()
-        );
+        List<PlayerDto> mappedPlayers = mapToPlayerDtoList(players.getContent());
 
         return new PlayersPagedDto(
                 page,
