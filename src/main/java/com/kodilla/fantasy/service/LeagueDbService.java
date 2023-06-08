@@ -23,7 +23,7 @@ public class LeagueDbService {
                 .orElseThrow(() -> new ElementNotFoundException("League with given id: " + id + "does not exist"));
     }
 
-    public League createLeague(League league) {
+    public League saveLeague(League league) {
         return repository.save(league);
     }
 
