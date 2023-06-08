@@ -20,9 +20,9 @@ public class PlayerController {
     private final PlayerDbService service;
     private final PlayerMapper mapper;
 
-    @GetMapping("{page}")
-    public ResponseEntity<PlayersPagedDto> getPlayers(@PathVariable Integer page) {
-        Page<Player> foundPlayers = service.getPlayers(page);
+    @GetMapping("/page/{pageNo}")
+    public ResponseEntity<PlayersPagedDto> getPlayers(@PathVariable Integer pageNo) {
+        Page<Player> foundPlayers = service.getPlayers(pageNo);
         PlayersPagedDto mappedPlayers = mapper.mapToPlayersPagedDto(foundPlayers);
         return ResponseEntity.ok(mappedPlayers);
     }
@@ -35,7 +35,7 @@ public class PlayerController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PlayerDto> createPlayer(@RequestBody PlayerDto playerDto) throws ElementNotFoundException {
+    public ResponseEntity<PlayerDto> updatePlayer(@RequestBody PlayerDto playerDto) throws ElementNotFoundException {
         Player mappedPlayer = mapper.mapToPlayer(playerDto);
         Player savedPlayer = service.updatePlayer(mappedPlayer);
         PlayerDto mappedPlayerDto = mapper.mapToPlayerDto(savedPlayer);
