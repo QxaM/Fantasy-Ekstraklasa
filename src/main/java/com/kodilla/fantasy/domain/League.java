@@ -20,4 +20,8 @@ public class League {
     private Long id;
     @Column(name = "LEAGUE_NAME")
     private String name;
+
+    public League(String name) {
+        this.name = name;
+    }
 }
