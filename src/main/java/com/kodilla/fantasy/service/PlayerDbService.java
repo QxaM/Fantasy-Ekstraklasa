@@ -31,13 +31,13 @@ public class PlayerDbService {
 
     public Player getPlayer(Long id) throws ElementNotFoundException {
         return repository.findById(id)
-                .orElseThrow(ElementNotFoundException::new);
+                .orElseThrow(() -> new ElementNotFoundException("Player with given id: " + id + " does not exist"));
     }
 
     @Transactional
     public Player updatePlayer(Player player) throws ElementNotFoundException {
         Player foundPlayer = repository.findById(player.getId())
-                .orElseThrow(ElementNotFoundException::new);
+                .orElseThrow(() -> new ElementNotFoundException("Player with given id: " + player.getId() + " does not exist"));
         Player changedPlayer = new Player(
                 player.getId(),
                 foundPlayer.getApiFootballId(),

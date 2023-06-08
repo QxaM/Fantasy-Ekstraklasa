@@ -27,7 +27,7 @@ public class TeamDbService {
 
     public Team getTeam(Long id) throws ElementNotFoundException {
         return repository.findById(id)
-                .orElseThrow(ElementNotFoundException::new);
+                .orElseThrow(() -> new ElementNotFoundException("Team with given id: " + id + " does not exist"));
     }
 
     public Team getTeamByApiFootballId(Long id) {
@@ -38,7 +38,7 @@ public class TeamDbService {
     @Transactional
     public Team updateTeam(Team team) throws ElementNotFoundException {
         Team foundTeam = repository.findById(team.getId())
-                .orElseThrow(ElementNotFoundException::new);
+                .orElseThrow(() -> new ElementNotFoundException("Team with given id: " + team.getId() + " does not exist"));
         Team updatedTeam = new Team(
                 team.getId(),
                 foundTeam.getApiFootballId(),
