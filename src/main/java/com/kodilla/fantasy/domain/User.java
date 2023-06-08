@@ -20,4 +20,8 @@ public class User {
     private Long id;
     @Column(name = "USERNAME")
     private String username;
+
+    public User(String username) {
+        this.username = username;
+    }
 }
