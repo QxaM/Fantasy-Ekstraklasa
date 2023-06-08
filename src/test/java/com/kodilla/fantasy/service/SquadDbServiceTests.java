@@ -29,7 +29,7 @@ public class SquadDbServiceTests {
     private SquadRepository squadRepository;
 
     @Test
-    void shouldGetUsers() {
+    void shouldGetSquads() {
         //Given
         Squad squad1 = new Squad(1L, "Squad 1");
         Squad squad2 = new Squad(2L, "Squad 2");
@@ -46,7 +46,7 @@ public class SquadDbServiceTests {
     }
 
     @Test
-    void shouldGetUser() {
+    void shouldGetSquad() {
         //Given
         Squad squad = new Squad(1L, "Squad 1");
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
@@ -62,7 +62,7 @@ public class SquadDbServiceTests {
     }
 
     @Test
-    void shouldNotGetUser() {
+    void shouldNotGetSquad() {
         //Given
 
         //When
@@ -72,7 +72,7 @@ public class SquadDbServiceTests {
     }
 
     @Test
-    void shouldSaveUser() {
+    void shouldSaveSquad() {
         //Given
         Squad squad = new Squad(1L, "Squad 1");
         when(squadRepository.save(any(Squad.class))).thenReturn(squad);
