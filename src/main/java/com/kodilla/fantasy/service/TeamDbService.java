@@ -49,7 +49,7 @@ public class TeamDbService {
         return repository.save(updatedTeam);
     }
 
-    public void deleteTeam(Long id) throws ElementNotFoundException {
+    public void deleteTeam(Long id) {
         repository.deleteById(id);
     }
 }
