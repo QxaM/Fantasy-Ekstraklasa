@@ -37,7 +37,7 @@ public class TeamController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDto> updateTeam(@RequestBody TeamDto teamDto) throws ElementNotFoundException {
         Team mappedTeam = mapper.mapToTeam(teamDto);
-        Team savedTeam = service.saveTeam(mappedTeam);
+        Team savedTeam = service.updateTeam(mappedTeam);
         TeamDto mappedTeamDto = mapper.mapToTeamDto(savedTeam);
         return ResponseEntity.ok(mappedTeamDto);
     }

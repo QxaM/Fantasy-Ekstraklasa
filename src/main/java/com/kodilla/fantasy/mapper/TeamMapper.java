@@ -2,10 +2,12 @@ package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.dto.TeamDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class TeamMapper {
 
     public Team mapToTeam(TeamDto teamDto) {

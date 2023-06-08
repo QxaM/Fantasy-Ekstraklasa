@@ -26,16 +26,19 @@ public class TeamDbService {
     }
 
     public Team getTeam(Long id) throws ElementNotFoundException {
-        return repository.findById(id).orElseThrow(ElementNotFoundException::new);
+        return repository.findById(id)
+                .orElseThrow(ElementNotFoundException::new);
     }
 
     public Team getTeamByApiFootballId(Long id) {
-        return repository.findTeamByApiFootballId(id).orElse(new Team());
+        return repository.findTeamByApiFootballId(id)
+                .orElse(new Team());
     }
 
     @Transactional
-    public Team saveTeam(Team team) throws ElementNotFoundException {
-        Team foundTeam = repository.findById(team.getId()).orElseThrow(ElementNotFoundException::new);
+    public Team updateTeam(Team team) throws ElementNotFoundException {
+        Team foundTeam = repository.findById(team.getId())
+                .orElseThrow(ElementNotFoundException::new);
         Team updatedTeam = new Team(
                 team.getId(),
                 foundTeam.getApiFootballId(),
