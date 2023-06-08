@@ -7,6 +7,8 @@ import com.kodilla.fantasy.decorator.PlayerValue;
 import com.kodilla.fantasy.decorator.PlayerValueByScore;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
+import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.service.TeamDbService;
 import com.kodilla.fantasy.validator.PlayerValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class ApiFootballMapper {
 
     private final PlayerValidator validator;
+    private final TeamDbService teamDbService;
 
     public Team mapToTeam(ApiFootballTeamDto apiFootballTeamDto) {
         return new Team(
@@ -31,14 +34,19 @@ public class ApiFootballMapper {
         if(playerRating != null) {
             playerValue = new PlayerValueByScore(playerValue, playerRating);
         }
+
+        Long teamApiFootballId = playerResponseDto.getStatistics().get(0)
+                                                    .getTeam().getId();
+        Team foundTeam = teamDbService.getTeamByApiFootballId(teamApiFootballId);
+
         return new Player(
                 playerResponseDto.getPlayer().getId(),
                 playerResponseDto.getPlayer().getFirstname(),
                 playerResponseDto.getPlayer().getLastname(),
                 playerResponseDto.getPlayer().getAge(),
                 playerValue.getValue(),
-                validator.validatePosition(playerResponseDto.getStatistics().get(0).getGames().getPosition())
+                validator.validatePosition(playerResponseDto.getStatistics().get(0).getGames().getPosition()),
+                foundTeam
         );
-
     }
 }

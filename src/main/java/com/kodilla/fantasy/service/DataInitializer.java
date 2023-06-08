@@ -3,6 +3,7 @@ package com.kodilla.fantasy.service;
 import com.kodilla.fantasy.apifootball.facade.ApiFootballFacade;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
+import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.service.PlayerDbService;
 import com.kodilla.fantasy.service.TeamDbService;
 import lombok.RequiredArgsConstructor;

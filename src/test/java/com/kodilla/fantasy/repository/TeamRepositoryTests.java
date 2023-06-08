@@ -84,6 +84,28 @@ public class TeamRepositoryTests {
     }
 
     @Test
+    void testTeamGetByApiFootballId() {
+        //Given
+        Team team1 = new Team(2L, "Test1", "TE1", new ArrayList<>());
+        Team team2 = new Team(3L, "Test2", "TE2", new ArrayList<>());
+        repository.saveAll(List.of(team1, team2));
+
+        //When
+        long id1 = team1.getId();
+        long id2 = team2.getId();
+        Optional<Team> foundTeam = repository.findTeamByApiFootballId(3L);
+
+        //Then
+        assertTrue(foundTeam.isPresent());
+        assertEquals("Test2", foundTeam.get().getName());
+        assertEquals("TE2", foundTeam.get().getCode());
+
+        //CleanUp
+        repository.deleteById(id1);
+        repository.deleteById(id2);
+    }
+
+    @Test
     void testSaveTeam_PlayersShouldNotBeSaved() {
         //Given
         Team team = new Team(2L, "Test", "TET", new ArrayList<>());

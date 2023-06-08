@@ -43,4 +43,14 @@ public class Player {
         this.value = value;
         this.position = position;
     }
+
+    public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
+        this.apiFootballId = apiFootballId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
+        this.value = value;
+        this.position = position;
+        this.team = team;
+    }
 }

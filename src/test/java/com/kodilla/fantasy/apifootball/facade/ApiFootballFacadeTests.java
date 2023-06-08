@@ -5,6 +5,7 @@ import com.kodilla.fantasy.apifootball.dto.*;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
+import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.mapper.ApiFootballMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ public class ApiFootballFacadeTests {
     }
 
     @Test
-    void testShouldFetchPlayers() {
+    void testShouldFetchPlayers() throws ElementNotFoundException {
         //Given
         Player player = new Player(357L, "Test name", "Test name", 21, BigDecimal.ONE, Position.GK);
 
@@ -108,7 +109,7 @@ public class ApiFootballFacadeTests {
     }
 
     @Test
-    void testShouldFetchEmptyPlayers() {
+    void testShouldFetchEmptyPlayers() throws ElementNotFoundException {
         //Given
         GetPlayersDto getPlayersDto = new GetPlayersDto(
                 new PagingDto(3, 3),
