@@ -20,7 +20,7 @@ public class SquadRepositoryTests {
     private SquadRepository squadRepository;
 
     @Test
-    void shouldSaveUser() {
+    void shouldSaveSquad() {
         //Given
         Squad squad = new Squad("Squad 1");
 
@@ -38,7 +38,7 @@ public class SquadRepositoryTests {
     }
 
     @Test
-    void shouldGetUsers() {
+    void shouldGetSquads() {
         //Given
         Squad squad1 = new Squad("Squad 1");
         Squad squad2 = new Squad("Squad 2");
@@ -60,7 +60,7 @@ public class SquadRepositoryTests {
     }
 
     @Test
-    void shouldGetUser() {
+    void shouldGetSquad() {
         //Given
         Squad squad = new Squad("Squad 1");
         squadRepository.save(squad);
@@ -78,7 +78,7 @@ public class SquadRepositoryTests {
     }
 
     @Test
-    void shouldDeleteUser() {
+    void shouldDeleteSquad() {
         //Given
         Squad squad = new Squad("Squad 1");
         squadRepository.save(squad);

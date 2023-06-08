@@ -24,7 +24,7 @@ public class SquadDbService {
                 .orElseThrow(() -> new ElementNotFoundException("Squad with given id: " + id + "does not exist"));
     }
 
-    public Squad Squad(Squad squad) {
+    public Squad saveSquad(Squad squad) {
         return repository.save(squad);
     }
 
