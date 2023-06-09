@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.service;
 
+import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.UserRepository;
@@ -28,8 +29,8 @@ public class UserDbServiceTests {
     @Test
     void shouldGetUsers() {
         //Given
-        User user1 = new User(1L, "User 1", new ArrayList<>());
-        User user2 = new User(2L, "User 2", new ArrayList<>());
+        User user1 = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        User user2 = new User(2L, "User 2", new ArrayList<>(), new Squad());
         List<User> users = List.of(user1, user2);
         when(userRepository.findAll()).thenReturn(users);
 
@@ -45,7 +46,7 @@ public class UserDbServiceTests {
     @Test
     void shouldGetUser() {
         //Given
-        User user = new User(1L, "User 1", new ArrayList<>());
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         //When
@@ -71,7 +72,7 @@ public class UserDbServiceTests {
     @Test
     void shouldSaveUser() {
         //Given
-        User user = new User(1L, "User 1", new ArrayList<>());
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         //Then

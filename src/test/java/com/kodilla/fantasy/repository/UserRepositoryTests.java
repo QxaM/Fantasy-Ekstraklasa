@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.repository;
 
 import com.kodilla.fantasy.domain.League;
+import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ public class UserRepositoryTests {
     @Test
     void shouldSaveUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>());
+        User user = new User("User 1", new ArrayList<>(), new Squad());
 
         //When
         userRepository.save(user);
@@ -45,8 +46,8 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUsers() {
         //Given
-        User user1 = new User("User 1", new ArrayList<>());
-        User user2 = new User("User 2", new ArrayList<>());
+        User user1 = new User("User 1", new ArrayList<>(), new Squad());
+        User user2 = new User("User 2", new ArrayList<>(), new Squad());
         userRepository.saveAll(List.of(user1, user2));
         Long id1 = user1.getId();
         Long id2 = user2.getId();
@@ -67,7 +68,7 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>());
+        User user = new User("User 1", new ArrayList<>(), new Squad());
         userRepository.save(user);
         Long id = user.getId();
 
@@ -86,7 +87,7 @@ public class UserRepositoryTests {
     @Transactional
     void shouldGetUserWithLeagues() {
         //Given
-        User user = new User("User 1", new ArrayList<>());
+        User user = new User("User 1", new ArrayList<>(), new Squad());
         League league1 = new League("League 1", new ArrayList<>());
         League league2 = new League("League 2", new ArrayList<>());
         user.getLeagues().addAll(List.of(league1, league2));
@@ -117,7 +118,7 @@ public class UserRepositoryTests {
     @Test
     void shouldDeleteUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>());
+        User user = new User("User 1", new ArrayList<>(), new Squad());
         userRepository.save(user);
         Long id = user.getId();
 

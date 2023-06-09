@@ -23,9 +23,13 @@ public class User {
     private String username;
     @ManyToMany(mappedBy = "users")
     private List<League> leagues;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "SQUAD_ID")
+    private Squad squad;
 
-    public User(String username, List<League> leagues) {
+    public User(String username, List<League> leagues, Squad squad) {
         this.username = username;
         this.leagues = leagues;
+        this.squad = squad;
     }
 }

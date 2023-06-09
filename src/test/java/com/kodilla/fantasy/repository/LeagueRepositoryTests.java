@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.repository;
 
 import com.kodilla.fantasy.domain.League;
+import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -86,8 +87,8 @@ public class LeagueRepositoryTests {
     @Transactional
     void testGetLeagueWithUsers() {
         //Given
-        User user1 = new User("User 1", new ArrayList<>());
-        User user2 = new User("User 2", new ArrayList<>());
+        User user1 = new User("User 1", new ArrayList<>(), new Squad());
+        User user2 = new User("User 2", new ArrayList<>(), new Squad());
         League league = new League("League 1", new ArrayList<>());
         league.getUsers().addAll(List.of(user1, user2));
         user1.getLeagues().add(league);
