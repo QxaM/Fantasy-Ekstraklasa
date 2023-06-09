@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,8 +21,18 @@ public class League {
     private Long id;
     @Column(name = "LEAGUE_NAME")
     private String name;
+    @ManyToMany
+    @JoinTable(
+            name = "JOIN_USER_LEAGUE",
+            joinColumns = {@JoinColumn(name = "LEAGUE_ID",
+                                        referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_UD",
+                                        referencedColumnName = "ID")}
+    )
+    private List<User> users;
 
-    public League(String name) {
+    public League(String name, List<User> users) {
         this.name = name;
+        this.users = users;
     }
 }

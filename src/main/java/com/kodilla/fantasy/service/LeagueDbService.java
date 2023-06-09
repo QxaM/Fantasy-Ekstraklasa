@@ -6,6 +6,7 @@ import com.kodilla.fantasy.repository.LeagueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class LeagueDbService {
         return repository.findAll();
     }
 
+    @Transactional
     public League getLeague(Long id) throws ElementNotFoundException {
         return repository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("League with given id: " + id + "does not exist"));

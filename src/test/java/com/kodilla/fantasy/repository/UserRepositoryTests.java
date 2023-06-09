@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.repository;
 
+import com.kodilla.fantasy.domain.League;
 import com.kodilla.fantasy.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +21,13 @@ public class UserRepositoryTests {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LeagueRepository leagueRepository;
 
     @Test
     void shouldSaveUser() {
         //Given
-        User user = new User("User 1");
+        User user = new User("User 1", new ArrayList<>());
 
         //When
         userRepository.save(user);
@@ -40,8 +45,8 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUsers() {
         //Given
-        User user1 = new User("User 1");
-        User user2 = new User("User 2");
+        User user1 = new User("User 1", new ArrayList<>());
+        User user2 = new User("User 2", new ArrayList<>());
         userRepository.saveAll(List.of(user1, user2));
         Long id1 = user1.getId();
         Long id2 = user2.getId();
@@ -62,7 +67,7 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUser() {
         //Given
-        User user = new User("User 1");
+        User user = new User("User 1", new ArrayList<>());
         userRepository.save(user);
         Long id = user.getId();
 
@@ -78,9 +83,41 @@ public class UserRepositoryTests {
     }
 
     @Test
+    @Transactional
+    void shouldGetUserWithLeagues() {
+        //Given
+        User user = new User("User 1", new ArrayList<>());
+        League league1 = new League("League 1", new ArrayList<>());
+        League league2 = new League("League 2", new ArrayList<>());
+        user.getLeagues().addAll(List.of(league1, league2));
+        league1.getUsers().add(user);
+        league2.getUsers().add(user);
+
+        userRepository.save(user);
+        Long id = user.getId();
+        leagueRepository.saveAll(List.of(league1, league2));
+        Long league1Id = league1.getId();
+        Long league2Id = league2.getId();
+
+        //When
+        Optional<User> foundUser = userRepository.findById(id);
+
+        //Then
+        assertTrue(foundUser.isPresent());
+        assertEquals(2, foundUser.get().getLeagues().size());
+        assertEquals("League 1", foundUser.get().getLeagues().get(0).getName());
+        assertEquals("League 2", foundUser.get().getLeagues().get(1).getName());
+
+        //CleanUp
+        leagueRepository.deleteById(league1Id);
+        leagueRepository.deleteById(league2Id);
+        userRepository.deleteById(id);
+    }
+
+    @Test
     void shouldDeleteUser() {
         //Given
-        User user = new User("User 1");
+        User user = new User("User 1", new ArrayList<>());
         userRepository.save(user);
         Long id = user.getId();
 

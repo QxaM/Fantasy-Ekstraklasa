@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,8 @@ public class LeagueDbServiceTests {
     @Test
     void shouldFetchLeagues() {
         //Given
-        League league1 = new League(1L, "League 1");
-        League league2 = new League(2L, "League 2");
+        League league1 = new League(1L, "League 1", new ArrayList<>());
+        League league2 = new League(2L, "League 2", new ArrayList<>());
         List<League> leagues = List.of(league1, league2);
         when(leagueRepository.findAll()).thenReturn(leagues);
 
@@ -44,7 +45,7 @@ public class LeagueDbServiceTests {
     @Test
     void shouldFetchLeague() {
         //Given
-        League league1 = new League(1L, "League 1");
+        League league1 = new League(1L, "League 1", new ArrayList<>());
         when(leagueRepository.findById(1L)).thenReturn(Optional.of(league1));
 
         //When
@@ -70,7 +71,7 @@ public class LeagueDbServiceTests {
     @Test
     void shouldSaveLeague() {
         //Given
-        League league1 = new League(1L, "League 1");
+        League league1 = new League(1L, "League 1", new ArrayList<>());
         when(leagueRepository.save(any(League.class))).thenReturn(league1);
 
         //When

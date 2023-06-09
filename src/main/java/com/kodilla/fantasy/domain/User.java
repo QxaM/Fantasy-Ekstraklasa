@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,8 +21,11 @@ public class User {
     private Long id;
     @Column(name = "USERNAME")
     private String username;
+    @ManyToMany(mappedBy = "users")
+    private List<League> leagues;
 
-    public User(String username) {
+    public User(String username, List<League> leagues) {
         this.username = username;
+        this.leagues = leagues;
     }
 }
