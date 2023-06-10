@@ -99,13 +99,15 @@ public class UserDbServiceTests {
         //Given
         User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
         Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
+        User userWithSquad = new User(1L, "User 1", new ArrayList<>(), squad);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.save(user)).thenReturn(userWithSquad);
 
         //When
-        userDbService.createSquad(1L, squad);
+        User savedUser = userDbService.createSquad(1L, squad);
 
         //Then
-        verify(userRepository, times(1)).save(user);
+        assertEquals("Squad 1", savedUser.getSquad().getName());
     }
 
     @Test

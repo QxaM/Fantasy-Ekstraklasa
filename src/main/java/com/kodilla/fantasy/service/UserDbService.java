@@ -32,9 +32,9 @@ public class UserDbService {
         repository.deleteById(id);
     }
 
-    public void createSquad(Long id, Squad squad) throws ElementNotFoundException {
+    public User createSquad(Long id, Squad squad) throws ElementNotFoundException {
         User foundUser = getUser(id);
         foundUser.setSquad(squad);
-        repository.save(foundUser);
+        return repository.save(foundUser);
     }
 }
