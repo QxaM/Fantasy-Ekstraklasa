@@ -36,7 +36,7 @@ public class SquadController {
         Squad updatedSquad = new Squad(
                 squadDto.getId(),
                 squadDto.getName(),
-                squadDto.getCurrentValue(),
+                foundSquad.getCurrentValue(),
                 foundSquad.getPlayers()
         );
         Squad savedSquad = service.saveSquad(updatedSquad);
