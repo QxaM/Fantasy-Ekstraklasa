@@ -1,9 +1,9 @@
 package com.kodilla.fantasy.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kodilla.fantasy.domain.Squad;
-import com.kodilla.fantasy.domain.User;
+import com.kodilla.fantasy.domain.*;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.kodilla.fantasy.repository.SquadRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +31,14 @@ public class SquadDbServiceTests {
     private SquadDbService squadDbService;
     @Mock
     private SquadRepository squadRepository;
+    @Mock
+    private PlayerDbService playerDbService;
+
+    private List<Player> buildFullSquad() {
+        return IntStream.range(0,11)
+                .mapToObj(i -> new Player())
+                .collect(Collectors.toList());
+    }
 
     @Test
     void shouldGetSquads() {
@@ -86,7 +97,7 @@ public class SquadDbServiceTests {
     }
 
     @Test
-    void shouldDeleteUser() {
+    void shouldDeleteSquad() {
         //Given
 
         //When
@@ -94,5 +105,85 @@ public class SquadDbServiceTests {
 
         //Then
         verify(squadRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void shouldAddPlayer() throws ElementNotFoundException {
+        //Given
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
+        Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
+        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        team1.getPlayers().add(player1);
+
+        Squad squadWithPlayer = new Squad(1L, "Squad 1", new ArrayList<>());
+        squadWithPlayer.getPlayers().add(player1);
+
+        when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
+        when(playerDbService.getPlayer(1L)).thenReturn(player1);
+        when(squadRepository.save(squad)).thenReturn(squadWithPlayer);
+
+        //When
+        Squad savedSquad = new Squad();
+        try {
+            savedSquad = squadDbService.addPlayer(1L, 1L);
+        } catch (SquadAlreadyFullException e) {}
+
+        //Then
+        assertEquals(1, savedSquad.getPlayers().size());
+        assertEquals("Test", squad.getPlayers().get(0).getFirstname());
+    }
+
+    @Test
+    void shouldNotAddPlayer() {
+        //Given
+
+        //When
+
+        //Then
+        assertThrows(ElementNotFoundException.class, () -> squadDbService.addPlayer(1L, 1L));
+    }
+
+    @Test
+    void shouldBeFull() {
+        //Given
+        List<Player> players = buildFullSquad();
+        Squad squad = new Squad(1L, "Squad 1", players);
+
+        when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
+
+        //When + Then
+        assertThrows(SquadAlreadyFullException.class, () -> squadDbService.addPlayer(1L, 1L));
+    }
+
+    @Test
+    void shouldRemovePlayer() throws ElementNotFoundException {
+        //Given
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
+        Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
+        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        team1.getPlayers().add(player1);
+        squad.getPlayers().add(player1);
+
+        Squad squadWithoutPlayer = new Squad(1L, "Squad 1", new ArrayList<>());
+
+        when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
+        when(playerDbService.getPlayer(1L)).thenReturn(player1);
+        when(squadRepository.save(squad)).thenReturn(squadWithoutPlayer);
+
+        //When
+        Squad savedSquad = squadDbService.removePlayer(1L, 1L);
+
+        //Then
+        assertEquals(0, savedSquad.getPlayers().size());
+    }
+
+    @Test
+    void shouldNotRemovePlayer() {
+        //Given
+
+        //When
+
+        //Then
+        assertThrows(ElementNotFoundException.class, () -> squadDbService.removePlayer(1L, 1L));
     }
 }
