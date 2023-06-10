@@ -35,7 +35,7 @@ public class Squad {
     )
     private List<Player> players;
     @Column(name = "SQUAD_VALUE")
-    private BigDecimal currentValue;
+    private BigDecimal currentValue = BigDecimal.ZERO;
 
     public Squad(String name, List<Player> players) {
         this.name = name;
