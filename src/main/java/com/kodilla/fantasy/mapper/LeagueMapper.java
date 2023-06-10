@@ -22,7 +22,7 @@ public class LeagueMapper {
         return new LeagueDto(
                 league.getId(),
                 league.getName(),
-                userMapper.mapToUserDtoList(league.getUsers())
+                userMapper.mapToUserInLeagueDtoList(league.getUsers())
         );
     }
 }

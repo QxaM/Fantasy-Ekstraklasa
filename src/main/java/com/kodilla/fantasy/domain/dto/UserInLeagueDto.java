@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeagueDto {
+public class UserInLeagueDto {
     private Long id;
-    private String name;
-    private List<UserInLeagueDto> users;
+    private String username;
+    private String squadName;
 }
