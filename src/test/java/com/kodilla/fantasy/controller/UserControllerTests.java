@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.google.gson.Gson;
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
+import com.kodilla.fantasy.domain.dto.CreateUserDto;
 import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.dto.UserDto;
 import com.kodilla.fantasy.mapper.SquadMapper;
@@ -67,14 +68,14 @@ public class UserControllerTests {
     @Test
     void shouldCreateUser() throws Exception {
         //Given
-        when(userMapper.mapToUser(any(UserDto.class))).thenReturn(user);
+        when(userMapper.mapToUser(any(CreateUserDto.class))).thenReturn(user);
         when(userDbService.saveUser(any(User.class))).thenReturn(user);
         when(userMapper.mapToUserDto(user)).thenReturn(userDto);
 
+        CreateUserDto createUserDto = new CreateUserDto("User 1");
         Gson gson = new Gson();
-        String jsonContent = gson.toJson(userDto);
+        String jsonContent = gson.toJson(createUserDto);
 
-        //When + Then
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/fantasy/v1/users")

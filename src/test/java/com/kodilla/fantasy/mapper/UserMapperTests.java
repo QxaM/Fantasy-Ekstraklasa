@@ -2,6 +2,7 @@ package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
+import com.kodilla.fantasy.domain.dto.CreateUserDto;
 import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.dto.UserDto;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserMapperTests {
@@ -30,7 +30,23 @@ public class UserMapperTests {
 
         //Then
         assertAll(() -> assertEquals(1L, mappedUser.getId()),
-                () -> assertEquals("User 1", mappedUser.getUsername()));
+                () -> assertEquals("User 1", mappedUser.getUsername()),
+                () -> assertNotNull(mappedUser.getSquad()),
+                () -> assertNotNull(mappedUser.getLeagues()));
+    }
+
+    @Test
+    void testMapToUser_CreatedUser() {
+        //Given
+        CreateUserDto createUserDto = new CreateUserDto("User 1");
+
+        //When
+        User mappedUser = userMapper.mapToUser(createUserDto);
+
+        //Then
+        assertAll(() -> assertEquals("User 1", mappedUser.getUsername()),
+                () -> assertNotNull(mappedUser.getSquad()),
+                () -> assertNotNull(mappedUser.getLeagues()));
     }
 
     @Test

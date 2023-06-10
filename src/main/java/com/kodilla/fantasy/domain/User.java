@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,11 +24,15 @@ public class User {
     @Column(name = "USERNAME")
     private String username;
     @ManyToMany(mappedBy = "users")
-    private List<League> leagues;
+    private List<League> leagues = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "SQUAD_ID")
     @Setter
     private Squad squad = new Squad();
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public User(Long id, String username) {
         this.id = id;

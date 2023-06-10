@@ -2,6 +2,7 @@ package com.kodilla.fantasy.controller;
 
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
+import com.kodilla.fantasy.domain.dto.CreateUserDto;
 import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.dto.UserDto;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
@@ -31,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        User userToSave = mapper.mapToUser(userDto);
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto createUserDto) {
+        User userToSave = mapper.mapToUser(createUserDto);
         User savedUser = service.saveUser(userToSave);
         UserDto mappedUser = mapper.mapToUserDto(savedUser);
         return ResponseEntity.ok(mappedUser);

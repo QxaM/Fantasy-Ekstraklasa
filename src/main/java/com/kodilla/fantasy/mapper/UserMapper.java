@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.domain.User;
+import com.kodilla.fantasy.domain.dto.CreateUserDto;
 import com.kodilla.fantasy.domain.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ public class UserMapper {
         return new User(
                 userDto.getId(),
                 userDto.getUsername()
+        );
+    }
+
+    public User mapToUser(CreateUserDto createUserDto) {
+        return new User(
+                createUserDto.getUsername()
         );
     }
 
