@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @SpringJUnitWebConfig
 @WebMvcTest(SquadController.class)
-public class LeagueControllerTests {
+public class SquadControllerTests {
 
     @Autowired
     private MockMvc mockMvc;

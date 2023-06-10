@@ -31,6 +31,11 @@ public class League {
     )
     private List<User> users;
 
+    public League(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public League(String name, List<User> users) {
         this.name = name;
         this.users = users;

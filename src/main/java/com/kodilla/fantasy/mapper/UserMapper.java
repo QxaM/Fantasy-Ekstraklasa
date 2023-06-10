@@ -5,7 +5,8 @@ import com.kodilla.fantasy.domain.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +27,11 @@ public class UserMapper {
                 user.getUsername(),
                 squadMapper.mapToSquadDto(user.getSquad())
         );
+    }
+
+    public List<UserDto> mapToUserDtoList(List<User> users) {
+        return users.stream()
+                .map(this::mapToUserDto)
+                .collect(Collectors.toList());
     }
 }
