@@ -24,7 +24,7 @@ public class SquadDbService {
 
     public Squad getSquad(Long id) throws ElementNotFoundException {
         return repository.findById(id)
-                .orElseThrow(() -> new ElementNotFoundException("Squad with given id: " + id + "does not exist"));
+                .orElseThrow(() -> new ElementNotFoundException("Squad with given id: " + id + " does not exist"));
     }
 
     public Squad saveSquad(Squad squad) {

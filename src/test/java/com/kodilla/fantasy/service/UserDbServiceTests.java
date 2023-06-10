@@ -27,6 +27,8 @@ public class UserDbServiceTests {
     private UserDbService userDbService;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private SquadDbService squadDbService;
 
     @Test
     void shouldGetUsers() {

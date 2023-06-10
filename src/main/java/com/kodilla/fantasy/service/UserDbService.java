@@ -7,6 +7,7 @@ import com.kodilla.fantasy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,6 +15,7 @@ import java.util.List;
 public class UserDbService {
 
     private final UserRepository repository;
+    private final SquadDbService squadDbService;
 
     public List<User> getUsers() {
         return repository.findAll();
@@ -32,10 +34,13 @@ public class UserDbService {
         repository.deleteById(id);
     }
 
+    @Transactional
     public User createSquad(Long id, String squadName) throws ElementNotFoundException {
         User foundUser = getUser(id);
         Squad newSquad = new Squad(squadName);
+        Squad oldSquad = foundUser.getSquad();
         foundUser.setSquad(newSquad);
+        squadDbService.deleteSquad(oldSquad.getId());
         return repository.save(foundUser);
     }
 }
