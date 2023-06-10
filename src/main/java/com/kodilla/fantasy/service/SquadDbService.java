@@ -2,6 +2,7 @@ package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Squad;
+import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
 import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -44,12 +44,6 @@ public class SquadController {
         return ResponseEntity.ok(mappedSquad);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteSquad(@PathVariable Long id) {
-        service.deleteSquad(id);
-        return ResponseEntity.ok().build();
-    }
-
     @PutMapping("{squadId}/addPlayer/{playerId}")
     public ResponseEntity<SquadDto> addPlayer(@PathVariable Long squadId,
                                               @PathVariable Long playerId)

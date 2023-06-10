@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,10 @@ public class UserDbService {
     public User getUser(Long id) throws ElementNotFoundException {
         return repository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("User with given id: " + id + " does not exist"));
+    }
+
+    public Optional<User> getUserContainingSquad(Long id) {
+        return repository.findUserBySquadId(id);
     }
 
     public User saveUser(User user) {

@@ -114,17 +114,6 @@ public class SquadControllerTests {
     }
 
     @Test
-    void shouldDeleteSquad() throws Exception {
-        //Given
-
-        //When + Then
-        mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/fantasy/v1/squads/1")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
     void shouldAddSquad() throws Exception, PlayerAlreadyExistInSquadException {
         //Given
         when(squadDbService.addPlayer(1L, 3L)).thenReturn(squad);

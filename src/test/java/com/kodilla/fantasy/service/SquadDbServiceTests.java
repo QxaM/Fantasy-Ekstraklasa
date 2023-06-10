@@ -95,17 +95,6 @@ public class SquadDbServiceTests {
     }
 
     @Test
-    void shouldDeleteSquad() {
-        //Given
-
-        //When
-        squadDbService.deleteSquad(1L);
-
-        //Then
-        verify(squadRepository, times(1)).deleteById(1L);
-    }
-
-    @Test
     void shouldAddPlayer() throws ElementNotFoundException {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());

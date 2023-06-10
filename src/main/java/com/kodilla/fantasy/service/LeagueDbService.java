@@ -24,7 +24,7 @@ public class LeagueDbService {
     @Transactional
     public League getLeague(Long id) throws ElementNotFoundException {
         return repository.findById(id)
-                .orElseThrow(() -> new ElementNotFoundException("League with given id: " + id + "does not exist"));
+                .orElseThrow(() -> new ElementNotFoundException("League with given id: " + id + " does not exist"));
     }
 
     public League saveLeague(League league) {
