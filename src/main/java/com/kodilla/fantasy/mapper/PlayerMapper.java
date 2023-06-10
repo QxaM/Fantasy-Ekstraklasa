@@ -31,6 +31,12 @@ public class PlayerMapper {
         );
     }
 
+    public List<Player> mapToPlayerList(List<PlayerDto> playerDtos) {
+        return playerDtos.stream()
+                .map(this::mapToPlayer)
+                .collect(Collectors.toList());
+    }
+
     public PlayerDto mapToPlayerDto(Player player) {
         return new PlayerDto(
                 player.getId(),

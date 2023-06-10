@@ -29,6 +29,11 @@ public class User {
     @Setter
     private Squad squad;
 
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
     public User(String username, List<League> leagues, Squad squad) {
         this.username = username;
         this.leagues = leagues;
