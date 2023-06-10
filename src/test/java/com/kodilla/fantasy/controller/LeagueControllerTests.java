@@ -66,14 +66,10 @@ public class LeagueControllerTests {
         when(leagueDbService.saveLeague(any(League.class))).thenReturn(league);
         when(leagueMapper.mapToLeagueDto(league)).thenReturn(leagueDto);
 
-        Gson gson = new Gson();
-        String jsonContent = gson.toJson(leagueDto);
-
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/fantasy/v1/leagues")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonContent))
+                        .post("/fantasy/v1/leagues/League 1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("League 1")));

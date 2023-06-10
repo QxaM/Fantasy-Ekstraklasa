@@ -37,6 +37,10 @@ public class League {
         this.name = name;
     }
 
+    public League(String name) {
+        this.name = name;
+    }
+
     public League(String name, List<User> users) {
         this.name = name;
         this.users = users;

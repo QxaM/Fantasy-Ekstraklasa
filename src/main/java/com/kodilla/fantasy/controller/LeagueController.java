@@ -26,9 +26,9 @@ public class LeagueController {
         return ResponseEntity.ok(leagueDto);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LeagueDto> createLeague(@RequestBody LeagueDto leagueDto) {
-        League leagueToSave = mapper.mapToLeague(leagueDto);
+    @PostMapping("{leagueName}")
+    public ResponseEntity<LeagueDto> createLeague(@PathVariable String leagueName) {
+        League leagueToSave = new League(leagueName);
         League savedLeague = service.saveLeague(leagueToSave);
         LeagueDto mappedLeague = mapper.mapToLeagueDto(savedLeague);
         return ResponseEntity.ok(mappedLeague);
