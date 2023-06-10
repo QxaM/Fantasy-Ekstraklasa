@@ -4,7 +4,9 @@ import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.Team;
+import com.kodilla.fantasy.domain.dto.PlayerDto;
 import com.kodilla.fantasy.domain.dto.SquadDto;
+import com.kodilla.fantasy.domain.dto.TeamDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,24 @@ public class SquadMapperTests {
 
     @Autowired
     private SquadMapper squadMapper;
+
+    @Test
+    void testMapToSquad() {
+        //Given
+        SquadDto squadDto = new SquadDto(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
+        TeamDto teamDto1 = new TeamDto(1L, "Test", "TET");
+        PlayerDto playerDto1 = new PlayerDto(1L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, teamDto1);
+        squadDto.getPlayers().add(playerDto1);
+
+        //When
+        Squad mappedSquad = squadMapper.mapToSquad(squadDto);
+
+        //Then
+        assertAll(() -> assertEquals(1L, mappedSquad.getId()),
+                () -> assertEquals("Squad 1", mappedSquad.getName()),
+                () -> assertEquals(BigDecimal.valueOf(30000000), mappedSquad.getCurrentValue()),
+                () -> assertEquals(1, squadDto.getPlayers().size()));
+    }
 
     @Test
     void testMapToSquadDto() {

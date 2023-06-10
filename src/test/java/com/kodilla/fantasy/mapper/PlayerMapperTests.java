@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -72,6 +73,25 @@ public class PlayerMapperTests {
                 () -> assertEquals(3L, mappedPlayer.getTeam().getId()),
                 () -> assertEquals("Test", mappedPlayer.getTeam().getName()),
                 () -> assertEquals("TET", mappedPlayer.getTeam().getCode()));
+    }
+
+    @Test
+    void testMapToPlayerSet() {
+        //Given
+        TeamDto teamDto = new TeamDto(3L, "Test", "TET");
+        PlayerDto playerDto1 = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto2 = new PlayerDto(5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+
+        Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
+        Player player = new Player(4L, 6L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, team);
+        team.getPlayers().add(player);
+        when(teamMapper.mapToTeam(teamDto)).thenReturn(team);
+
+        //When
+        Set<Player> mappedPlayer = playerMapper.mapToPlayerSet(List.of(playerDto1, playerDto2));
+
+        //Then
+        assertEquals(2, mappedPlayer.size());
     }
 
     @Test

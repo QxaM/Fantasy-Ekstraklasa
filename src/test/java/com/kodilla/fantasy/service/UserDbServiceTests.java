@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.service;
 
+import com.kodilla.fantasy.domain.League;
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
@@ -100,6 +101,16 @@ public class UserDbServiceTests {
     }
 
     @Test
+    void shouldNotDeleteUser() {
+        //Given
+
+        //Then
+
+        //When
+        assertThrows(ElementNotFoundException.class, () -> userDbService.deleteUser(1L));
+    }
+
+    @Test
     void shouldCreateSquad() throws ElementNotFoundException {
         //Given
         User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
@@ -122,5 +133,20 @@ public class UserDbServiceTests {
 
         //When + Then
         assertThrows(ElementNotFoundException.class, () -> userDbService.createSquad(1L, squad.getName()));
+    }
+
+    @Test
+    void shouldDetachUsers() {
+        //Given
+        League league = new League(1L, "Test League", new ArrayList<>());
+        User user = new User(1L, "Test 1");
+        user.getLeagues().add(league);
+        when(userRepository.findUserByLeaguesId(1L)).thenReturn(List.of(user));
+
+        //When
+        userDbService.detachUsers(league);
+
+        //Then
+        assertFalse(user.getLeagues().contains(league));
     }
 }

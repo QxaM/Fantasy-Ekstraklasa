@@ -161,6 +161,33 @@ public class SquadDbServiceTests {
     }
 
     @Test
+    void shouldPlayerExist() throws ElementNotFoundException {
+        //Given
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
+        Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
+        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        team1.getPlayers().add(player1);
+        squad.getPlayers().add(player1);
+
+        when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
+        when(playerDbService.getPlayer(1L)).thenReturn(player1);
+
+        //When + Then
+        assertThrows(PlayerAlreadyExistInSquadException.class, () -> squadDbService.addPlayer(1L, 1L));
+    }
+
+    @Test
+    void shouldDeleteSquad() {
+        //Given
+
+        //When
+        squadDbService.deleteSquad(1L);
+
+        //Then
+        verify(squadRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
     void shouldRemovePlayer() throws ElementNotFoundException {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());

@@ -37,12 +37,6 @@ public class UserMapper {
         );
     }
 
-    public List<UserDto> mapToUserDtoList(List<User> users) {
-        return users.stream()
-                .map(this::mapToUserDto)
-                .collect(Collectors.toList());
-    }
-
     public UserInLeagueDto mapToUserInLeagueDto(User user) {
         return new UserInLeagueDto(
                 user.getId(),
