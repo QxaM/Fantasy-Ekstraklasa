@@ -57,7 +57,7 @@ public class UserControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                    .get("/fantasy/v1/players/1")
+                    .get("/fantasy/v1/users/1")
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
@@ -77,7 +77,7 @@ public class UserControllerTests {
         //When + Then
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/fantasy/v1/players")
+                        .post("/fantasy/v1/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -100,7 +100,7 @@ public class UserControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/fantasy/v1/players")
+                        .put("/fantasy/v1/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -114,7 +114,7 @@ public class UserControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/fantasy/v1/players/1")
+                        .delete("/fantasy/v1/users/1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -131,7 +131,7 @@ public class UserControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                    .put("/fantasy/v1/players/1")
+                    .put("/fantasy/v1/users/1")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
