@@ -2,6 +2,7 @@ package com.kodilla.fantasy.controller;
 
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotEnoughFundsException.class)
     public ResponseEntity<Object> handleNotEnoughFundsException(NotEnoughFundsException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(PlayerAlreadyExistInSquadException.class)
+    public ResponseEntity<Object> handlePlayerAlreadyExistInSquadException(PlayerAlreadyExistInSquadException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 }
