@@ -112,6 +112,16 @@ public class LeagueDbServiceTests {
     }
 
     @Test
+    void shouldNotAddUser() {
+        //Given
+
+        //When
+
+        //Then
+        assertThrows(ElementNotFoundException.class, () -> leagueDbService.addUser(1L, 1L));
+    }
+
+    @Test
     void shouldRemoveUser() throws ElementNotFoundException {
         //Given
         User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
@@ -124,5 +134,15 @@ public class LeagueDbServiceTests {
 
         //Then
         verify(leagueRepository, times(1)).save(league1);
+    }
+
+    @Test
+    void shouldNotRemoveUser() {
+        //Given
+
+        //When
+
+        //Then
+        assertThrows(ElementNotFoundException.class, () -> leagueDbService.removeUser(1L, 1L));
     }
 }
