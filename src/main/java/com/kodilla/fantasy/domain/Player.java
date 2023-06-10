@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -34,6 +35,19 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+    @ManyToMany(mappedBy = "players")
+    private List<Squad> squads;
+
+    public Player(Long id, Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
+        this.id = id;
+        this.apiFootballId = apiFootballId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
+        this.value = value;
+        this.position = position;
+        this.team = team;
+    }
 
     public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position) {
         this.apiFootballId = apiFootballId;
@@ -52,5 +66,16 @@ public class Player {
         this.value = value;
         this.position = position;
         this.team = team;
+    }
+
+    public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team, List<Squad> squads) {
+        this.apiFootballId = apiFootballId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.age = age;
+        this.value = value;
+        this.position = position;
+        this.team = team;
+        this.squads = squads;
     }
 }

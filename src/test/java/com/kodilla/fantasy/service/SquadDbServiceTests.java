@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public class SquadDbServiceTests {
     @Test
     void shouldGetSquads() {
         //Given
-        Squad squad1 = new Squad(1L, "Squad 1");
-        Squad squad2 = new Squad(2L, "Squad 2");
+        Squad squad1 = new Squad(1L, "Squad 1", new ArrayList<>());
+        Squad squad2 = new Squad(2L, "Squad 2", new ArrayList<>());
         List<Squad> squads = List.of(squad1, squad2);
         when(squadRepository.findAll()).thenReturn(squads);
 
@@ -48,7 +49,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldGetSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1");
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
 
         //When
@@ -74,7 +75,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldSaveSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1");
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
         when(squadRepository.save(any(Squad.class))).thenReturn(squad);
 
         //Then

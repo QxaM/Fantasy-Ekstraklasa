@@ -46,7 +46,8 @@ public class PlayerDbService {
                 player.getAge(),
                 player.getValue(),
                 player.getPosition(),
-                player.getTeam()
+                player.getTeam(),
+                player.getSquads()
         );
         return repository.save(changedPlayer);
     }

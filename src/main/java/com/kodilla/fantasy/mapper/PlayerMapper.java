@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.dto.PageDto;
 import com.kodilla.fantasy.domain.dto.PlayerDto;
 import com.kodilla.fantasy.domain.dto.PlayersPagedDto;
