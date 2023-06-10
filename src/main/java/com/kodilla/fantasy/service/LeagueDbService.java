@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.domain.League;
+import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.LeagueRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 public class LeagueDbService {
 
     private final LeagueRepository repository;
+    private final UserDbService userDbService;
 
     public List<League> getLeagues() {
         return repository.findAll();
@@ -31,5 +33,23 @@ public class LeagueDbService {
 
     public void deleteLeague(Long id) {
         repository.deleteById(id);
+    }
+
+    @Transactional
+    public void addUser(Long leagueId, Long userId) throws ElementNotFoundException {
+        League foundLeague = getLeague(leagueId);
+        User foundUser = userDbService.getUser(userId);
+
+        foundLeague.getUsers().add(foundUser);
+        repository.save(foundLeague);
+    }
+
+    @Transactional
+    public void removeUser(Long leagueId, Long userId) throws ElementNotFoundException {
+        League foundLeague = getLeague(leagueId);
+        User foundUser = userDbService.getUser(userId);
+
+        foundLeague.getUsers().remove(foundUser);
+        repository.save(foundLeague);
     }
 }

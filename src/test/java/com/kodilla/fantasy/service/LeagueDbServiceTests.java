@@ -1,6 +1,8 @@
 package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.domain.League;
+import com.kodilla.fantasy.domain.Squad;
+import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.LeagueRepository;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,8 @@ public class LeagueDbServiceTests {
     private LeagueDbService leagueDbService;
     @Mock
     private LeagueRepository leagueRepository;
+    @Mock
+    private UserDbService userDbService;
 
     @Test
     void shouldFetchLeagues() {
@@ -90,5 +94,35 @@ public class LeagueDbServiceTests {
 
         //Then
         verify(leagueRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void shouldAddUser() throws ElementNotFoundException {
+        //Given
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        League league1 = new League(2L, "League 1", new ArrayList<>());
+        when(leagueRepository.findById(2L)).thenReturn(Optional.of(league1));
+        when(userDbService.getUser(1L)).thenReturn(user);
+
+        //When
+        leagueDbService.addUser(2L, 1L);
+
+        //Then
+        verify(leagueRepository, times(1)).save(league1);
+    }
+
+    @Test
+    void shouldRemoveUser() throws ElementNotFoundException {
+        //Given
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        League league1 = new League(2L, "League 1", new ArrayList<>());
+        when(leagueRepository.findById(2L)).thenReturn(Optional.of(league1));
+        when(userDbService.getUser(1L)).thenReturn(user);
+
+        //When
+        leagueDbService.removeUser(2L, 1L);
+
+        //Then
+        verify(leagueRepository, times(1)).save(league1);
     }
 }
