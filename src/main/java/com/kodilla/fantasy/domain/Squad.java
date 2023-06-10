@@ -38,6 +38,10 @@ public class Squad {
     )
     private List<Player> players = new ArrayList<>();
 
+    public Squad(String name) {
+        this.name = name;
+    }
+
     public Squad(String name, List<Player> players) {
         this.name = name;
         this.players = players;

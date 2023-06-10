@@ -132,7 +132,7 @@ public class UserControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                    .put("/fantasy/v1/users/1")
+                    .put("/fantasy/v1/users/1/createSquad/New Squad")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().isCreated());

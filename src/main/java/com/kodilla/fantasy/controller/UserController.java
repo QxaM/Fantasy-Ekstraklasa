@@ -22,7 +22,6 @@ public class UserController {
 
     private final UserDbService service;
     private final UserMapper mapper;
-    private final SquadMapper squadMapper;
 
     @GetMapping("{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) throws ElementNotFoundException {
@@ -59,11 +58,10 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "{id}/createSquad/{squadName}")
     public ResponseEntity<Void> createSquad(@PathVariable Long id,
-                                            @RequestBody SquadDto squadDto) throws ElementNotFoundException {
-        Squad mappedSquad = squadMapper.mapToSquad(squadDto);
-        service.createSquad(id, mappedSquad);
+                                            @PathVariable String squadName) throws ElementNotFoundException {
+        service.createSquad(id, squadName);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
