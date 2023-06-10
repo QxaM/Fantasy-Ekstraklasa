@@ -53,7 +53,7 @@ public class SquadTests {
     @Test
     void testAddPlayer_NotEnoughFunds() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.valueOf(30000000));
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
 
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
@@ -69,7 +69,7 @@ public class SquadTests {
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.valueOf(30000000));
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
         squad.getPlayers().add(player1);
 
         //When

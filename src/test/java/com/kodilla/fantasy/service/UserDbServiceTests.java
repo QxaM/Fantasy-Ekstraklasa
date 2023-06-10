@@ -99,7 +99,7 @@ public class UserDbServiceTests {
     void shouldCreateUser() throws ElementNotFoundException {
         //Given
         User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         User userWithSquad = new User(1L, "User 1", new ArrayList<>(), squad);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(userWithSquad);
@@ -114,7 +114,7 @@ public class UserDbServiceTests {
     @Test
     void shouldNotCreateUser() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
 
         //When + Then
         assertThrows(ElementNotFoundException.class, () -> userDbService.createSquad(1L, squad));

@@ -42,8 +42,8 @@ public class SquadDbServiceTests {
     @Test
     void shouldGetSquads() {
         //Given
-        Squad squad1 = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
-        Squad squad2 = new Squad(2L, "Squad 2", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad1 = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad2 = new Squad(2L, "Squad 2", BigDecimal.ONE, new ArrayList<>());
         List<Squad> squads = List.of(squad1, squad2);
         when(squadRepository.findAll()).thenReturn(squads);
 
@@ -59,7 +59,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldGetSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
 
         //When
@@ -85,7 +85,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldSaveSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         when(squadRepository.save(any(Squad.class))).thenReturn(squad);
 
         //Then
@@ -109,12 +109,12 @@ public class SquadDbServiceTests {
     @Test
     void shouldAddPlayer() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
 
-        Squad squadWithPlayer = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squadWithPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         squadWithPlayer.getPlayers().add(player1);
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
@@ -146,7 +146,7 @@ public class SquadDbServiceTests {
     void shouldBeFull() throws ElementNotFoundException {
         //Given
         List<Player> players = buildFullSquad();
-        Squad squad = new Squad(1L, "Squad 1", players, BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, players);
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -161,7 +161,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldNotEnoughFunds() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.valueOf(30000000));
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -176,13 +176,13 @@ public class SquadDbServiceTests {
     @Test
     void shouldRemovePlayer() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
         squad.getPlayers().add(player1);
 
-        Squad squadWithoutPlayer = new Squad(1L, "Squad 1", new ArrayList<>(), BigDecimal.ONE);
+        Squad squadWithoutPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
         when(playerDbService.getPlayer(1L)).thenReturn(player1);

@@ -8,8 +8,11 @@ import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.kodilla.fantasy.mapper.SquadMapper;
 import com.kodilla.fantasy.service.SquadDbService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 
 @RestController
 @RequestMapping("squads")
@@ -26,7 +29,7 @@ public class SquadController {
         return ResponseEntity.ok(mappedSquad);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SquadDto> updateSquad(@RequestBody SquadDto squadDto) throws ElementNotFoundException {
         Squad foundSquad = service.getSquad(squadDto.getId());
         Squad updatedSquad = new Squad(
