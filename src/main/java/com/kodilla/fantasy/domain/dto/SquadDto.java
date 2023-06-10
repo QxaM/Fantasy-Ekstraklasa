@@ -13,6 +13,6 @@ import java.util.List;
 public class SquadDto {
     private Long id;
     private String name;
-    private BigDecimal currentValue;
+    private BigDecimal currentValue = BigDecimal.ZERO;
     private List<PlayerDto> players;
 }

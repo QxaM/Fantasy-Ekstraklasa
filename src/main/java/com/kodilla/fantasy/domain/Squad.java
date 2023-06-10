@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,7 +36,7 @@ public class Squad {
             inverseJoinColumns = {@JoinColumn(name = "PLAYER_ID",
                                         referencedColumnName = "ID")}
     )
-    private List<Player> players;
+    private List<Player> players = new ArrayList<>();
 
     public Squad(String name, List<Player> players) {
         this.name = name;

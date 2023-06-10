@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,7 +30,7 @@ public class League {
             inverseJoinColumns = {@JoinColumn(name = "USER_UD",
                                         referencedColumnName = "ID")}
     )
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public League(Long id, String name) {
         this.id = id;

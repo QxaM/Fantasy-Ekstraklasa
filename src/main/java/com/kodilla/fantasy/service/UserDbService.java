@@ -21,7 +21,7 @@ public class UserDbService {
 
     public User getUser(Long id) throws ElementNotFoundException {
         return repository.findById(id)
-                .orElseThrow(() -> new ElementNotFoundException("User with given id: " + id + "does not exist"));
+                .orElseThrow(() -> new ElementNotFoundException("User with given id: " + id + " does not exist"));
     }
 
     public User saveUser(User user) {

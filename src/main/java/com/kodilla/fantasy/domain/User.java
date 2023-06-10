@@ -27,7 +27,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "SQUAD_ID")
     @Setter
-    private Squad squad;
+    private Squad squad = new Squad();
 
     public User(Long id, String username) {
         this.id = id;
