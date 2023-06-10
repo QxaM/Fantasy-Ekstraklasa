@@ -7,10 +7,10 @@ import com.kodilla.fantasy.decorator.PlayerValue;
 import com.kodilla.fantasy.decorator.PlayerValueByScore;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
-import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.service.TeamDbService;
 import com.kodilla.fantasy.validator.PlayerValidator;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +23,7 @@ public class ApiFootballMapper {
     public Team mapToTeam(ApiFootballTeamDto apiFootballTeamDto) {
         return new Team(
                 apiFootballTeamDto.getId(),
-                apiFootballTeamDto.getName(),
+                StringUtils.stripAccents(apiFootballTeamDto.getName()),
                 apiFootballTeamDto.getCode()
         );
     }
@@ -41,8 +41,8 @@ public class ApiFootballMapper {
 
         return new Player(
                 playerResponseDto.getPlayer().getId(),
-                playerResponseDto.getPlayer().getFirstname(),
-                playerResponseDto.getPlayer().getLastname(),
+                StringUtils.stripAccents(playerResponseDto.getPlayer().getFirstname()),
+                StringUtils.stripAccents(playerResponseDto.getPlayer().getLastname()),
                 playerResponseDto.getPlayer().getAge(),
                 playerValue.getValue(),
                 validator.validatePosition(playerResponseDto.getStatistics().get(0).getGames().getPosition()),
