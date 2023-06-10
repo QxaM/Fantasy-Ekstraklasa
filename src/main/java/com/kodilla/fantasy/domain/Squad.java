@@ -25,6 +25,8 @@ public class Squad {
     private Long id;
     @Column(name = "NAME")
     private String name;
+    @Column(name = "SQUAD_VALUE")
+    private BigDecimal currentValue = BigDecimal.ZERO;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "JOIN_PLAYERS_SQUADS",
@@ -34,8 +36,6 @@ public class Squad {
                                         referencedColumnName = "ID")}
     )
     private List<Player> players;
-    @Column(name = "SQUAD_VALUE")
-    private BigDecimal currentValue = BigDecimal.ZERO;
 
     public Squad(String name, List<Player> players) {
         this.name = name;
