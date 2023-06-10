@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,7 @@ public class User {
     private List<League> leagues;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "SQUAD_ID")
+    @Setter
     private Squad squad;
 
     public User(String username, List<League> leagues, Squad squad) {

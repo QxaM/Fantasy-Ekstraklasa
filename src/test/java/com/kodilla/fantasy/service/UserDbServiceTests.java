@@ -6,6 +6,7 @@ import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -91,5 +92,28 @@ public class UserDbServiceTests {
 
         //Then
         verify(userRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void shouldCreateUser() throws ElementNotFoundException {
+        //Given
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        //When
+        userDbService.createSquad(1L, squad);
+
+        //Then
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void shouldNotCreateUser() {
+        //Given
+        Squad squad = new Squad(1L, "Squad 1", new ArrayList<>());
+
+        //When + Then
+        assertThrows(ElementNotFoundException.class, () -> userDbService.createSquad(1L, squad));
     }
 }

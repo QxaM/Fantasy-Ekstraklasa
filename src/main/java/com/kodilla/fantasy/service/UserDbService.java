@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.service;
 
+import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.UserRepository;
@@ -29,5 +30,11 @@ public class UserDbService {
 
     public void deleteUser(Long id) {
         repository.deleteById(id);
+    }
+
+    public void createSquad(Long id, Squad squad) throws ElementNotFoundException {
+        User foundUser = getUser(id);
+        foundUser.setSquad(squad);
+        repository.save(foundUser);
     }
 }
