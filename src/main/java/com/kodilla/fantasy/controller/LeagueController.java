@@ -48,7 +48,7 @@ public class LeagueController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteLeague(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLeague(@PathVariable Long id) throws ElementNotFoundException {
         service.deleteLeague(id);
         return ResponseEntity.ok().build();
     }

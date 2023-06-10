@@ -1,13 +1,11 @@
 package com.kodilla.fantasy.controller;
 
-import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.dto.CreateUserDto;
-import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.dto.UserDto;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
-import com.kodilla.fantasy.mapper.SquadMapper;
 import com.kodilla.fantasy.mapper.UserMapper;
+import com.kodilla.fantasy.service.LeagueDbService;
 import com.kodilla.fantasy.service.UserDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,7 +51,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws ElementNotFoundException {
         service.deleteUser(id);
         return ResponseEntity.ok().build();
     }

@@ -31,7 +31,10 @@ public class LeagueDbService {
         return repository.save(league);
     }
 
-    public void deleteLeague(Long id) {
+    @Transactional
+    public void deleteLeague(Long id) throws ElementNotFoundException {
+        League foundLeague = getLeague(id);
+        userDbService.detachUsers(foundLeague);
         repository.deleteById(id);
     }
 
@@ -40,8 +43,10 @@ public class LeagueDbService {
         League foundLeague = getLeague(leagueId);
         User foundUser = userDbService.getUser(userId);
 
+        foundUser.getLeagues().add(foundLeague);
         foundLeague.getUsers().add(foundUser);
-        repository.save(foundLeague);
+
+        userDbService.saveUser(foundUser);
     }
 
     @Transactional
@@ -49,7 +54,9 @@ public class LeagueDbService {
         League foundLeague = getLeague(leagueId);
         User foundUser = userDbService.getUser(userId);
 
+        foundUser.getLeagues().remove(foundLeague);
         foundLeague.getUsers().remove(foundUser);
-        repository.save(foundLeague);
+
+        userDbService.saveUser(foundUser);
     }
 }

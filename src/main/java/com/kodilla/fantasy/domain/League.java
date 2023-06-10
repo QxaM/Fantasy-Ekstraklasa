@@ -22,14 +22,7 @@ public class League {
     private Long id;
     @Column(name = "LEAGUE_NAME")
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name = "JOIN_USER_LEAGUE",
-            joinColumns = {@JoinColumn(name = "LEAGUE_ID",
-                                        referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_UD",
-                                        referencedColumnName = "ID")}
-    )
+    @ManyToMany(mappedBy = "leagues")
     private List<User> users = new ArrayList<>();
 
     public League(Long id, String name) {

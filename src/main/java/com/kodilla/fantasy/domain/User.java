@@ -23,7 +23,14 @@ public class User {
     private Long id;
     @Column(name = "USERNAME")
     private String username;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(
+            name = "JOIN_LEAGUE_USER",
+            joinColumns = {@JoinColumn(name = "USER_ID",
+                    referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "LEAGUE_ID",
+                    referencedColumnName = "ID")}
+    )
     private List<League> leagues = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "SQUAD_ID")

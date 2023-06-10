@@ -88,8 +88,9 @@ public class UserDbServiceTests {
     }
 
     @Test
-    void shouldDeleteUser() {
+    void shouldDeleteUser() throws ElementNotFoundException {
         //Given
+        when(userRepository.existsById(1L)).thenReturn(true);
 
         //When
         userDbService.deleteUser(1L);

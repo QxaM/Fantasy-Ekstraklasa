@@ -86,8 +86,10 @@ public class LeagueDbServiceTests {
     }
 
     @Test
-    void shouldDeleteLeague() {
+    void shouldDeleteLeague() throws ElementNotFoundException {
         //Given
+        League league1 = new League(1L, "League 1", new ArrayList<>());
+        when(leagueRepository.findById(1L)).thenReturn(Optional.of(league1));
 
         //Then
         leagueDbService.deleteLeague(1L);
@@ -108,7 +110,7 @@ public class LeagueDbServiceTests {
         leagueDbService.addUser(2L, 1L);
 
         //Then
-        verify(leagueRepository, times(1)).save(league1);
+        verify(userDbService, times(1)).saveUser(user);
     }
 
     @Test
@@ -133,7 +135,7 @@ public class LeagueDbServiceTests {
         leagueDbService.removeUser(2L, 1L);
 
         //Then
-        verify(leagueRepository, times(1)).save(league1);
+        verify(userDbService, times(1)).saveUser(user);
     }
 
     @Test
