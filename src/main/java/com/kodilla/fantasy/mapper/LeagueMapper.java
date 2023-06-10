@@ -11,18 +11,18 @@ public class LeagueMapper {
 
     private final UserMapper userMapper;
 
+    public League mapToLeague(LeagueDto leagueDto) {
+        return new League(
+                leagueDto.getId(),
+                leagueDto.getName()
+        );
+    }
+
     public LeagueDto mapToLeagueDto(League league) {
         return new LeagueDto(
                 league.getId(),
                 league.getName(),
                 userMapper.mapToUserDtoList(league.getUsers())
-        );
-    }
-
-    public League mapToLeague(LeagueDto leagueDto) {
-        return new League(
-                leagueDto.getId(),
-                leagueDto.getName()
         );
     }
 }
