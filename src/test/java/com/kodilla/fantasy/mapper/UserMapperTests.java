@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,7 +53,7 @@ public class UserMapperTests {
     @Test
     void testMapToUserDto() {
         //Given
-        Squad squad = new Squad(2L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(2L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         User user = new User(1L, "User 1", new ArrayList<>(), squad);
 
         //When

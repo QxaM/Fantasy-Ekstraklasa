@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +26,7 @@ public class SquadMapperTests {
     @Test
     void testMapToSquadDto() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);

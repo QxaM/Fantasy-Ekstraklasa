@@ -8,6 +8,7 @@ import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.dto.PlayerDto;
 import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.dto.TeamDto;
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.mapper.SquadMapper;
 import com.kodilla.fantasy.service.SquadDbService;
 import org.hamcrest.Matchers;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -44,7 +46,7 @@ public class SquadControllerTests {
 
     @BeforeEach
     void buildSquad() {
-        squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(2L, 4L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(3L, 5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -80,7 +82,7 @@ public class SquadControllerTests {
     @Test
     void shouldUpdateSquad() throws Exception {
         //Given
-        Squad newSquad = new Squad(1L, "Squad updated", BigDecimal.ZERO, new ArrayList<>());
+        Squad newSquad = new Squad(1L, "Squad updated", BigDecimal.ZERO, new HashSet<>());
         Team team1 = new Team(2L, 4L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(3L, 5L, "Test", "Test lastname", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -123,7 +125,7 @@ public class SquadControllerTests {
     }
 
     @Test
-    void shouldAddSquad() throws Exception {
+    void shouldAddSquad() throws Exception, PlayerAlreadyExistInSquadException {
         //Given
         when(squadDbService.addPlayer(1L, 3L)).thenReturn(squad);
         when(squadMapper.mapToSquadDto(squad)).thenReturn(squadDto);

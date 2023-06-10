@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.domain;
 
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.sun.istack.NotNull;
@@ -9,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -36,18 +37,18 @@ public class Squad {
             inverseJoinColumns = {@JoinColumn(name = "PLAYER_ID",
                                         referencedColumnName = "ID")}
     )
-    private List<Player> players = new ArrayList<>();
+    private Set<Player> players = new HashSet<>();
 
     public Squad(String name) {
         this.name = name;
     }
 
-    public Squad(String name, List<Player> players) {
+    public Squad(String name, Set<Player> players) {
         this.name = name;
         this.players = players;
     }
 
-    public void addPlayer(Player player) throws SquadAlreadyFullException, NotEnoughFundsException {
+    public void addPlayer(Player player) throws PlayerAlreadyExistInSquadException, SquadAlreadyFullException, NotEnoughFundsException {
         if(getPlayers().size() >= 11) {
             throw new SquadAlreadyFullException();
         }
@@ -57,8 +58,11 @@ public class Squad {
             throw new NotEnoughFundsException();
         }
 
-        players.add(player);
-        currentValue = currentValue.add(player.getValue());
+        if(players.add(player)) {
+            currentValue = currentValue.add(player.getValue());
+        } else {
+            throw new PlayerAlreadyExistInSquadException();
+        }
     }
 
     public void removePlayer(Player player) {

@@ -3,6 +3,7 @@ package com.kodilla.fantasy.service;
 import com.kodilla.fantasy.domain.*;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.kodilla.fantasy.repository.SquadRepository;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,17 +32,17 @@ public class SquadDbServiceTests {
     @Mock
     private PlayerDbService playerDbService;
 
-    private List<Player> buildFullSquad() {
+    private Set<Player> buildFullSquad() {
         return IntStream.range(0,11)
                 .mapToObj(i -> new Player())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Test
     void shouldGetSquads() {
         //Given
-        Squad squad1 = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
-        Squad squad2 = new Squad(2L, "Squad 2", BigDecimal.ONE, new ArrayList<>());
+        Squad squad1 = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
+        Squad squad2 = new Squad(2L, "Squad 2", BigDecimal.ONE, new HashSet<>());
         List<Squad> squads = List.of(squad1, squad2);
         when(squadRepository.findAll()).thenReturn(squads);
 
@@ -59,7 +58,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldGetSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
 
         //When
@@ -85,7 +84,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldSaveSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         when(squadRepository.save(any(Squad.class))).thenReturn(squad);
 
         //Then
@@ -109,12 +108,12 @@ public class SquadDbServiceTests {
     @Test
     void shouldAddPlayer() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
 
-        Squad squadWithPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squadWithPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         squadWithPlayer.getPlayers().add(player1);
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
@@ -125,11 +124,10 @@ public class SquadDbServiceTests {
         Squad savedSquad = new Squad();
         try {
             savedSquad = squadDbService.addPlayer(1L, 1L);
-        } catch (SquadAlreadyFullException | NotEnoughFundsException e) {}
+        } catch (SquadAlreadyFullException | NotEnoughFundsException | PlayerAlreadyExistInSquadException e) {}
 
         //Then
         assertEquals(1, savedSquad.getPlayers().size());
-        assertEquals("Test", squad.getPlayers().get(0).getFirstname());
     }
 
     @Test
@@ -145,7 +143,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldBeFull() throws ElementNotFoundException {
         //Given
-        List<Player> players = buildFullSquad();
+        Set<Player> players = buildFullSquad();
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, players);
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
@@ -161,7 +159,7 @@ public class SquadDbServiceTests {
     @Test
     void shouldNotEnoughFunds() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -176,13 +174,13 @@ public class SquadDbServiceTests {
     @Test
     void shouldRemovePlayer() throws ElementNotFoundException {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
         squad.getPlayers().add(player1);
 
-        Squad squadWithoutPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squadWithoutPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
         when(playerDbService.getPlayer(1L)).thenReturn(player1);

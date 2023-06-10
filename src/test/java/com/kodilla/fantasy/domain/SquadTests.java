@@ -2,12 +2,12 @@ package com.kodilla.fantasy.domain;
 
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -15,16 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SquadTests {
 
-    private List<Player> buildFullSquad() {
+    private Set<Player> buildFullSquad() {
         return IntStream.range(0,11)
                 .mapToObj(i -> new Player())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Test
     void testAddPlayer() {
         //Given
-        Squad squad = new Squad("Squad 1", new ArrayList<>());
+        Squad squad = new Squad("Squad 1", new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
@@ -32,14 +32,13 @@ public class SquadTests {
         //When + Then
         assertDoesNotThrow(() -> squad.addPlayer(player1));
         assertEquals(1, squad.getPlayers().size());
-        assertEquals("Test", squad.getPlayers().get(0).getFirstname());
         assertEquals(BigDecimal.ONE, squad.getCurrentValue());
     }
 
     @Test
     void testAddPlayer_AlreadyFull() {
         //Given
-        List<Player> players = buildFullSquad();
+        Set<Player> players = buildFullSquad();
         Squad squad = new Squad("Squad 1", players);
 
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
@@ -53,7 +52,7 @@ public class SquadTests {
     @Test
     void testAddPlayer_NotEnoughFunds() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
 
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
@@ -69,7 +68,7 @@ public class SquadTests {
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
         Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
         team1.getPlayers().add(player1);
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         squad.getPlayers().add(player1);
 
         //When

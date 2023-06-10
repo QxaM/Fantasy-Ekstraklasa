@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -124,7 +125,7 @@ public class UserControllerTests {
     void shouldCreateSquad() throws Exception {
         //Given
         SquadDto squadDto = new SquadDto(2L, "New Squad", BigDecimal.ZERO, new ArrayList<>());
-        Squad squad = new Squad(2L, "New Squad", BigDecimal.ZERO, new ArrayList<>());
+        Squad squad = new Squad(2L, "New Squad", BigDecimal.ZERO, new HashSet<>());
         when(squadMapper.mapToSquad(squadDto)).thenReturn(squad);
 
         Gson gson = new Gson();

@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.kodilla.fantasy.repository.SquadRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,10 @@ public class SquadDbService {
         repository.deleteById(id);
     }
 
-    public Squad addPlayer(Long squadId, Long playerId) throws ElementNotFoundException, SquadAlreadyFullException, NotEnoughFundsException {
+    public Squad addPlayer(Long squadId, Long playerId) throws PlayerAlreadyExistInSquadException,
+                                                                ElementNotFoundException,
+                                                                SquadAlreadyFullException,
+                                                                NotEnoughFundsException {
         Squad foundSquad = getSquad(squadId);
         Player playerToAdd = playerDbService.getPlayer(playerId);
 

@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.dto.SquadDto;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.domain.exception.NotEnoughFundsException;
+import com.kodilla.fantasy.domain.exception.PlayerAlreadyExistInSquadException;
 import com.kodilla.fantasy.domain.exception.SquadAlreadyFullException;
 import com.kodilla.fantasy.mapper.SquadMapper;
 import com.kodilla.fantasy.service.SquadDbService;
@@ -53,6 +54,7 @@ public class SquadController {
     public ResponseEntity<SquadDto> addPlayer(@PathVariable Long squadId,
                                               @PathVariable Long playerId)
                                                     throws ElementNotFoundException,
+                                                    PlayerAlreadyExistInSquadException,
                                                     NotEnoughFundsException,
                                                     SquadAlreadyFullException {
         Squad savedSquad = service.addPlayer(squadId, playerId);

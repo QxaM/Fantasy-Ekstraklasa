@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +38,7 @@ public class LeagueMapperTests {
     void testMapToLeagueDto() {
         //Given
         League league = new League(1L, "Test League", new ArrayList<>());
-        Squad squad = new Squad(3L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(3L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         User user = new User(2L, "User 1", new ArrayList<>(), squad);
         league.getUsers().add(user);
 

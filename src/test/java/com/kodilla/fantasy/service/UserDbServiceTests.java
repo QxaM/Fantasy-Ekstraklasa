@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,7 +102,7 @@ public class UserDbServiceTests {
     void shouldCreateSquad() throws ElementNotFoundException {
         //Given
         User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         User userWithSquad = new User(1L, "User 1", new ArrayList<>(), squad);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(userWithSquad);
@@ -116,7 +117,7 @@ public class UserDbServiceTests {
     @Test
     void shouldNotCreateSquad() {
         //Given
-        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
+        Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
 
         //When + Then
         assertThrows(ElementNotFoundException.class, () -> userDbService.createSquad(1L, squad.getName()));

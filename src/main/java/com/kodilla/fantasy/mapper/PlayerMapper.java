@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,10 +32,10 @@ public class PlayerMapper {
         );
     }
 
-    public List<Player> mapToPlayerList(List<PlayerDto> playerDtos) {
+    public Set<Player> mapToPlayerSet(List<PlayerDto> playerDtos) {
         return playerDtos.stream()
                 .map(this::mapToPlayer)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public PlayerDto mapToPlayerDto(Player player) {

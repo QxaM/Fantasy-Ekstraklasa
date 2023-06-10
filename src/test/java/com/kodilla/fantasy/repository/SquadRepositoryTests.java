@@ -3,7 +3,6 @@ package com.kodilla.fantasy.repository;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Squad;
-import com.kodilla.fantasy.domain.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class SquadRepositoryTests {
     @Test
     void shouldSaveSquad() {
         //Given
-        Squad squad = new Squad("Squad 1", new ArrayList<>());
+        Squad squad = new Squad("Squad 1", new HashSet<>());
 
         //When
         squadRepository.save(squad);
@@ -47,8 +46,8 @@ public class SquadRepositoryTests {
     @Test
     void shouldGetSquads() {
         //Given
-        Squad squad1 = new Squad("Squad 1", new ArrayList<>());
-        Squad squad2 = new Squad("Squad 2", new ArrayList<>());
+        Squad squad1 = new Squad("Squad 1", new HashSet<>());
+        Squad squad2 = new Squad("Squad 2", new HashSet<>());
         squadRepository.saveAll(List.of(squad1, squad2));
         Long id1 = squad1.getId();
         Long id2 = squad2.getId();
@@ -69,7 +68,7 @@ public class SquadRepositoryTests {
     @Test
     void shouldGetSquad() {
         //Given
-        Squad squad = new Squad("Squad 1", new ArrayList<>());
+        Squad squad = new Squad("Squad 1", new HashSet<>());
         squadRepository.save(squad);
         Long id = squad.getId();
 
@@ -87,7 +86,7 @@ public class SquadRepositoryTests {
     @Test
     void shouldGetSquadWithPlayers() {
         //Given
-        Squad squad = new Squad("Squad 1", new ArrayList<>());
+        Squad squad = new Squad("Squad 1", new HashSet<>());
         Player player1 = new Player(2L, "Test1", "Test1", 21, BigDecimal.ONE, Position.ST);
         Player player2 = new Player(3L, "Test2", "Test2", 21, BigDecimal.ONE, Position.ST);
         playerRepository.save(player1);
@@ -104,8 +103,7 @@ public class SquadRepositoryTests {
 
         //Then
         assertTrue(foundSquad.isPresent());
-        assertEquals("Test1", foundSquad.get().getPlayers().get(0).getFirstname());
-        assertEquals("Test2", foundSquad.get().getPlayers().get(1).getFirstname());
+        assertEquals(2, foundSquad.get().getPlayers().size());
 
         //CleanUp
         squadRepository.deleteById(id);
@@ -116,7 +114,7 @@ public class SquadRepositoryTests {
     @Test
     void shouldDeleteSquad() {
         //Given
-        Squad squad = new Squad("Squad 1", new ArrayList<>());
+        Squad squad = new Squad("Squad 1", new HashSet<>());
         squadRepository.save(squad);
         Long id = squad.getId();
 

@@ -16,7 +16,7 @@ public class SquadMapper {
                 squadDto.getId(),
                 squadDto.getName(),
                 squadDto.getCurrentValue(),
-                playerMapper.mapToPlayerList(squadDto.getPlayers())
+                playerMapper.mapToPlayerSet(squadDto.getPlayers())
         );
     }
 
@@ -25,7 +25,7 @@ public class SquadMapper {
                 squad.getId(),
                 squad.getName(),
                 squad.getCurrentValue(),
-                playerMapper.mapToPlayerDtoList(squad.getPlayers())
+                playerMapper.mapToPlayerDtoList(squad.getPlayers().stream().toList())
         );
     }
 }
