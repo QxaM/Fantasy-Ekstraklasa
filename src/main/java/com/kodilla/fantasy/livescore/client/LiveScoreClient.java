@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.livescore.client;
 
 import com.kodilla.fantasy.livescore.config.LiveScoreConfig;
+import com.kodilla.fantasy.livescore.domain.dto.GetEventsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetLineupsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
 import com.kodilla.fantasy.livescore.domain.exception.NoResponseException;
@@ -38,7 +39,7 @@ public class LiveScoreClient {
                     HttpMethod.GET,
                     headersEntity,
                     GetMatchesDto.class);
-            log.info("Fetched matches");
+            log.info("Fetched matches for");
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetMatchesDto(Collections.emptyList()));
         } catch (RestClientException e) {
@@ -52,20 +53,39 @@ public class LiveScoreClient {
         HttpEntity<Void> headersEntity = buildHeaders();
 
         try {
-            log.info("Started fetching lineups");
+            log.info("Started fetching lineups for match: " + matchId);
             ResponseEntity<GetLineupsDto> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     headersEntity,
                     GetLineupsDto.class);
-            log.info("Fetched lineups");
+            log.info("Fetched lineups for match: " + matchId);
             return Optional.ofNullable(response.getBody())
                     .orElseThrow(() -> new NoResponseException("No response for fetching lineups"));
         } catch (RestClientException e) {
-            log.error("Error fetching team: " + e.getMessage());
+            log.error("Error fetching lineups: " + e.getMessage());
             throw new NoResponseException("Exception fetching lineups");
         }
+    }
 
+    public GetEventsDto fetchEvents(String matchId) {
+        URI url = buildEventsUrl(matchId);
+        HttpEntity<Void> headerEntity = buildHeaders();
+
+        try {
+            log.info("Started fetching events for match:" + matchId);
+            ResponseEntity<GetEventsDto> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    headerEntity,
+                    GetEventsDto.class);
+            log.info("Fetched events for match: " + matchId);
+            return Optional.ofNullable(response.getBody())
+                    .orElse(new GetEventsDto(Collections.emptyList()));
+        } catch (RestClientException e) {
+            log.error("Error fetching events: " + e.getMessage());
+            return new GetEventsDto(Collections.emptyList());
+        }
     }
 
     private URI buildMatchesUrl(int round) {
@@ -80,6 +100,14 @@ public class LiveScoreClient {
 
     private URI buildLineupsUrl(String matchId) {
         return UriComponentsBuilder.fromHttpUrl(config.getUrl() + "/match-lineups")
+                .queryParam("match_id", matchId)
+                .build()
+                .encode()
+                .toUri();
+    }
+
+    private URI buildEventsUrl(String matchId) {
+        return UriComponentsBuilder.fromHttpUrl(config.getUrl() + "/match-events")
                 .queryParam("match_id", matchId)
                 .build()
                 .encode()
