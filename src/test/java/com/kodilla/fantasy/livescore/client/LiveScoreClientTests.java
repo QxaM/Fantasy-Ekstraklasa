@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +27,7 @@ public class LiveScoreClientTests {
     private final static String LIVE_SCORE_URL = "https://livescore-football.p.rapidapi.com/soccer";
     private final static String MATCHES_URL = "https://livescore-football.p.rapidapi.com/soccer/matches-by-league?country_code=poland&league_code=ekstraklasa&round=1";
     private final static String LINEUPS_URL = "https://livescore-football.p.rapidapi.com/soccer/match-lineups?match_id=1";
+    private final static String EVENTS_URL = "https://livescore-football.p.rapidapi.com/soccer/match-events?match_id=1";
 
     @InjectMocks
     private LiveScoreClient liveScoreClient;
@@ -117,5 +120,47 @@ public class LiveScoreClientTests {
 
         //When + Then
         assertThrows(NoResponseException.class, () -> liveScoreClient.fetchLineups("1"));
+    }
+
+    @Test
+    void shouldFetchEvents() throws URISyntaxException {
+        //Given
+        URI url = new URI(EVENTS_URL);
+
+        GetEventsDto eventsDto = new GetEventsDto(new ArrayList<>());
+        EventDataDto eventDataDto1 = new EventDataDto("EVENT1", "Player1", 1, null);
+        EventDataDto eventDataDto2 = new EventDataDto(null, null, 0, new ArrayList<>());
+        EventDataDto eventDataDto3 = new EventDataDto("EVENT3", "Player3", 1, null);
+        EventDataDto eventDataDto4 = new EventDataDto("EVENT4", "Player4", 1, null);
+        eventDataDto2.getEvents().add(eventDataDto3);
+        eventDataDto2.getEvents().add(eventDataDto4);
+        eventsDto.getEvents().add(eventDataDto1);
+        eventsDto.getEvents().add(eventDataDto2);
+
+        when(restTemplate.exchange(url, HttpMethod.GET, requestEntity, GetEventsDto.class))
+                .thenReturn(new ResponseEntity<>(eventsDto, HttpStatus.OK));
+
+        //When
+        GetEventsDto fetchedEvents = liveScoreClient.fetchEvents("1");
+
+        //Then
+        assertAll(() -> assertEquals("EVENT1", fetchedEvents.getEvents().get(0).getEvent()),
+                () -> assertEquals("EVENT3", fetchedEvents.getEvents().get(1).getEvents().get(0).getEvent()),
+                () -> assertEquals("EVENT4", fetchedEvents.getEvents().get(1).getEvents().get(1).getEvent()));
+    }
+
+    @Test
+    void shouldNotFetchEvents() throws URISyntaxException {
+        //Given
+        URI url = new URI(EVENTS_URL);
+
+        when(restTemplate.exchange(url, HttpMethod.GET, requestEntity, GetEventsDto.class))
+                .thenReturn(new ResponseEntity<>(new GetEventsDto(Collections.emptyList()), HttpStatus.OK));
+
+        //When
+        GetEventsDto fetchedEvents = liveScoreClient.fetchEvents("1");
+
+        //Then
+        assertTrue(fetchedEvents.getEvents().isEmpty());
     }
 }

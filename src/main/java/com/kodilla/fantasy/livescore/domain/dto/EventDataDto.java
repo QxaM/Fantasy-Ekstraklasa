@@ -15,4 +15,9 @@ import java.util.List;
 public class EventDataDto extends EventDto {
     @JsonProperty("events")
     private List<EventDto> events;
+
+    public EventDataDto(String event, String playerName, int team, List<EventDto> events) {
+        super(event, playerName, team);
+        this.events = events;
+    }
 }
