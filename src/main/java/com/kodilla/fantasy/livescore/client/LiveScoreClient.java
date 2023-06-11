@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.livescore.client;
 
 import com.kodilla.fantasy.livescore.config.LiveScoreConfig;
+import com.kodilla.fantasy.livescore.domain.dto.GetLineupsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,11 +46,40 @@ public class LiveScoreClient {
         }
     }
 
+    public GetLineupsDto fetchLineups(String matchId) {
+        URI url = buildLineupsUrl(matchId);
+        HttpEntity<Void> headersEntity = buildHeaders();
+
+        try {
+            log.info("Started fetching lineups");
+            ResponseEntity<GetLineupsDto> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    headersEntity,
+                    GetLineupsDto.class);
+            log.info("Fetched lineups");
+            return Optional.ofNullable(response.getBody())
+                    .orElse(new GetLineupsDto());
+        } catch (RestClientException e) {
+            log.error("Error fetching team: " + e.getMessage());
+            return new GetLineupsDto();
+        }
+
+    }
+
     private URI buildMatchesUrl(int round) {
         return UriComponentsBuilder.fromHttpUrl(config.getUrl() + "/matches-by-league")
                 .queryParam("country_code", config.getCountryCode())
                 .queryParam("league_code", config.getLeagueCode())
                 .queryParam("round", round)
+                .build()
+                .encode()
+                .toUri();
+    }
+
+    private URI buildLineupsUrl(String matchId) {
+        return UriComponentsBuilder.fromHttpUrl(config.getUrl() + "/match-lineups")
+                .queryParam("match_id", matchId)
                 .build()
                 .encode()
                 .toUri();
