@@ -3,6 +3,7 @@ package com.kodilla.fantasy.livescore.client;
 import com.kodilla.fantasy.livescore.config.LiveScoreConfig;
 import com.kodilla.fantasy.livescore.domain.dto.GetLineupsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
+import com.kodilla.fantasy.livescore.domain.exception.NoResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -31,7 +32,7 @@ public class LiveScoreClient {
         HttpEntity<Void> headersEntity = buildHeaders();
 
         try {
-            log.info("Started fetching teams");
+            log.info("Started fetching matches");
             ResponseEntity<GetMatchesDto> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
@@ -41,12 +42,12 @@ public class LiveScoreClient {
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetMatchesDto(Collections.emptyList()));
         } catch (RestClientException e) {
-            log.error("Error fetching teams: " + e.getMessage());
+            log.error("Error fetching matches: " + e.getMessage());
             return new GetMatchesDto(Collections.emptyList());
         }
     }
 
-    public GetLineupsDto fetchLineups(String matchId) {
+    public GetLineupsDto fetchLineups(String matchId) throws NoResponseException {
         URI url = buildLineupsUrl(matchId);
         HttpEntity<Void> headersEntity = buildHeaders();
 
@@ -59,10 +60,10 @@ public class LiveScoreClient {
                     GetLineupsDto.class);
             log.info("Fetched lineups");
             return Optional.ofNullable(response.getBody())
-                    .orElse(new GetLineupsDto());
+                    .orElseThrow(() -> new NoResponseException("No response for fetching lineups"));
         } catch (RestClientException e) {
             log.error("Error fetching team: " + e.getMessage());
-            return new GetLineupsDto();
+            throw new NoResponseException("Exception fetching lineups");
         }
 
     }
