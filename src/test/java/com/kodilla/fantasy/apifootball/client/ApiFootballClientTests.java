@@ -28,16 +28,15 @@ public class ApiFootballClientTests {
 
     @InjectMocks
     private ApiFootballClient apiFootballClient;
-
     @Mock
     private RestTemplate restTemplate;
     @Mock
     private ApiFootballConfig apiFootballConfig;
 
-    HttpEntity<Void> requestEntity;
+    private HttpEntity<Void> requestEntity;
 
     @BeforeEach
-    public void buildHeaders() {
+    void buildHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Test_key", "1234");
         headers.set("Test_host", "host");
@@ -45,7 +44,7 @@ public class ApiFootballClientTests {
     }
 
     @BeforeEach
-    public void mockInit() {
+    void mockInit() {
         when(apiFootballConfig.getUrl()).thenReturn(API_FOOTBALL_URL);
         when(apiFootballConfig.getKeyHeader()).thenReturn("Test_key");
         when(apiFootballConfig.getKey()).thenReturn("1234");
