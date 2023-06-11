@@ -2,6 +2,7 @@ package com.kodilla.fantasy.livescore.mapper;
 
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.livescore.domain.Match;
+import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
 import com.kodilla.fantasy.livescore.domain.dto.LiveScoreTeamDto;
 import com.kodilla.fantasy.livescore.domain.dto.MatchDto;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
@@ -68,5 +69,28 @@ public class LiveScoreMapperTests {
 
         //When + Then
         assertThrows(CouldNotMapTeam.class, () -> liveScoreMapper.mapToMatch(matchDto));
+    }
+
+    @Test
+    void shouldMapToList() {
+        //Given
+        LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");
+        LiveScoreTeamDto teamDto2 = new LiveScoreTeamDto("Team 2");
+        MatchDto matchDto = new MatchDto("1", teamDto1, teamDto2);
+        GetMatchesDto getMatchesDto = new GetMatchesDto(List.of(matchDto, matchDto));
+
+        Team team1 = new Team(1L, "Test", "TET", new ArrayList<>());
+        Team team2 = new Team(2L, "Team 2", "TE2", new ArrayList<>());
+
+        when(teamDbService.getTeams()).thenReturn(List.of(team1, team2));
+
+        //When
+        List<Match> mappedMatches = new ArrayList<>();
+        try {
+            mappedMatches = liveScoreMapper.mapToMatchList(getMatchesDto);
+        } catch (CouldNotMapTeam e) {}
+
+        //Then
+        assertEquals(2, mappedMatches.size());
     }
 }
