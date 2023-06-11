@@ -3,12 +3,10 @@ package com.kodilla.fantasy.livescore.mapper;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.livescore.domain.Event;
 import com.kodilla.fantasy.livescore.domain.Match;
-import com.kodilla.fantasy.livescore.domain.dto.GetLineupsDto;
-import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
-import com.kodilla.fantasy.livescore.domain.dto.LiveScorePlayerDto;
-import com.kodilla.fantasy.livescore.domain.dto.MatchDto;
-import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
+import com.kodilla.fantasy.livescore.domain.dto.*;
+import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.service.PlayerDbService;
 import com.kodilla.fantasy.service.TeamDbService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ public class LiveScoreMapper {
     private final TeamDbService teamDbService;
     private final PlayerDbService playerDbService;
 
-    public Match mapToMatch(MatchDto matchDto) throws CouldNotMapTeam {
+    public Match mapToMatch(MatchDto matchDto) throws CouldNotMapElement {
         Team team1 = findTeam(matchDto.getTeam1().getName());
         Team team2 = findTeam(matchDto.getTeam2().getName());
         return new Match(
@@ -34,11 +32,12 @@ public class LiveScoreMapper {
                 team1,
                 team2,
                 new ArrayList<>(),
+                new ArrayList<>(),
                 new ArrayList<>()
         );
     }
 
-    public List<Match> mapToMatchList(GetMatchesDto matchDtoList) throws CouldNotMapTeam {
+    public List<Match> mapToMatchList(GetMatchesDto matchDtoList) throws CouldNotMapElement {
         List<Match> matches = new ArrayList<>();
         for(MatchDto matchDto: matchDtoList.getMatches()) {
             Match match = mapToMatch(matchDto);
@@ -53,16 +52,53 @@ public class LiveScoreMapper {
 
         populateLineup(match, players1, match.getTeam1().getId());
         populateLineup(match, players2, match.getTeam2().getId());
-
-        //return match;
     }
 
-    private Team findTeam(String name) throws CouldNotMapTeam {
+    public void mapEvents(Match match, GetEventsDto eventsDto) {
+        for(EventDataDto eventDto: eventsDto.getEvents()) {
+            if(eventDto.getEvents().isEmpty()) {
+                addPlayer(match, eventDto);
+            } else {
+                eventDto.getEvents()
+                        .forEach(nestedEventDto -> addPlayer(match, nestedEventDto));
+            }
+        }
+    }
+
+    private void addPlayer(Match match, EventDto eventDto) {
+        Player player = new Player();
+        try {
+            if(eventDto.getTeam() == 1) {
+                player = findPlayer(match.getLineup1(), eventDto.getPlayerName());
+            } else {
+                player = findPlayer(match.getLineup2(), eventDto.getPlayerName());
+            }
+        } catch (CouldNotMapElement e) {
+            log.error(e.getMessage());
+        }
+
+        Event event = new Event(
+                eventDto.getEvent(),
+                player);
+        match.getEvents().add(event);
+    }
+
+    private Team findTeam(String name) throws CouldNotMapElement {
         List<Team> teams = teamDbService.getTeams();
 
         return teams.stream()
                 .filter(team -> name.contains(team.getName()))
-                .findFirst().orElseThrow(() -> new CouldNotMapTeam("Couldn't map team " + name));
+                .findFirst()
+                    .orElseThrow(() -> new CouldNotMapElement("Couldn't map team " + name));
+    }
+
+    private Player findPlayer(List<Player> players, String name) throws CouldNotMapElement {
+        return players.stream()
+                .filter(player -> {
+                    String playerName = player.getFirstname() + " " + player.getLastname();
+                    return playerName.equals(name);
+                })
+                .findFirst().orElseThrow(() -> new CouldNotMapElement("Couldn't map player " + name));
     }
 
     private void populateLineup(Match match, List<LiveScorePlayerDto> players, Long teamId) {

@@ -2,9 +2,10 @@ package com.kodilla.fantasy.livescore.facade;
 
 import com.kodilla.fantasy.livescore.client.LiveScoreClient;
 import com.kodilla.fantasy.livescore.domain.Match;
+import com.kodilla.fantasy.livescore.domain.dto.GetEventsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetLineupsDto;
 import com.kodilla.fantasy.livescore.domain.dto.GetMatchesDto;
-import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
+import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.livescore.domain.exception.NoResponseException;
 import com.kodilla.fantasy.livescore.mapper.LiveScoreMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +22,23 @@ public class LiveScoreFacade {
     private final LiveScoreClient client;
     private final LiveScoreMapper mapper;
 
-    public List<Match> fetchMatches(int round) throws CouldNotMapTeam {
+    public List<Match> fetchMatches(int round) throws CouldNotMapElement {
         List<Match> matches = findMatches(round);
+
         matches.forEach((match -> {
             try {
                 addLineup(match);
             } catch (NoResponseException e) {
                 log.error(e.getMessage());
-            }}));
+            }})
+        );
+
+        matches.forEach(this::addEvents);
+
         return matches;
     }
 
-    public List<Match> findMatches(int round) throws CouldNotMapTeam {
+    public List<Match> findMatches(int round) throws CouldNotMapElement {
         GetMatchesDto fetchedMatches = client.fetchMatches(round);
         try{
             Thread.sleep(1000);
@@ -50,5 +56,15 @@ public class LiveScoreFacade {
             log.error(e.getMessage());
         }
         mapper.mapLineup(match, fetchedLineups);
+    }
+
+    public void addEvents(Match match) {
+        GetEventsDto fetchedEvents = client.fetchEvents(match.getMatchId());
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
+        mapper.mapEvents(match, fetchedEvents);
     }
 }

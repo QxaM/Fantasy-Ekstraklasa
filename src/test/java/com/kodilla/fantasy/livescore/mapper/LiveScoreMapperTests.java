@@ -6,7 +6,7 @@ import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
-import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
+import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.service.PlayerDbService;
 import com.kodilla.fantasy.service.TeamDbService;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ public class LiveScoreMapperTests {
         Match mappedMatch = new Match();
         try {
             mappedMatch = liveScoreMapper.mapToMatch(matchDto);
-        } catch (CouldNotMapTeam e) {}
+        } catch (CouldNotMapElement e) {}
 
         //Then
         assertEquals("1", mappedMatch.getMatchId());
@@ -69,7 +69,7 @@ public class LiveScoreMapperTests {
         when(teamDbService.getTeams()).thenReturn(List.of(team1, team2));
 
         //When + Then
-        assertThrows(CouldNotMapTeam.class, () -> liveScoreMapper.mapToMatch(matchDto));
+        assertThrows(CouldNotMapElement.class, () -> liveScoreMapper.mapToMatch(matchDto));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class LiveScoreMapperTests {
         List<Match> mappedMatches = new ArrayList<>();
         try {
             mappedMatches = liveScoreMapper.mapToMatchList(getMatchesDto);
-        } catch (CouldNotMapTeam e) {}
+        } catch (CouldNotMapElement e) {}
 
         //Then
         assertEquals(2, mappedMatches.size());

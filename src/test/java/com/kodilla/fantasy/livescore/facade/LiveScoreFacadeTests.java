@@ -6,7 +6,7 @@ import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.livescore.client.LiveScoreClient;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
-import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
+import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.livescore.domain.exception.NoResponseException;
 import com.kodilla.fantasy.livescore.mapper.LiveScoreMapper;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ public class LiveScoreFacadeTests {
     }
 
     @Test
-    void testFindMatches() throws CouldNotMapTeam {
+    void testFindMatches() throws CouldNotMapElement {
         //Given
         LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");
         LiveScoreTeamDto teamDto2 = new LiveScoreTeamDto("Team 2");
@@ -81,7 +81,7 @@ public class LiveScoreFacadeTests {
     }
 
     @Test
-    void testFetchMatches() throws CouldNotMapTeam, NoResponseException {
+    void testFetchMatches() throws CouldNotMapElement, NoResponseException {
         //Given
         LiveScorePlayerDto playerDto1 = new LiveScorePlayerDto("Firstname", "Lastname");
         LiveScorePlayerDto playerDto2 = new LiveScorePlayerDto("Firstname 1", "Lastname 1");
