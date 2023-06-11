@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,8 +23,13 @@ public class LiveScoreFacade {
     private final LiveScoreClient client;
     private final LiveScoreMapper mapper;
 
-    public List<Match> fetchMatches(int round) throws CouldNotMapElement {
-        List<Match> matches = findMatches(round);
+    public List<Match> fetchMatches(int round) {
+        List<Match> matches = new ArrayList<>();
+        try {
+            matches = findMatches(round);
+        } catch (CouldNotMapElement e) {
+            log.error(e.getMessage());
+        }
 
         matches.forEach((match -> {
             try {

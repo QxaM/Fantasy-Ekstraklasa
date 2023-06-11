@@ -2,8 +2,8 @@ package com.kodilla.fantasy.mapper;
 
 import com.kodilla.fantasy.apifootball.dto.ApiFootballTeamDto;
 import com.kodilla.fantasy.apifootball.dto.PlayerResponseDto;
-import com.kodilla.fantasy.decorator.DefaultPlayerValue;
-import com.kodilla.fantasy.decorator.PlayerValue;
+import com.kodilla.fantasy.decorator.DefaultPlayerDecorator;
+import com.kodilla.fantasy.decorator.PlayerValues;
 import com.kodilla.fantasy.decorator.PlayerValueByScore;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
@@ -29,7 +29,7 @@ public class ApiFootballMapper {
     }
 
     public Player mapToPlayer(PlayerResponseDto playerResponseDto) {
-        PlayerValue playerValue = new DefaultPlayerValue();
+        PlayerValues playerValue = new DefaultPlayerDecorator();
         String playerRating = playerResponseDto.getStatistics().get(0).getGames().getRating();
         if(playerRating != null) {
             playerValue = new PlayerValueByScore(playerValue, playerRating);

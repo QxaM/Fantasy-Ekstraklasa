@@ -3,7 +3,7 @@ package com.kodilla.fantasy.decorator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class PlayerValueByScore extends PlayerValueDecorator {
+public class PlayerValueByScore extends PlayerDecorator {
 
     private final static BigDecimal LOW_VALUE = BigDecimal.ZERO;
     private final static BigDecimal HIGH_VALUE = new BigDecimal("5000000");
@@ -13,7 +13,7 @@ public class PlayerValueByScore extends PlayerValueDecorator {
 
     private final String score;
 
-    public PlayerValueByScore(PlayerValue playerValue, String score) {
+    public PlayerValueByScore(PlayerValues playerValue, String score) {
         super(playerValue);
         this.score = score;
     }
