@@ -72,7 +72,11 @@ public class LiveScoreMapper {
                         .getPlayerByFirstnameAndLastname(player.getFirstName(),
                                                         player.getLastName(),
                                                         teamId);
-                match.getLineup1().add(foundPlayer);
+                if(match.getTeam1().getId().equals(teamId)) {
+                    match.getLineup1().add(foundPlayer);
+                } else if (match.getTeam2().getId().equals(teamId)) {
+                    match.getLineup2().add(foundPlayer);
+                }
             } catch (ElementNotFoundException e) {
                 log.error(e.getMessage());
             }
