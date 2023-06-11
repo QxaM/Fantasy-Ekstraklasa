@@ -5,6 +5,7 @@ import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.livescore.client.LiveScoreClient;
 import com.kodilla.fantasy.livescore.domain.Event;
+import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
@@ -118,9 +119,9 @@ public class LiveScoreFacadeTests {
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
         Player player1 = new Player(3L, 3L, "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
         Player player2 = new Player(3L, 3L, "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team2, new ArrayList<>());
-        Event event1 = new Event("YELLOW_CARD", player1);
-        Event event2 = new Event("GOAL", player2);
-        Event event3 = new Event("GOAL_ASSIST", player1);
+        Event event1 = new Event(EventType.YELLOW_CARD, player1);
+        Event event2 = new Event(EventType.GOAL, player2);
+        Event event3 = new Event(EventType.GOAL_ASSIST, player1);
         Match match = new Match("1", team1, team2, List.of(player1), List.of(player2), List.of(event1, event2, event3));
 
         LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");

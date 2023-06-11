@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
-    private String event;
+    private EventType event;
     private Player player;
 }

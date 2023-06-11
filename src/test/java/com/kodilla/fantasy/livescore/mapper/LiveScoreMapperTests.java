@@ -9,6 +9,7 @@ import com.kodilla.fantasy.livescore.domain.dto.*;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.service.PlayerDbService;
 import com.kodilla.fantasy.service.TeamDbService;
+import com.kodilla.fantasy.validator.EventTypeValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,8 @@ public class LiveScoreMapperTests {
     private TeamDbService teamDbService;
     @Mock
     private PlayerDbService playerDbService;
+    @Mock
+    private EventTypeValidator eventValidator;
 
     @Test
     void shouldMapToMatch() {

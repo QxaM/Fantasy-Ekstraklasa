@@ -9,6 +9,7 @@ import com.kodilla.fantasy.livescore.domain.dto.*;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
 import com.kodilla.fantasy.service.PlayerDbService;
 import com.kodilla.fantasy.service.TeamDbService;
+import com.kodilla.fantasy.validator.EventTypeValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class LiveScoreMapper {
 
     private final TeamDbService teamDbService;
     private final PlayerDbService playerDbService;
+    private final EventTypeValidator eventValidator;
 
     public Match mapToMatch(MatchDto matchDto) throws CouldNotMapElement {
         Team team1 = findTeam(matchDto.getTeam1().getName());
@@ -78,7 +80,7 @@ public class LiveScoreMapper {
         }
 
         Event event = new Event(
-                eventDto.getEvent(),
+                eventValidator.validateEvent(eventDto.getEvent()),
                 player);
         match.getEvents().add(event);
     }
