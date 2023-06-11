@@ -21,14 +21,11 @@ public class LiveScoreFacade {
     private final LiveScoreClient client;
     private final LiveScoreMapper mapper;
 
-    public List<Match> fetchMatches(int round) throws CouldNotMapTeam {
-        List<Match> matches;
-
-        GetMatchesDto fetchedMatches = client.fetchMatches(round);
-        matches = mapper.mapToMatchList(fetchedMatches);
-
-
-
+    public List<Match> fetchMatches(int round) throws CouldNotMapTeam, NoResponseException {
+        List<Match> matches = findMatches(round);
+        for(Match match: matches) {
+            match = addLineup(match);
+        }
         return matches;
     }
 
@@ -42,8 +39,8 @@ public class LiveScoreFacade {
         return mapper.mapToMatchList(fetchedMatches);
     }
 
-    public Match addLineup(Match match, String matchId) throws NoResponseException {
-        GetLineupsDto fetchedLineups = client.fetchLineups(matchId);
+    public Match addLineup(Match match) throws NoResponseException {
+        GetLineupsDto fetchedLineups = client.fetchLineups(match.getMatchId());
         try{
             Thread.sleep(1000);
         } catch (InterruptedException e) {

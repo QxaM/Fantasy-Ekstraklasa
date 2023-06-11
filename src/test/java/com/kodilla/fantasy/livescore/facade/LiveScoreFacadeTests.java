@@ -1,0 +1,124 @@
+package com.kodilla.fantasy.livescore.facade;
+
+import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.Position;
+import com.kodilla.fantasy.domain.Team;
+import com.kodilla.fantasy.livescore.client.LiveScoreClient;
+import com.kodilla.fantasy.livescore.domain.Match;
+import com.kodilla.fantasy.livescore.domain.dto.*;
+import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapTeam;
+import com.kodilla.fantasy.livescore.domain.exception.NoResponseException;
+import com.kodilla.fantasy.livescore.mapper.LiveScoreMapper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class LiveScoreFacadeTests {
+
+    @InjectMocks
+    private LiveScoreFacade facade;
+    @Mock
+    private LiveScoreClient liveScoreClient;
+    @Mock
+    private LiveScoreMapper liveScoreMapper;
+
+    @Test
+    void testAddLineup() throws NoResponseException {
+        //Given
+        LiveScorePlayerDto playerDto1 = new LiveScorePlayerDto("Firstname", "Lastname");
+        LiveScorePlayerDto playerDto2 = new LiveScorePlayerDto("Firstname 1", "Lastname 1");
+        LineupDto lineupDto1 = new LineupDto(List.of(playerDto1));
+        LineupDto lineupDto2 = new LineupDto(List.of(playerDto2));
+        LineupsDataDto lineupsDataDto = new LineupsDataDto(lineupDto1, lineupDto2);
+        GetLineupsDto getLineupsDto = new GetLineupsDto(lineupsDataDto);
+
+        Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
+        Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
+        Player player1 = new Player(3L, 3L, "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
+        Player player2 = new Player(3L, 3L, "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team2, new ArrayList<>());
+        Match emptyMatch = new Match("1", team1, team2, new ArrayList<>(), new ArrayList<>());
+        Match match = new Match("1", team1, team2, List.of(player1), List.of(player2));
+
+        when(liveScoreClient.fetchLineups("1")).thenReturn(getLineupsDto);
+        when(liveScoreMapper.mapLineup(emptyMatch, getLineupsDto)).thenReturn(match);
+
+        //When
+        Match mappedMatch = facade.addLineup(emptyMatch);
+
+        //Then
+        assertAll(() -> assertEquals(1, mappedMatch.getLineup1().size()),
+                () -> assertEquals(1, mappedMatch.getLineup2().size()));
+    }
+
+    @Test
+    void testFindMatches() throws CouldNotMapTeam {
+        //Given
+        LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");
+        LiveScoreTeamDto teamDto2 = new LiveScoreTeamDto("Team 2");
+        MatchDto matchDto = new MatchDto("1", teamDto1, teamDto2);
+        GetMatchesDto getMatchesDto = new GetMatchesDto(List.of(matchDto, matchDto));
+
+        Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
+        Team team2 = new Team(2L, 2L, "Team 2", "TE2", new ArrayList<>());
+        Match match = new Match("3", team1, team2, new ArrayList<>(), new ArrayList<>());
+
+        when(liveScoreClient.fetchMatches(1)).thenReturn(getMatchesDto);
+        when(liveScoreMapper.mapToMatchList(getMatchesDto)).thenReturn(List.of(match));
+
+        //When
+        List<Match> matches = facade.findMatches(1);
+
+        //Then
+        assertAll(() -> assertEquals(1, matches.size()),
+                () -> assertEquals(1L, matches.get(0).getTeam1().getId()),
+                () -> assertEquals(2L, matches.get(0).getTeam2().getId()));
+    }
+
+    @Test
+    void testFetchMatches() throws CouldNotMapTeam, NoResponseException {
+        //Given
+        LiveScorePlayerDto playerDto1 = new LiveScorePlayerDto("Firstname", "Lastname");
+        LiveScorePlayerDto playerDto2 = new LiveScorePlayerDto("Firstname 1", "Lastname 1");
+        LineupDto lineupDto1 = new LineupDto(List.of(playerDto1));
+        LineupDto lineupDto2 = new LineupDto(List.of(playerDto2));
+        LineupsDataDto lineupsDataDto = new LineupsDataDto(lineupDto1, lineupDto2);
+        GetLineupsDto getLineupsDto = new GetLineupsDto(lineupsDataDto);
+
+        Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
+        Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
+        Player player1 = new Player(3L, 3L, "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
+        Player player2 = new Player(3L, 3L, "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team2, new ArrayList<>());
+        Match match = new Match("1", team1, team2, List.of(player1), List.of(player2));
+
+        LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");
+        LiveScoreTeamDto teamDto2 = new LiveScoreTeamDto("Team 2");
+        MatchDto matchDto = new MatchDto("1", teamDto1, teamDto2);
+        GetMatchesDto getMatchesDto = new GetMatchesDto(List.of(matchDto, matchDto));
+
+        when(liveScoreClient.fetchLineups("1")).thenReturn(getLineupsDto);
+        when(liveScoreMapper.mapLineup(any(Match.class), eq(getLineupsDto))).thenReturn(match);
+        when(liveScoreClient.fetchMatches(1)).thenReturn(getMatchesDto);
+        when(liveScoreMapper.mapToMatchList(getMatchesDto)).thenReturn(List.of(match));
+
+        //When
+        List<Match> fetchedMatches = facade.fetchMatches(1);
+
+        //Then
+        assertAll(() -> assertEquals(1, fetchedMatches.size()),
+                () -> assertEquals("Firstname", fetchedMatches.get(0).getLineup1().get(0).getFirstname()),
+                () -> assertEquals("Firstname 1", fetchedMatches.get(0).getLineup2().get(0).getFirstname()));
+    }
+}
