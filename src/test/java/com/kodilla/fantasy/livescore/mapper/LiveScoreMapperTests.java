@@ -14,9 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -125,11 +122,11 @@ public class LiveScoreMapperTests {
                 2L)).thenReturn(player2);
 
         //When
-        Match mappedMatch = liveScoreMapper.mapLineup(match, getLineupsDto);
+        liveScoreMapper.mapLineup(match, getLineupsDto);
 
         //Then
-        assertAll(() -> assertEquals(1, mappedMatch.getLineup1().size()),
-                () -> assertEquals(1, mappedMatch.getLineup2().size()));
+        assertAll(() -> assertEquals(1, match.getLineup1().size()),
+                () -> assertEquals(1, match.getLineup2().size()));
 
     }
 }

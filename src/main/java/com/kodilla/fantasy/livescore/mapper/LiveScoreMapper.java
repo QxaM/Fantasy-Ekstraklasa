@@ -47,14 +47,14 @@ public class LiveScoreMapper {
         return matches;
     }
 
-    public Match mapLineup(Match match, GetLineupsDto lineupsDto) {
+    public void mapLineup(Match match, GetLineupsDto lineupsDto) {
         List<LiveScorePlayerDto> players1 = lineupsDto.getData().getTeam1().getPlayers();
         List<LiveScorePlayerDto> players2 = lineupsDto.getData().getTeam2().getPlayers();
 
         populateLineup(match, players1, match.getTeam1().getId());
         populateLineup(match, players2, match.getTeam2().getId());
 
-        return match;
+        //return match;
     }
 
     private Team findTeam(String name) throws CouldNotMapTeam {
