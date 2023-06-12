@@ -15,8 +15,4 @@ public class PlayerDecoratorFactory {
             case UNKNOWN_EVENT -> new DefaultPlayerDecorator();
         };
     }
-
-    public static PlayerValues makeLineupDecorator(PlayerValues playerValues) {
-        return new LineupPoints(playerValues);
-    }
 }
