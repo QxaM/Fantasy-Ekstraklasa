@@ -53,9 +53,14 @@ public class PlayerDbService {
                 player.getValue(),
                 player.getPosition(),
                 player.getTeam(),
-                player.getSquads()
+                player.getSquads(),
+                player.getPoints()
         );
         return repository.save(changedPlayer);
+    }
+
+    public void saveAllPlayers(List<Player> players) {
+        repository.saveAll(players);
     }
 
     public void deletePlayer(Long id) {

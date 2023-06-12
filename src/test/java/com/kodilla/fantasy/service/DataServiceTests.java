@@ -17,7 +17,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class DataInitializerTests {
+public class DataServiceTests {
 
     @InjectMocks
     private DataService dataInitializer;

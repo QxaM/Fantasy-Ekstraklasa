@@ -1,5 +1,6 @@
 package com.kodilla.fantasy.domain;
 
+import com.kodilla.fantasy.decorator.PlayerValues;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,8 @@ public class Player {
     private Team team;
     @ManyToMany(mappedBy = "players")
     private List<Squad> squads;
+    @Column
+    private int points;
 
     public Player(Long id, Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
         this.id = id;
@@ -77,5 +80,9 @@ public class Player {
         this.position = position;
         this.team = team;
         this.squads = squads;
+    }
+
+    public void addPoints(PlayerValues decorator) {
+        this.points = decorator.getPoints(this.points);
     }
 }
