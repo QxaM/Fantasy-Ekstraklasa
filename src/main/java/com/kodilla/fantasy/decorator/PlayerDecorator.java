@@ -1,8 +1,6 @@
 package com.kodilla.fantasy.decorator;
 
-import com.kodilla.fantasy.config.RulesConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -10,7 +8,6 @@ import java.math.BigDecimal;
 public abstract class PlayerDecorator extends DefaultPlayerDecorator {
 
     private final PlayerValues playerValue;
-    private final RulesConfig rulesConfig = new RulesConfig();
 
     @Override
     public BigDecimal getValue() {
@@ -20,9 +17,5 @@ public abstract class PlayerDecorator extends DefaultPlayerDecorator {
     @Override
     public int getPoints(int points) {
         return playerValue.getPoints(points);
-    }
-
-    protected RulesConfig getRules() {
-        return this.rulesConfig;
     }
 }
