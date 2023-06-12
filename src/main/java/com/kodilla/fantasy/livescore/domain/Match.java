@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor
@@ -17,5 +18,5 @@ public class Match {
     private Team team2;
     private List<Player> lineup1;
     private List<Player> lineup2;
-    private List<Event> events;
+    private Event events;
 }

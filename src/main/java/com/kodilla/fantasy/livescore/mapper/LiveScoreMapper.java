@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.livescore.domain.Event;
+import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
@@ -15,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +38,7 @@ public class LiveScoreMapper {
                 team2,
                 new ArrayList<>(),
                 new ArrayList<>(),
-                new ArrayList<>()
+                new Event(new HashMap<>())
         );
     }
 
@@ -59,30 +62,26 @@ public class LiveScoreMapper {
     public void mapEvents(Match match, GetEventsDto eventsDto) {
         for(EventDataDto eventDto: eventsDto.getEvents()) {
             if(eventDto.getEvents().isEmpty()) {
-                addPlayer(match, eventDto);
+                addEvent(match, eventDto);
             } else {
                 eventDto.getEvents()
-                        .forEach(nestedEventDto -> addPlayer(match, nestedEventDto));
+                        .forEach(nestedEventDto -> addEvent(match, nestedEventDto));
             }
         }
     }
 
-    private void addPlayer(Match match, EventDto eventDto) {
+    private void addEvent(Match match, EventDto eventDto) {
         Player player = new Player();
+
         try {
-            if(eventDto.getTeam() == 1) {
-                player = findPlayer(match.getLineup1(), eventDto.getPlayerName());
-            } else {
-                player = findPlayer(match.getLineup2(), eventDto.getPlayerName());
-            }
+            player = findPlayer(match.getEvents().getEventMap().keySet(),
+                                eventDto.getPlayerName());
         } catch (CouldNotMapElement e) {
             log.error(e.getMessage());
         }
+        EventType eventType = eventValidator.validateEvent(eventDto.getEvent());
 
-        Event event = new Event(
-                eventValidator.validateEvent(eventDto.getEvent()),
-                player);
-        match.getEvents().add(event);
+        match.getEvents().addToMap(player, eventType);
     }
 
     private Team findTeam(String name) throws CouldNotMapElement {
@@ -94,7 +93,7 @@ public class LiveScoreMapper {
                     .orElseThrow(() -> new CouldNotMapElement("Couldn't map team " + name));
     }
 
-    private Player findPlayer(List<Player> players, String name) throws CouldNotMapElement {
+    private Player findPlayer(Set<Player> players, String name) throws CouldNotMapElement {
         return players.stream()
                 .filter(player -> {
                     String playerName = player.getFirstname() + " " + player.getLastname();
@@ -107,14 +106,11 @@ public class LiveScoreMapper {
         for(LiveScorePlayerDto player: players) {
             try {
                 Player foundPlayer = playerDbService
-                        .getPlayerByFirstnameAndLastname(player.getFirstName(),
+                        .getPlayerByFirstnameAndLastnameAndTeamId(player.getFirstName(),
                                                         player.getLastName(),
                                                         teamId);
-                if(match.getTeam1().getId().equals(teamId)) {
-                    match.getLineup1().add(foundPlayer);
-                } else if (match.getTeam2().getId().equals(teamId)) {
-                    match.getLineup2().add(foundPlayer);
-                }
+
+                match.getEvents().addToMap(foundPlayer, EventType.LINEUP);
             } catch (ElementNotFoundException e) {
                 log.error(e.getMessage());
             }

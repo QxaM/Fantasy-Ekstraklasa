@@ -4,7 +4,6 @@ import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.livescore.client.LiveScoreClient;
-import com.kodilla.fantasy.livescore.domain.Event;
 import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;

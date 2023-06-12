@@ -5,5 +5,6 @@ public enum EventType {
     RED_CARD,
     YELLOW_CARD,
     GOAL,
-    GOAL_ASSIST
+    GOAL_ASSIST,
+    LINEUP
 }

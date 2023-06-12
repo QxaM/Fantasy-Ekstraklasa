@@ -28,11 +28,13 @@ public class EventTypeValidatorTests {
         EventType yellowCard = validator.validateEvent(YELLOW_CARD);
         EventType goal = validator.validateEvent(GOAL);
         EventType goalAssist = validator.validateEvent(GOAL_ASSIST);
+        EventType def = validator.validateEvent("1234");
 
         //Then
         assertAll(() -> assertEquals(EventType.RED_CARD, redCard),
                 () -> assertEquals(EventType.YELLOW_CARD, yellowCard),
                 () -> assertEquals(EventType.GOAL, goal),
-                () -> assertEquals(EventType.GOAL_ASSIST, goalAssist));
+                () -> assertEquals(EventType.GOAL_ASSIST, goalAssist),
+                () -> assertEquals(EventType.UNKNOWN_EVENT, def));
     }
 }

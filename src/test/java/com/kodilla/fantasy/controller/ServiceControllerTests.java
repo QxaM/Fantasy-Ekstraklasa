@@ -1,7 +1,6 @@
 package com.kodilla.fantasy.controller;
 
-import com.kodilla.fantasy.domain.Team;
-import com.kodilla.fantasy.service.DataInitializer;
+import com.kodilla.fantasy.service.DataService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,7 +18,7 @@ public class ServiceControllerTests {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private DataInitializer dataInitializer;
+    private DataService dataInitializer;
 
     @Test
     void shouldInitTeams() throws Exception {

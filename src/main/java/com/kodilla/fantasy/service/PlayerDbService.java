@@ -34,7 +34,7 @@ public class PlayerDbService {
                 .orElseThrow(() -> new ElementNotFoundException("Player with given id: " + id + " does not exist"));
     }
 
-    public Player getPlayerByFirstnameAndLastname(String firstname, String lastname, Long id) throws ElementNotFoundException {
+    public Player getPlayerByFirstnameAndLastnameAndTeamId(String firstname, String lastname, Long id) throws ElementNotFoundException {
         return repository.findPlayerByFirstnameAndLastnameAndTeamId(firstname, lastname, id)
                 .orElseThrow(() -> new ElementNotFoundException("Player for given firstname: " + firstname
                                                                 + " and lastname: " + lastname + " does not exist"));

@@ -5,10 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
-    private EventType event;
-    private Player player;
+    private Map<Player, List<EventType>> eventMap;
+
+    public void addToMap(Player key, EventType value) {
+        eventMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+    }
 }
