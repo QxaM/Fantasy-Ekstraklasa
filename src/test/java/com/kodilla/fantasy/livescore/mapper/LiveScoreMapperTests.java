@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
 import com.kodilla.fantasy.livescore.domain.exception.CouldNotMapElement;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -103,7 +105,7 @@ public class LiveScoreMapperTests {
         //Given
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
-        Match match = new Match("1", team1, team2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Match match = new Match("1", team1, team2, new HashMap<>());
 
         LiveScorePlayerDto playerDto1 = new LiveScorePlayerDto("Firstname", "Lastname");
         LiveScorePlayerDto playerDto2 = new LiveScorePlayerDto("Firstname 1", "Lastname 1");
@@ -128,8 +130,7 @@ public class LiveScoreMapperTests {
         liveScoreMapper.mapLineup(match, getLineupsDto);
 
         //Then
-        assertAll(() -> assertEquals(1, match.getLineup1().size()),
-                () -> assertEquals(1, match.getLineup2().size()));
+        assertEquals(2, match.getEvents().size());
     }
 
     @Test
@@ -139,7 +140,9 @@ public class LiveScoreMapperTests {
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
         Player player1 = new Player(3L, 3L, "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
         Player player2 = new Player(3L, 3L, "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
-        Match match = new Match("1", team1, team2, List.of(player1, player2), List.of(player1, player2), new ArrayList<>());
+        Match match = new Match("1", team1, team2, new HashMap<>());
+        match.addEvent(player1, EventType.LINEUP);
+        match.addEvent(player2, EventType.LINEUP);
 
         GetEventsDto getEventsDto = new GetEventsDto(new ArrayList<>());
         EventDataDto eventDto1 = new EventDataDto("YELLOW_CARD", "Firstname Lastname", 1, new ArrayList<>());
@@ -153,9 +156,8 @@ public class LiveScoreMapperTests {
         liveScoreMapper.mapEvents(match, getEventsDto);
 
         //Then
-        assertAll(() -> assertEquals(3, match.getEvents().size()),
-                () -> assertEquals("Firstname", match.getEvents().get(0).getPlayer().getFirstname()),
-                () -> assertEquals("Firstname", match.getEvents().get(1).getPlayer().getFirstname()),
-                () -> assertEquals("Firstname 1", match.getEvents().get(2).getPlayer().getFirstname()));
+        assertAll(() -> assertEquals(2, match.getEvents().size()),
+                () -> assertEquals(3, match.getEvents().get(player1).size()),
+                () -> assertEquals(2, match.getEvents().get(player2).size()));
     }
 }

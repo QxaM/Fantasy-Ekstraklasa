@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -46,7 +47,7 @@ public class LiveScoreFacadeTests {
 
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
-        Match emptyMatch = new Match("1", team1, team2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Match emptyMatch = new Match("1", team1, team2, new HashMap<>());
 
         when(liveScoreClient.fetchLineups("1")).thenReturn(getLineupsDto);
 
@@ -69,7 +70,7 @@ public class LiveScoreFacadeTests {
 
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
-        Match emptyMatch = new Match("1", team1, team2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Match emptyMatch = new Match("1", team1, team2, new HashMap<>());
 
         when(liveScoreClient.fetchEvents("1")).thenReturn(getEventsDto);
 
@@ -90,7 +91,7 @@ public class LiveScoreFacadeTests {
 
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L, 2L, "Team 2", "TE2", new ArrayList<>());
-        Match match = new Match("3", team1, team2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Match match = new Match("3", team1, team2, new HashMap<>());
 
         when(liveScoreClient.fetchMatches(1)).thenReturn(getMatchesDto);
         when(liveScoreMapper.mapToMatchList(getMatchesDto)).thenReturn(List.of(match));
@@ -118,10 +119,10 @@ public class LiveScoreFacadeTests {
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
         Player player1 = new Player(3L, 3L, "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>());
         Player player2 = new Player(3L, 3L, "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team2, new ArrayList<>());
-        Event event1 = new Event(EventType.YELLOW_CARD, player1);
-        Event event2 = new Event(EventType.GOAL, player2);
-        Event event3 = new Event(EventType.GOAL_ASSIST, player1);
-        Match match = new Match("1", team1, team2, List.of(player1), List.of(player2), List.of(event1, event2, event3));
+        Match match = new Match("1", team1, team2, new HashMap<>());
+        match.addEvent(player1, EventType.YELLOW_CARD);
+        match.addEvent(player2, EventType.GOAL_ASSIST);
+        match.addEvent(player1, EventType.GOAL);
 
         LiveScoreTeamDto teamDto1 = new LiveScoreTeamDto("Test team 1");
         LiveScoreTeamDto teamDto2 = new LiveScoreTeamDto("Team 2");
@@ -145,8 +146,6 @@ public class LiveScoreFacadeTests {
 
         //Then
         assertAll(() -> assertEquals(1, fetchedMatches.size()),
-                () -> assertEquals("Firstname", fetchedMatches.get(0).getLineup1().get(0).getFirstname()),
-                () -> assertEquals("Firstname 1", fetchedMatches.get(0).getLineup2().get(0).getFirstname()),
-                () -> assertEquals(3, fetchedMatches.get(0).getEvents().size()));
+                () -> assertEquals(2, fetchedMatches.get(0).getEvents().size()));
     }
 }

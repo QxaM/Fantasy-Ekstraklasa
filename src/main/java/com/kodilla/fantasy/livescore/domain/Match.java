@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,9 @@ public class Match {
     private String matchId;
     private Team team1;
     private Team team2;
-    private List<Player> lineup1;
-    private List<Player> lineup2;
-    private Event events;
+    private Map<Player, List<EventType>> events;
+
+    public void addEvent(Player key, EventType value) {
+        events.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+    }
 }

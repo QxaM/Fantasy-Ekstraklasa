@@ -3,7 +3,6 @@ package com.kodilla.fantasy.livescore.mapper;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
-import com.kodilla.fantasy.livescore.domain.Event;
 import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
@@ -36,9 +35,7 @@ public class LiveScoreMapper {
                 matchDto.getMatchId(),
                 team1,
                 team2,
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new Event(new HashMap<>())
+                new HashMap<>()
         );
     }
 
@@ -74,14 +71,14 @@ public class LiveScoreMapper {
         Player player = new Player();
 
         try {
-            player = findPlayer(match.getEvents().getEventMap().keySet(),
+            player = findPlayer(match.getEvents().keySet(),
                                 eventDto.getPlayerName());
         } catch (CouldNotMapElement e) {
             log.error(e.getMessage());
         }
         EventType eventType = eventValidator.validateEvent(eventDto.getEvent());
 
-        match.getEvents().addToMap(player, eventType);
+        match.addEvent(player, eventType);
     }
 
     private Team findTeam(String name) throws CouldNotMapElement {
@@ -110,7 +107,7 @@ public class LiveScoreMapper {
                                                         player.getLastName(),
                                                         teamId);
 
-                match.getEvents().addToMap(foundPlayer, EventType.LINEUP);
+                match.addEvent(foundPlayer, EventType.LINEUP);
             } catch (ElementNotFoundException e) {
                 log.error(e.getMessage());
             }

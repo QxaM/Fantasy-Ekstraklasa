@@ -11,6 +11,7 @@ public class PlayerDecoratorFactory {
             case GOAL_ASSIST -> new AssistPoints(playerValues);
             case YELLOW_CARD -> new YellowCardPoints(playerValues);
             case RED_CARD -> new RedCardPoints(playerValues);
+            case LINEUP -> new LineupPoints(playerValues);
             case UNKNOWN_EVENT -> new DefaultPlayerDecorator();
         };
     }
