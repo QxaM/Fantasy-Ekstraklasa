@@ -38,8 +38,8 @@ public class Player {
     private Team team;
     @ManyToMany(mappedBy = "players")
     private List<Squad> squads;
-    @Column
-    private int points;
+    @Column(name = "POINTS")
+    private int points = 0;
 
     public Player(Long id, Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
         this.id = id;

@@ -28,9 +28,9 @@ public class LiveScoreMapper {
     private final PlayerDbService playerDbService;
     private final EventTypeValidator eventValidator;
 
-    public Match mapToMatch(MatchDto matchDto) throws CouldNotMapElement {
-        Team team1 = findTeam(matchDto.getTeam1().getName());
-        Team team2 = findTeam(matchDto.getTeam2().getName());
+    public Match mapToMatch(MatchDto matchDto, List<Team> teams) throws CouldNotMapElement {
+        Team team1 = findTeam(matchDto.getTeam1().getName(), teams);
+        Team team2 = findTeam(matchDto.getTeam2().getName(), teams);
         return new Match(
                 matchDto.getMatchId(),
                 team1,
@@ -40,9 +40,10 @@ public class LiveScoreMapper {
     }
 
     public List<Match> mapToMatchList(GetMatchesDto matchDtoList) throws CouldNotMapElement {
+        List<Team> teams = teamDbService.getTeams();
         List<Match> matches = new ArrayList<>();
         for(MatchDto matchDto: matchDtoList.getMatches()) {
-            Match match = mapToMatch(matchDto);
+            Match match = mapToMatch(matchDto, teams);
             matches.add(match);
         }
         return matches;
@@ -58,7 +59,7 @@ public class LiveScoreMapper {
 
     public void mapEvents(Match match, GetEventsDto eventsDto) {
         for(EventDataDto eventDto: eventsDto.getEvents()) {
-            if(eventDto.getEvents().isEmpty()) {
+            if(eventDto.getEvents() == null) {
                 addEvent(match, eventDto);
             } else {
                 eventDto.getEvents()
@@ -81,11 +82,9 @@ public class LiveScoreMapper {
         match.addEvent(player, eventType);
     }
 
-    private Team findTeam(String name) throws CouldNotMapElement {
-        List<Team> teams = teamDbService.getTeams();
-
+    private Team findTeam(String name, List<Team> teams) throws CouldNotMapElement {
         return teams.stream()
-                .filter(team -> name.contains(team.getName()))
+                .filter(team -> name.contains(team.getName()) || team.getName().contains(name))
                 .findFirst()
                     .orElseThrow(() -> new CouldNotMapElement("Couldn't map team " + name));
     }

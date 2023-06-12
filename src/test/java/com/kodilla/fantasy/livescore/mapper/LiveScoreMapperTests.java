@@ -46,13 +46,12 @@ public class LiveScoreMapperTests {
 
         Team team1 = new Team(1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L, "Team 2", "TE2", new ArrayList<>());
-
-        when(teamDbService.getTeams()).thenReturn(List.of(team1, team2));
+        List<Team> teams = List.of(team1, team2);
 
         //When
         Match mappedMatch = new Match();
         try {
-            mappedMatch = liveScoreMapper.mapToMatch(matchDto);
+            mappedMatch = liveScoreMapper.mapToMatch(matchDto, teams);
         } catch (CouldNotMapElement e) {}
 
         //Then
@@ -70,11 +69,10 @@ public class LiveScoreMapperTests {
 
         Team team1 = new Team(1L, "Different", "TET", new ArrayList<>());
         Team team2 = new Team(2L, "Team 2", "TE2", new ArrayList<>());
-
-        when(teamDbService.getTeams()).thenReturn(List.of(team1, team2));
+        List<Team> teams = List.of(team1, team2);
 
         //When + Then
-        assertThrows(CouldNotMapElement.class, () -> liveScoreMapper.mapToMatch(matchDto));
+        assertThrows(CouldNotMapElement.class, () -> liveScoreMapper.mapToMatch(matchDto, teams));
     }
 
     @Test

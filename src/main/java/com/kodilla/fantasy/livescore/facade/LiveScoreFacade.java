@@ -47,7 +47,7 @@ public class LiveScoreFacade {
     public List<Match> findMatches(int round) throws CouldNotMapElement {
         GetMatchesDto fetchedMatches = client.fetchMatches(round);
         try{
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
@@ -57,7 +57,7 @@ public class LiveScoreFacade {
     public void addLineup(Match match) throws NoResponseException {
         GetLineupsDto fetchedLineups = client.fetchLineups(match.getMatchId());
         try{
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
@@ -67,7 +67,7 @@ public class LiveScoreFacade {
     public void addEvents(Match match) {
         GetEventsDto fetchedEvents = client.fetchEvents(match.getMatchId());
         try{
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
