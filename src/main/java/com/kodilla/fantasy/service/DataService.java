@@ -35,10 +35,16 @@ public class DataService {
         playerDbService.initPlayers(playerList);
     }
 
-    public void addScores() {
-        List<Match> matches = liveScoreFacade.fetchMatches(1);
+    public void addScores(int round) {
+        List<Match> matches = liveScoreFacade.fetchMatches(round);
 
-        List<Player> players = matches.stream()
+        List<Player> players = fetchPlayerScores(matches);
+
+        playerDbService.saveAllPlayers(players);
+    }
+
+    public List<Player> fetchPlayerScores(List<Match> matches) {
+        return matches.stream()
                 .map(Match::getEvents)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
@@ -52,7 +58,5 @@ public class DataService {
                     return player;
                 })
                 .toList();
-
-        playerDbService.saveAllPlayers(players);
     }
 }
