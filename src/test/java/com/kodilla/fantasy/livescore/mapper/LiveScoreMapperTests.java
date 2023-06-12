@@ -143,7 +143,7 @@ public class LiveScoreMapperTests {
         match.addEvent(player2, EventType.LINEUP);
 
         GetEventsDto getEventsDto = new GetEventsDto(new ArrayList<>());
-        EventDataDto eventDto1 = new EventDataDto("YELLOW_CARD", "Firstname Lastname", 1, new ArrayList<>());
+        EventDataDto eventDto1 = new EventDataDto("YELLOW_CARD", "Firstname Lastname", 1, null);
         EventDto eventDto2 = new EventDto("GOAL", "Firstname Lastname", 1);
         EventDto eventDto3 = new EventDto("GOAL_ASSIST", "Firstname 1 Lastname 1", 2);
         EventDataDto eventDto4 = new EventDataDto(null, null, 0, List.of(eventDto2, eventDto3));

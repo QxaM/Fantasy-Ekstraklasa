@@ -4,10 +4,7 @@ import com.kodilla.fantasy.service.DataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("service")
@@ -28,9 +25,9 @@ public class ServiceController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("getScores")
-    public ResponseEntity<Void> getScores() {
-        dataInitializer.addScores(1);
+    @PutMapping("getScores/{roundId}")
+    public ResponseEntity<Void> getScores(@PathVariable Integer roundId) {
+        dataInitializer.addScores(roundId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

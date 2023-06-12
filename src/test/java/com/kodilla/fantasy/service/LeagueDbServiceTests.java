@@ -101,7 +101,7 @@ public class LeagueDbServiceTests {
     @Test
     void shouldAddUser() throws ElementNotFoundException {
         //Given
-        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad(), 0);
         League league1 = new League(2L, "League 1", new ArrayList<>());
         when(leagueRepository.findById(2L)).thenReturn(Optional.of(league1));
         when(userDbService.getUser(1L)).thenReturn(user);
@@ -126,7 +126,7 @@ public class LeagueDbServiceTests {
     @Test
     void shouldRemoveUser() throws ElementNotFoundException {
         //Given
-        User user = new User(1L, "User 1", new ArrayList<>(), new Squad());
+        User user = new User(1L, "User 1", new ArrayList<>(), new Squad(), 0);
         League league1 = new League(2L, "League 1", new ArrayList<>());
         when(leagueRepository.findById(2L)).thenReturn(Optional.of(league1));
         when(userDbService.getUser(1L)).thenReturn(user);

@@ -39,7 +39,7 @@ public class LeagueMapperTests {
         //Given
         League league = new League(1L, "Test League", new ArrayList<>());
         Squad squad = new Squad(3L, "Squad 1", BigDecimal.ONE, new HashSet<>());
-        User user = new User(2L, "User 1", new ArrayList<>(), squad);
+        User user = new User(2L, "User 1", new ArrayList<>(), squad, 0);
         league.getUsers().add(user);
 
         //Then

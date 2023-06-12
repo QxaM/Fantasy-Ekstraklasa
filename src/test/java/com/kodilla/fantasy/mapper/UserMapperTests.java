@@ -24,7 +24,7 @@ public class UserMapperTests {
     @Test
     void testMapToUser() {
         //Given
-        UserDto userDto = new UserDto(1L, "User 1", new SquadDto());
+        UserDto userDto = new UserDto(1L, "User 1", new SquadDto(), 0);
 
         //When
         User mappedUser = userMapper.mapToUser(userDto);
@@ -54,7 +54,7 @@ public class UserMapperTests {
     void testMapToUserDto() {
         //Given
         Squad squad = new Squad(2L, "Squad 1", BigDecimal.ONE, new HashSet<>());
-        User user = new User(1L, "User 1", new ArrayList<>(), squad);
+        User user = new User(1L, "User 1", new ArrayList<>(), squad, 0);
 
         //When
         UserDto mappedUserDto = userMapper.mapToUserDto(user);

@@ -43,7 +43,8 @@ public class UserController {
                 foundUser.getId(),
                 userDto.getUsername(),
                 foundUser.getLeagues(),
-                foundUser.getSquad()
+                foundUser.getSquad(),
+                foundUser.getPoints()
         );
         User savedUser = service.saveUser(userToSave);
         UserDto mappedUser = mapper.mapToUserDto(savedUser);

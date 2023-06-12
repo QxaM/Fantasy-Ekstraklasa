@@ -11,4 +11,5 @@ public class UserDto {
     private Long id;
     private String username;
     private SquadDto squad;
+    private int points;
 }

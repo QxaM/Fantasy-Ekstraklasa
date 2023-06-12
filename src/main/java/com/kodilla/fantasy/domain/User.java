@@ -36,6 +36,15 @@ public class User {
     @JoinColumn(name = "SQUAD_ID")
     @Setter
     private Squad squad = new Squad();
+    @Column(name = "POINTS")
+    private int points = 0;
+
+    @PostLoad
+    private void loadPoints() {
+        points = squad.getPlayers().stream()
+                .map(Player::getPoints)
+                .reduce(0, Integer::sum);
+    }
 
     public User(String username) {
         this.username = username;

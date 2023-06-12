@@ -33,7 +33,8 @@ public class UserMapper {
         return new UserDto(
                 user.getId(),
                 user.getUsername(),
-                squadMapper.mapToSquadDto(user.getSquad())
+                squadMapper.mapToSquadDto(user.getSquad()),
+                user.getPoints()
         );
     }
 
