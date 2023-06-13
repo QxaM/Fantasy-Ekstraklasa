@@ -23,6 +23,8 @@ public class Player {
     private Long id;
     @Column(name = "API_FOOTBALL_ID")
     private Long apiFootballId;
+    @Column(name = "NICKNAME")
+    private String name;
     @Column(name = "FIRSTNAME")
     private String firstname;
     @Column(name = "LASTNAME")
@@ -61,8 +63,9 @@ public class Player {
         this.position = position;
     }
 
-    public Player(Long apiFootballId, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
+    public Player(Long apiFootballId, String name, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
         this.apiFootballId = apiFootballId;
+        this.name = name;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;

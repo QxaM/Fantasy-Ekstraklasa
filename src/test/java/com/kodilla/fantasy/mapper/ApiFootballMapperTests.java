@@ -49,7 +49,7 @@ public class ApiFootballMapperTests {
     @Test
     void testMapToPlayer() {
         //Given
-        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
+        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test nickname", "Test name", "Test name", 21);
         ApiFootballTeamDto apiFootballTeamDto = new ApiFootballTeamDto(357L, "Test team", "TET");
         GamesDto gamesDto = new GamesDto("Goalkeeper", "6.0");
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeamDto, gamesDto);
@@ -64,6 +64,7 @@ public class ApiFootballMapperTests {
 
         //Then
         assertAll(() -> assertEquals(357L, mappedPlayer.getApiFootballId()),
+                () -> assertEquals("Test nickname", mappedPlayer.getName()),
                 () -> assertEquals("Test name", mappedPlayer.getFirstname()),
                 () -> assertEquals("Test name", mappedPlayer.getLastname()),
                 () -> assertEquals(21, mappedPlayer.getAge()),
@@ -73,7 +74,7 @@ public class ApiFootballMapperTests {
     @Test
     void testMapToPlayerWithScore() {
         //Given
-        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
+        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "name", "Test name", "Test name", 21);
         ApiFootballTeamDto apiFootballTeamDto = new ApiFootballTeamDto(357L, "Test team", "TET");
         GamesDto gamesDto = new GamesDto("Goalkeeper", "8.0");
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeamDto, gamesDto);
@@ -93,7 +94,7 @@ public class ApiFootballMapperTests {
     @Test
     void testMapToPlayerWithTeam() {
         //Given
-        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
+        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "name",  "Test name", "Test name", 21);
         ApiFootballTeamDto apiFootballTeamDto = new ApiFootballTeamDto(357L, "Test team", "TET");
         GamesDto gamesDto = new GamesDto("Goalkeeper", "8.0");
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeamDto, gamesDto);
@@ -116,7 +117,7 @@ public class ApiFootballMapperTests {
     @Test
     void testMapToPlayerWithEmptyTeam(){
         //Given
-        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
+        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "name", "Test name", "Test name", 21);
         ApiFootballTeamDto apiFootballTeamDto = new ApiFootballTeamDto(357L, "Test team", "TET");
         GamesDto gamesDto = new GamesDto("Goalkeeper", "8.0");
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeamDto, gamesDto);

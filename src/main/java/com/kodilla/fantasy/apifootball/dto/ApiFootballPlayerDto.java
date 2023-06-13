@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class ApiFootballPlayerDto {
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
+    private String name;
     @JsonProperty("firstname")
     private String firstname;
     @JsonProperty("lastname")

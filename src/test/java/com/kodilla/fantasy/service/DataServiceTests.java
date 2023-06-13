@@ -73,8 +73,8 @@ public class DataServiceTests {
     void testShouldAddScore() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player emptyPlayer1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1, new ArrayList<>(), 0);
-        Player emptyPlayer2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1, new ArrayList<>(), 0);
+        Player emptyPlayer1 = new Player(1L, 2L, "Test", "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1, new ArrayList<>(), 0);
+        Player emptyPlayer2 = new Player(2L, 3L, "Test", "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1, new ArrayList<>(), 0);
 
         Match match1 = new Match("1", team1, team1, new HashMap<>());
         match1.addEvent(emptyPlayer1, EventType.LINEUP);
@@ -96,8 +96,8 @@ public class DataServiceTests {
     void shouldFetchScores() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player emptyPlayer1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1, new ArrayList<>(), 0);
-        Player emptyPlayer2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1, new ArrayList<>(), 0);
+        Player emptyPlayer1 = new Player(1L, 2L,"Test", "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1, new ArrayList<>(), 0);
+        Player emptyPlayer2 = new Player(2L, 3L,"Test", "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1, new ArrayList<>(), 0);
 
         Match match1 = new Match("1", team1, team1, new HashMap<>());
         match1.addEvent(emptyPlayer1, EventType.LINEUP);

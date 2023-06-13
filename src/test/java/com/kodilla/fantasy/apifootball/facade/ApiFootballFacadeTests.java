@@ -80,7 +80,7 @@ public class ApiFootballFacadeTests {
         //Given
         Player player = new Player(357L, "Test name", "Test name", 21, BigDecimal.ONE, Position.GK);
 
-        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "Test name", "Test name", 21);
+        ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "name", "Test name", "Test name", 21);
         GamesDto gamesDto = new GamesDto("Goalkeeper", "6.0");
         StatisticsDto statisticsDto = new StatisticsDto(apiFootballTeam1, gamesDto);
         PlayerResponseDto playerResponseDto = new PlayerResponseDto(

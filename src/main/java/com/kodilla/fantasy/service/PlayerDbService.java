@@ -47,6 +47,7 @@ public class PlayerDbService {
         Player changedPlayer = new Player(
                 player.getId(),
                 foundPlayer.getApiFootballId(),
+                player.getName(),
                 player.getFirstname(),
                 player.getLastname(),
                 player.getAge(),

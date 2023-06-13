@@ -100,8 +100,8 @@ public class ApiFootballClientTests {
         StatisticsDto statistics1 = new StatisticsDto(team1, games1);
         StatisticsDto statistics2 = new StatisticsDto(team2, games2);
 
-        ApiFootballPlayerDto player1 = new ApiFootballPlayerDto(357L, "Test name 1", "Test name 1", 21);
-        ApiFootballPlayerDto player2 = new ApiFootballPlayerDto(358L, "Test name 2", "Test name 2", 22);
+        ApiFootballPlayerDto player1 = new ApiFootballPlayerDto(357L, "name 1", "Test name 1", "Test name 1", 21);
+        ApiFootballPlayerDto player2 = new ApiFootballPlayerDto(358L, "name 2", "Test name 2", "Test name 2", 22);
         PlayerResponseDto response1 = new PlayerResponseDto(player1, List.of(statistics1));
         PlayerResponseDto response2 = new PlayerResponseDto(player2, List.of(statistics2));
         PagingDto pagingDto = new PagingDto(2, 37);

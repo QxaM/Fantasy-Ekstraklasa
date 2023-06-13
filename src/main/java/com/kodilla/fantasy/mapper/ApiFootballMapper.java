@@ -41,6 +41,7 @@ public class ApiFootballMapper {
 
         return new Player(
                 playerResponseDto.getPlayer().getId(),
+                StringUtils.stripAccents(playerResponseDto.getPlayer().getName()),
                 StringUtils.stripAccents(playerResponseDto.getPlayer().getFirstname()),
                 StringUtils.stripAccents(playerResponseDto.getPlayer().getLastname()),
                 playerResponseDto.getPlayer().getAge(),
