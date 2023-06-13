@@ -46,7 +46,7 @@ public class ApiFootballFacade {
 
         if(apiFootballResponse.getPaging().getCurrent() < apiFootballResponse.getPaging().getTotal()) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 log.error("Waiting interrupted " + e.getMessage());
             }

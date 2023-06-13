@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class DataService {
+public class DataFetchingService {
 
     private final ApiFootballFacade apiFootballFacade;
     private final LiveScoreFacade liveScoreFacade;

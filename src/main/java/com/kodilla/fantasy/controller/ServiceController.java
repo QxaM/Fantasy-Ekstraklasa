@@ -1,6 +1,6 @@
 package com.kodilla.fantasy.controller;
 
-import com.kodilla.fantasy.service.DataService;
+import com.kodilla.fantasy.service.DataFetchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ServiceController {
 
-    private final DataService dataInitializer;
+    private final DataFetchingService dataInitializer;
 
     @PostMapping("init/players")
     public ResponseEntity<Void> initPlayers() {

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class DataServiceTests {
 
     @InjectMocks
-    private DataService dataInitializer;
+    private DataFetchingService dataInitializer;
     @Mock
     private ApiFootballFacade apiFootballFacade;
     @Mock

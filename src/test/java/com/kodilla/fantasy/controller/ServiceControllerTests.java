@@ -1,6 +1,6 @@
 package com.kodilla.fantasy.controller;
 
-import com.kodilla.fantasy.service.DataService;
+import com.kodilla.fantasy.service.DataFetchingService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +18,7 @@ public class ServiceControllerTests {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private DataService dataInitializer;
+    private DataFetchingService dataInitializer;
 
     @Test
     void shouldInitTeams() throws Exception {
