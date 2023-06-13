@@ -24,7 +24,7 @@ public class UserMapperTests {
     @Test
     void testMapToUser() {
         //Given
-        UserDto userDto = new UserDto(1L, "User 1", new SquadDto(), 0);
+        UserDto userDto = new UserDto(1L, "User 1", "user@test.com", new SquadDto(), 0);
 
         //When
         User mappedUser = userMapper.mapToUser(userDto);
@@ -32,6 +32,7 @@ public class UserMapperTests {
         //Then
         assertAll(() -> assertEquals(1L, mappedUser.getId()),
                 () -> assertEquals("User 1", mappedUser.getUsername()),
+                () -> assertEquals("user@test.com", mappedUser.getEmail()),
                 () -> assertNotNull(mappedUser.getSquad()),
                 () -> assertNotNull(mappedUser.getLeagues()));
     }
@@ -54,7 +55,7 @@ public class UserMapperTests {
     void testMapToUserDto() {
         //Given
         Squad squad = new Squad(2L, "Squad 1", BigDecimal.ONE, new HashSet<>());
-        User user = new User(1L, "User 1", new ArrayList<>(), squad, 0);
+        User user = new User(1L, "User 1", "user@test.com", new ArrayList<>(), squad, 0);
 
         //When
         UserDto mappedUserDto = userMapper.mapToUserDto(user);
@@ -62,6 +63,7 @@ public class UserMapperTests {
         //Then
         assertAll(() -> assertEquals(1L, mappedUserDto.getId()),
                 () -> assertEquals("User 1", mappedUserDto.getUsername()),
+                () -> assertEquals("user@test.com", mappedUserDto.getEmail()),
                 () -> assertEquals(2L, mappedUserDto.getSquad().getId()),
                 () -> assertEquals("Squad 1", mappedUserDto.getSquad().getName()),
                 () -> assertEquals(BigDecimal.ONE, mappedUserDto.getSquad().getCurrentValue()));

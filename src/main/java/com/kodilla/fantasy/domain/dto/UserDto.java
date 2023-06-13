@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private Long id;
     private String username;
+    private String email;
     private SquadDto squad;
     private int points;
 }

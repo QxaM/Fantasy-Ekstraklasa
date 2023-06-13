@@ -23,6 +23,8 @@ public class User {
     private Long id;
     @Column(name = "USERNAME")
     private String username;
+    @Column(name = "EMAIL")
+    private String email;
     @ManyToMany
     @JoinTable(
             name = "JOIN_LEAGUE_USER",
@@ -50,9 +52,10 @@ public class User {
         this.username = username;
     }
 
-    public User(Long id, String username) {
+    public User(Long id, String username, String email) {
         this.id = id;
         this.username = username;
+        this.email = email;
     }
 
     public User(String username, List<League> leagues, Squad squad) {

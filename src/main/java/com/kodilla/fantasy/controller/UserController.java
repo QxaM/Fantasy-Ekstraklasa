@@ -42,6 +42,7 @@ public class UserController {
         User userToSave = new User(
                 foundUser.getId(),
                 userDto.getUsername(),
+                userDto.getEmail(),
                 foundUser.getLeagues(),
                 foundUser.getSquad(),
                 foundUser.getPoints()

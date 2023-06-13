@@ -47,8 +47,8 @@ public class UserControllerTests {
 
     @BeforeEach
     void createUser() {
-        user = new User(1L, "User 1", new ArrayList<>(), new Squad(), 0);
-        userDto = new UserDto(1L, "User 1", new SquadDto(), 0);
+        user = new User(1L, "User 1","user@test.com", new ArrayList<>(), new Squad(), 0);
+        userDto = new UserDto(1L, "User 1","user@test.com", new SquadDto(), 0);
     }
 
     @Test
@@ -90,13 +90,13 @@ public class UserControllerTests {
     @Test
     void shouldUpdateUser() throws Exception {
         //Given
-        User newUser = new User(1L, "User 2", new ArrayList<>(), new Squad(), 0);
-        UserDto newUserDto = new UserDto(1L, "User 2", new SquadDto(), 0);
+        User newUser = new User(1L, "User 2", "user@test.com", new ArrayList<>(), new Squad(), 0);
+        UserDto newUserDto = new UserDto(1L, "User 2", "user@test.com", new SquadDto(), 0);
         when(userDbService.getUser(1L)).thenReturn(user);
         when(userDbService.saveUser(any(User.class))).thenReturn(newUser);
         when(userMapper.mapToUserDto(newUser)).thenReturn(newUserDto);
 
-        UserDto sentUser = new UserDto(1L, "User 2", new SquadDto(), 0);
+        UserDto sentUser = new UserDto(1L, "User 2", "user@test.com", new SquadDto(), 0);
         Gson gson = new Gson();
         String jsonContent = gson.toJson(sentUser);
 

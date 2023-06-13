@@ -19,7 +19,8 @@ public class UserMapper {
     public User mapToUser(UserDto userDto) {
         return new User(
                 userDto.getId(),
-                userDto.getUsername()
+                userDto.getUsername(),
+                userDto.getEmail()
         );
     }
 
@@ -33,6 +34,7 @@ public class UserMapper {
         return new UserDto(
                 user.getId(),
                 user.getUsername(),
+                user.getEmail(),
                 squadMapper.mapToSquadDto(user.getSquad()),
                 user.getPoints()
         );
