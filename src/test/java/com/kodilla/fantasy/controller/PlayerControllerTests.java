@@ -71,7 +71,8 @@ public class PlayerControllerTests {
                         i,
                         BigDecimal.valueOf(i),
                         Position.GK,
-                        new TeamDto()))
+                        new TeamDto(),
+                        i))
                 .toList();
     }
 
@@ -102,7 +103,7 @@ public class PlayerControllerTests {
     void shouldFetchPlayer() throws Exception {
         //Given
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
-        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
         Player player = new Player.PlayerBuilder()
@@ -140,7 +141,7 @@ public class PlayerControllerTests {
     void shouldUpdatePlayer() throws Exception {
         //Given
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
-        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
         Player player = new Player.PlayerBuilder()

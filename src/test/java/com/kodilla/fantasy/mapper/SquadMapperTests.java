@@ -30,7 +30,7 @@ public class SquadMapperTests {
         //Given
         SquadDto squadDto = new SquadDto(1L, "Squad 1", BigDecimal.valueOf(30000000), new ArrayList<>());
         TeamDto teamDto1 = new TeamDto(1L, "Test", "TET");
-        PlayerDto playerDto1 = new PlayerDto(1L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, teamDto1);
+        PlayerDto playerDto1 = new PlayerDto(1L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, teamDto1, 1);
         squadDto.getPlayers().add(playerDto1);
 
         //When

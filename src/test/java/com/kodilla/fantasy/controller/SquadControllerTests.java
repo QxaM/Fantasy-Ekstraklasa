@@ -66,7 +66,7 @@ public class SquadControllerTests {
     void buildSquadDto() {
         squadDto = new SquadDto(1L, "Squad 1", BigDecimal.ONE, new ArrayList<>());
         TeamDto teamDto = new TeamDto(2L, "Test", "TET");
-        PlayerDto playerDto = new PlayerDto(3L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto = new PlayerDto(3L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
         squadDto.getPlayers().add(playerDto);
     }
 
@@ -108,7 +108,7 @@ public class SquadControllerTests {
 
         SquadDto newSquadDto = new SquadDto(1L, "Squad updated", BigDecimal.ZERO, new ArrayList<>());
         TeamDto teamDto = new TeamDto(2L, "Test", "TET");
-        PlayerDto playerDto = new PlayerDto(3L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto = new PlayerDto(3L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
         newSquadDto.getPlayers().add(playerDto);
 
         when(squadDbService.getSquad(1L)).thenReturn(squad);

@@ -18,4 +18,5 @@ public class PlayerDto {
     private BigDecimal value;
     private Position position;
     private TeamDto team;
+    private int points;
 }

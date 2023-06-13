@@ -55,7 +55,7 @@ public class PlayerMapperTests {
     void testMapToPlayer() {
         //Given
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
-        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
         Player player = new Player.PlayerBuilder()
@@ -89,8 +89,8 @@ public class PlayerMapperTests {
     void testMapToPlayerSet() {
         //Given
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
-        PlayerDto playerDto1 = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
-        PlayerDto playerDto2 = new PlayerDto(5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
+        PlayerDto playerDto1 = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
+        PlayerDto playerDto2 = new PlayerDto(5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
         Player player = new Player.PlayerBuilder()

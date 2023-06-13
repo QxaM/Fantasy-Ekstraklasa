@@ -47,7 +47,8 @@ public class PlayerMapper {
                 player.getAge(),
                 player.getValue(),
                 player.getPosition(),
-                teamMapper.mapToTeamDto(player.getTeam())
+                teamMapper.mapToTeamDto(player.getTeam()),
+                player.getPoints()
         );
     }
 
