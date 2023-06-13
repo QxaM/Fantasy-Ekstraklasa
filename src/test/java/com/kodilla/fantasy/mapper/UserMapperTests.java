@@ -40,7 +40,7 @@ public class UserMapperTests {
     @Test
     void testMapToUser_CreatedUser() {
         //Given
-        CreateUserDto createUserDto = new CreateUserDto("User 1");
+        CreateUserDto createUserDto = new CreateUserDto("User 1", "user@test.com");
 
         //When
         User mappedUser = userMapper.mapToUser(createUserDto);

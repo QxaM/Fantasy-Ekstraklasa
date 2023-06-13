@@ -73,7 +73,7 @@ public class UserControllerTests {
         when(userDbService.saveUser(any(User.class))).thenReturn(user);
         when(userMapper.mapToUserDto(user)).thenReturn(userDto);
 
-        CreateUserDto createUserDto = new CreateUserDto("User 1");
+        CreateUserDto createUserDto = new CreateUserDto("User 1", "user@test.com");
         Gson gson = new Gson();
         String jsonContent = gson.toJson(createUserDto);
 

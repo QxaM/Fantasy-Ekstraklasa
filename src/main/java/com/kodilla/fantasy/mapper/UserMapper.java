@@ -26,7 +26,8 @@ public class UserMapper {
 
     public User mapToUser(CreateUserDto createUserDto) {
         return new User(
-                createUserDto.getUsername()
+                createUserDto.getUsername(),
+                createUserDto.getEmail()
         );
     }
 
