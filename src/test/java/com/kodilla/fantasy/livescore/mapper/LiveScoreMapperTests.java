@@ -99,7 +99,7 @@ public class LiveScoreMapperTests {
     }
 
     @Test
-    void shouldMapLineup() throws ElementNotFoundException {
+    void shouldMapLineup() {
         //Given
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
@@ -115,14 +115,8 @@ public class LiveScoreMapperTests {
         Player player1 = new Player(3L, 3L, "name", "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
         Player player2 = new Player(3L, 3L, "name 1", "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
 
-        when(playerDbService.getPlayerByFirstnameAndLastnameAndTeamId(
-                "Firstname",
-                "Lastname",
-                1L)).thenReturn(player1);
-        when(playerDbService.getPlayerByFirstnameAndLastnameAndTeamId(
-                "Firstname 1",
-                "Lastname 1",
-                2L)).thenReturn(player2);
+        when(playerDbService.getPlayerByTeamId(1L)).thenReturn(List.of(player1, player2));
+        when(playerDbService.getPlayerByTeamId(2L)).thenReturn(List.of(player2, player1));
 
         //When
         liveScoreMapper.mapLineup(match, getLineupsDto);
@@ -137,7 +131,12 @@ public class LiveScoreMapperTests {
         Team team1 = new Team(1L, 1L, "Test", "TET", new ArrayList<>());
         Team team2 = new Team(2L,2L, "Team 2", "TE2", new ArrayList<>());
         Player player1 = new Player(3L, 3L, "name", "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
-        Player player2 = new Player(3L, 3L, "name 1", "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
+        Player player2 = new Player(3L, 3L, "name1", "First", "Last", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
+        Player player3 = new Player(4L, 4L, "name2", "Name", "Eman", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
+        Player player4 = new Player(3L, 3L, "name3", "Test", "Test", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
+        team1.getPlayers().addAll(List.of(player1, player3));
+        team2.getPlayers().addAll(List.of(player2, player4));
+
         Match match = new Match("1", team1, team2, new HashMap<>());
         match.addEvent(player1, EventType.LINEUP);
         match.addEvent(player2, EventType.LINEUP);
@@ -145,10 +144,13 @@ public class LiveScoreMapperTests {
         GetEventsDto getEventsDto = new GetEventsDto(new ArrayList<>());
         EventDataDto eventDto1 = new EventDataDto("YELLOW_CARD", "Firstname Lastname", 1, null);
         EventDto eventDto2 = new EventDto("GOAL", "Firstname Lastname", 1);
-        EventDto eventDto3 = new EventDto("GOAL_ASSIST", "Firstname 1 Lastname 1", 2);
+        EventDto eventDto3 = new EventDto("GOAL_ASSIST", "name1", 2);
         EventDataDto eventDto4 = new EventDataDto(null, null, 0, List.of(eventDto2, eventDto3));
 
         getEventsDto.getEvents().addAll(List.of(eventDto1, eventDto4));
+        when(eventValidator.validateEvent("YELLOW_CARD")).thenReturn(EventType.YELLOW_CARD);
+        when(eventValidator.validateEvent("GOAL")).thenReturn(EventType.GOAL);
+        when(eventValidator.validateEvent("GOAL_ASSIST")).thenReturn(EventType.GOAL_ASSIST);
 
         //When
         liveScoreMapper.mapEvents(match, getEventsDto);

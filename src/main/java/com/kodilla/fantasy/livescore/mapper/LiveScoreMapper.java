@@ -2,7 +2,6 @@ package com.kodilla.fantasy.livescore.mapper;
 
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Team;
-import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
@@ -14,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -69,17 +65,28 @@ public class LiveScoreMapper {
     }
 
     private void addEvent(Match match, EventDto eventDto) {
-        Player player = new Player();
+        Optional<Player> player;
 
-        try {
-            player = findPlayer(match.getEvents().keySet(),
-                                eventDto.getPlayerName());
-        } catch (CouldNotMapElement e) {
-            log.error(e.getMessage());
+        List<String> names = List.of(eventDto.getPlayerName().split(" "));
+        List<Player> players;
+
+        if(eventDto.getTeam() == 1) {
+            players = match.getTeam1().getPlayers();
+        } else {
+            players = match.getTeam2().getPlayers();
         }
-        EventType eventType = eventValidator.validateEvent(eventDto.getEvent());
 
-        match.addEvent(player, eventType);
+        if(names.size() == 1) {
+            player = findPlayer(players, null, names.get(0));
+        } else {
+            player = findPlayer(players, names.get(0), names.get(1));
+        }
+        if(player.isPresent()) {
+            EventType eventType = eventValidator.validateEvent(eventDto.getEvent());
+            match.addEvent(player.get(), eventType);
+        } else {
+            log.error("Could not map player: " + eventDto.getPlayerName());
+        }
     }
 
     private Team findTeam(String name, List<Team> teams) throws CouldNotMapElement {
@@ -89,26 +96,34 @@ public class LiveScoreMapper {
                     .orElseThrow(() -> new CouldNotMapElement("Couldn't map team " + name));
     }
 
-    private Player findPlayer(Set<Player> players, String name) throws CouldNotMapElement {
-        return players.stream()
-                .filter(player -> {
-                    String playerName = player.getFirstname() + " " + player.getLastname();
-                    return playerName.equals(name);
-                })
-                .findFirst().orElseThrow(() -> new CouldNotMapElement("Couldn't map player " + name));
+    private Optional<Player> findPlayer(Collection<Player> players, String firstName, String lastName) {
+        Optional<Player> foundPlayer;
+        if(firstName != null) {
+            foundPlayer = players.stream()
+                    .filter(actualPlayer ->
+                            actualPlayer.getFirstname().contains(firstName)
+                                    && actualPlayer.getLastname().contains(lastName))
+                    .findFirst();
+        } else {
+            foundPlayer = players.stream().
+                    filter(actualPlayer ->
+                            actualPlayer.getName().contains(lastName))
+                    .findFirst();
+        }
+        return foundPlayer;
     }
 
     private void populateLineup(Match match, List<LiveScorePlayerDto> players, Long teamId) {
-        for(LiveScorePlayerDto player: players) {
-            try {
-                Player foundPlayer = playerDbService
-                        .getPlayerByFirstnameAndLastnameAndTeamId(player.getFirstName(),
-                                                        player.getLastName(),
-                                                        teamId);
+        List<Player> foundPlayers = playerDbService.getPlayerByTeamId(teamId);
 
-                match.addEvent(foundPlayer, EventType.LINEUP);
-            } catch (ElementNotFoundException e) {
-                log.error(e.getMessage());
+        for(LiveScorePlayerDto player: players) {
+
+            Optional<Player> foundPlayer = findPlayer(foundPlayers, player.getFirstName(), player.getLastName());
+
+            if(foundPlayer.isPresent()) {
+                match.addEvent(foundPlayer.get(), EventType.LINEUP);
+            } else {
+                log.error("Could not map player: " + player.getFirstName() + " " + player.getLastName());
             }
         }
     }
