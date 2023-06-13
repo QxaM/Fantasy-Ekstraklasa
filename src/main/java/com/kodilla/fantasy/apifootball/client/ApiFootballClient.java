@@ -57,10 +57,17 @@ public class ApiFootballClient {
                     headersEntity,
                     GetPlayersDto.class);
             log.info("Finished fetching players at page " + paging);
+            if(Optional.ofNullable(response.getBody()).isPresent()) {
+                return response.getBody();
+            } else {
+                log.error("Response with empty body");
+            }
             return Optional.ofNullable(response.getBody())
                     .orElse(new GetPlayersDto(
                                 new PagingDto(paging, paging),
                                 Collections.emptyList()));
+
+
         } catch (RestClientException e) {
             log.error("Error fetching players at page: " + paging + " " + e.getMessage());
             return new GetPlayersDto(
