@@ -35,14 +35,15 @@ public class PlayerDbServiceTests {
 
     private Page<Player> createPlayersPage() {
         List<Player> players = IntStream.range(0, 20)
-                .mapToObj((i) -> new Player(
-                        Integer.toUnsignedLong(i),
-                        Integer.toUnsignedLong(i),
-                        "Test" + i,
-                        "Test" + i, i,
-                        BigDecimal.valueOf(i),
-                        Position.GK,
-                        new Team()))
+                .mapToObj((i) -> new Player.PlayerBuilder()
+                        .apiFootballId(Integer.toUnsignedLong(i))
+                        .firstname("Test" + i)
+                        .lastname("Test" + i)
+                        .age(i)
+                        .value(BigDecimal.valueOf(i))
+                        .position(Position.GK)
+                        .team(new Team())
+                        .build())
                 .toList();
         return new PageImpl<>(players);
     }
@@ -51,8 +52,24 @@ public class PlayerDbServiceTests {
     void shouldInitPlayers() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
-        Player player2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(22)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
         team1.getPlayers().add(player2);
 
@@ -76,14 +93,23 @@ public class PlayerDbServiceTests {
 
         //When
         assertAll(() -> assertEquals(20L, foundPlayers.getNumberOfElements()),
-                () -> assertEquals(19, players.getContent().get(19).getId()));
+                () -> assertEquals(19, players.getContent().get(19).getAge()));
     }
 
     @Test
     void shouldGetPlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        player1.setId(1L);
         team1.getPlayers().add(player1);
         when(playerRepository.findById(1L)).thenReturn(Optional.of(player1));
 
@@ -111,9 +137,26 @@ public class PlayerDbServiceTests {
     void shouldUpdatePlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
-        team1.getPlayers().add(player1);
-        Player changedPlayer = new Player(1L, 2L, "Test changed", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        Player changedPlayer = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test changed")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        player1.setId(1L);
+        changedPlayer.setId(1L);
         when(playerRepository.findById(1L)).thenReturn(Optional.of(player1));
         when(playerRepository.save(any(Player.class))).thenReturn(changedPlayer);
 

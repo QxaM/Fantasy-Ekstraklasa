@@ -76,9 +76,15 @@ public class ApiFootballFacadeTests {
     }
 
     @Test
-    void testShouldFetchPlayers() throws ElementNotFoundException {
+    void testShouldFetchPlayers() {
         //Given
-        Player player = new Player(357L, "Test name", "Test name", 21, BigDecimal.ONE, Position.GK);
+        Player player = new Player.PlayerBuilder()
+                .firstname("Test name")
+                .lastname("Test name")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.GK)
+                .build();
 
         ApiFootballPlayerDto playerDto = new ApiFootballPlayerDto(357L, "name", "Test name", "Test name", 21);
         GamesDto gamesDto = new GamesDto("Goalkeeper", "6.0");

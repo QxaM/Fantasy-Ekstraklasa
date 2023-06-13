@@ -109,8 +109,27 @@ public class TeamRepositoryTests {
     void testSaveTeam_PlayersShouldNotBeSaved() {
         //Given
         Team team = new Team(2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team);
-        Player player2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(22)
+                .value(BigDecimal.TEN)
+                .position(Position.ST)
+                .team(team)
+                .build();
+
+        player1.setId(1L);
+        player2.setId(2L);
         team.getPlayers().add(player1);
         team.getPlayers().add(player2);
 
@@ -136,8 +155,24 @@ public class TeamRepositoryTests {
     void testTeamDelete_PlayersShouldDelete() {
         //Given
         Team team = new Team(2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team);
-        Player player2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(22)
+                .value(BigDecimal.TEN)
+                .position(Position.ST)
+                .team(team)
+                .build();
         team.getPlayers().add(player1);
         team.getPlayers().add(player2);
         repository.save(team);

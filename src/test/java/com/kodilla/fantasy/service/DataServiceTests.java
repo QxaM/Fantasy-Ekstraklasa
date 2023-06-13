@@ -55,8 +55,24 @@ public class DataServiceTests {
     void testShouldInitPlayers() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
-        Player player2 = new Player(2L, 3L, "Test2", "Test2", 22, BigDecimal.TEN, Position.GK, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(22)
+                .value(BigDecimal.TEN)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
         team1.getPlayers().add(player2);
         List<Player> players = List.of(player1, player2);

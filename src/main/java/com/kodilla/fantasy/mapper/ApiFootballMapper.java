@@ -39,15 +39,23 @@ public class ApiFootballMapper {
                                                     .getTeam().getId();
         Team foundTeam = teamDbService.getTeamByApiFootballId(teamApiFootballId);
 
-        return new Player(
-                playerResponseDto.getPlayer().getId(),
-                StringUtils.stripAccents(playerResponseDto.getPlayer().getName()),
-                StringUtils.stripAccents(playerResponseDto.getPlayer().getFirstname()),
-                StringUtils.stripAccents(playerResponseDto.getPlayer().getLastname()),
-                playerResponseDto.getPlayer().getAge(),
-                playerValue.getValue(),
-                validator.validatePosition(playerResponseDto.getStatistics().get(0).getGames().getPosition()),
-                foundTeam
-        );
+        return new Player.PlayerBuilder()
+                .apiFootballId(playerResponseDto
+                        .getPlayer().getId())
+                .name(StringUtils.stripAccents(playerResponseDto
+                        .getPlayer().getName()))
+                .firstname(StringUtils.stripAccents(playerResponseDto
+                        .getPlayer().getFirstname()))
+                .lastname(StringUtils.stripAccents(playerResponseDto
+                        .getPlayer().getLastname()))
+                .age(playerResponseDto
+                        .getPlayer().getAge())
+                .value(playerValue
+                        .getValue())
+                .position(validator.validatePosition(playerResponseDto
+                        .getStatistics().get(0)
+                        .getGames().getPosition()))
+                .team(foundTeam)
+                .build();
     }
 }

@@ -35,14 +35,15 @@ public class PlayerMapperTests {
 
     private Page<Player> createPlayersPage() {
         List<Player> players = IntStream.range(0, 20)
-                .mapToObj((i) -> new Player(
-                        Integer.toUnsignedLong(i),
-                        Integer.toUnsignedLong(i),
-                        "Test" + i,
-                        "Test" + i, i,
-                        BigDecimal.valueOf(i),
-                        Position.GK,
-                        new Team()))
+                .mapToObj((i) -> new Player.PlayerBuilder()
+                        .apiFootballId(Integer.toUnsignedLong(i))
+                        .firstname("Test" + i)
+                        .lastname("Test" + i)
+                        .age(21)
+                        .value(BigDecimal.valueOf(i))
+                        .position(Position.GK)
+                        .team(new Team())
+                        .build())
                 .toList();
 
         Pageable pageable = PageRequest.of(0, 9);
@@ -57,7 +58,16 @@ public class PlayerMapperTests {
         PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player(4L, 6L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, team);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(6L)
+                .firstname("Test firstname")
+                .lastname("Test lastname")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        player.setId(4L);
         team.getPlayers().add(player);
         when(teamMapper.mapToTeam(teamDto)).thenReturn(team);
 
@@ -83,7 +93,16 @@ public class PlayerMapperTests {
         PlayerDto playerDto2 = new PlayerDto(5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player(4L, 6L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, team);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(6L)
+                .firstname("Test firstname")
+                .lastname("Test lastname")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        player.setId(4L);
         team.getPlayers().add(player);
         when(teamMapper.mapToTeam(teamDto)).thenReturn(team);
 
@@ -100,7 +119,16 @@ public class PlayerMapperTests {
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player(4L, 6L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, team);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(6L)
+                .firstname("Test firstname")
+                .lastname("Test lastname")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        player.setId(4L);
         team.getPlayers().add(player);
         when(teamMapper.mapToTeamDto(team)).thenReturn(teamDto);
 
@@ -124,9 +152,36 @@ public class PlayerMapperTests {
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(4L, 6L, "Test firstname 1", "Test lastname 1", 21, BigDecimal.ONE, Position.ST, team);
-        Player player2 = new Player(5L, 7L, "Test firstname 2", "Test lastname 2", 22, BigDecimal.valueOf(2), Position.MID, team);
-        Player player3 = new Player(6L, 8L, "Test firstname 3", "Test lastname 3", 23, BigDecimal.valueOf(3), Position.GK, team);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(6L)
+                .firstname("Test firstname")
+                .lastname("Test lastname")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(7L)
+                .firstname("Test firstname 2")
+                .lastname("Test lastname 2")
+                .age(22)
+                .value(BigDecimal.valueOf(2))
+                .position(Position.MID)
+                .team(team)
+                .build();
+        Player player3 = new Player.PlayerBuilder()
+                .apiFootballId(8L)
+                .firstname("Test firstname 3")
+                .lastname("Test lastname 3")
+                .age(23)
+                .value(BigDecimal.valueOf(3))
+                .position(Position.GK)
+                .team(team)
+                .build();
+        player1.setId(4L);
+        player2.setId(5L);
+        player3.setId(6L);
         team.getPlayers().add(player1);
         team.getPlayers().add(player2);
         team.getPlayers().add(player3);

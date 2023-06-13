@@ -99,7 +99,15 @@ public class SquadDbServiceTests {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         Squad squadWithPlayer = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
@@ -135,7 +143,15 @@ public class SquadDbServiceTests {
         Set<Player> players = buildFullSquad();
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, players);
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
@@ -150,7 +166,15 @@ public class SquadDbServiceTests {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
@@ -165,7 +189,15 @@ public class SquadDbServiceTests {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
         squad.getPlayers().add(player1);
 
@@ -192,7 +224,15 @@ public class SquadDbServiceTests {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
         squad.getPlayers().add(player1);
 

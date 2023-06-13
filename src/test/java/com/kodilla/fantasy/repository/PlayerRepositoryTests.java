@@ -27,7 +27,14 @@ public class PlayerRepositoryTests {
     @Test
     void testSave() {
         //Given
-        Player player = new Player(2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
 
         //When
         repository.save(player);
@@ -45,7 +52,14 @@ public class PlayerRepositoryTests {
     @Test
     void testPlayerGetById() {
         //Given
-        Player player = new Player(2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
         repository.save(player);
 
         //When
@@ -63,8 +77,22 @@ public class PlayerRepositoryTests {
     @Test
     void testGetAllPlayers() {
         //Given
-        Player player1 = new Player(2L, "Test1", "Test1", 21, BigDecimal.ONE, Position.ST);
-        Player player2 = new Player(3L, "Test2", "Test2", 21, BigDecimal.ONE, Position.ST);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
         repository.save(player1);
         repository.save(player2);
         Pageable firstPageWithOneElement = PageRequest.of(0, 1);
@@ -89,7 +117,14 @@ public class PlayerRepositoryTests {
     @Test
     void testDeletePlayerById() {
         //Given
-        Player player = new Player(2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST);
+        Player player = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
         repository.save(player);
         long id = player.getId();
 

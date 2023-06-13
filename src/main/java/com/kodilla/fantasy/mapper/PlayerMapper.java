@@ -20,16 +20,17 @@ public class PlayerMapper {
     private final TeamMapper teamMapper;
 
     public Player mapToPlayer(PlayerDto playerDto) {
-        return new Player(
-                playerDto.getId(),
-                0L,
-                playerDto.getFirstname(),
-                playerDto.getLastname(),
-                playerDto.getAge(),
-                playerDto.getValue(),
-                playerDto.getPosition(),
-                teamMapper.mapToTeam(playerDto.getTeam())
-        );
+        Player player = new Player.PlayerBuilder()
+                .firstname(playerDto.getFirstname())
+                .lastname(playerDto.getLastname())
+                .age(playerDto.getAge())
+                .value(playerDto.getValue())
+                .position(playerDto.getPosition())
+                .team(teamMapper.mapToTeam(playerDto.getTeam()))
+                .build();
+
+        player.setId(playerDto.getId());
+        return player;
     }
 
     public Set<Player> mapToPlayerSet(List<PlayerDto> playerDtos) {

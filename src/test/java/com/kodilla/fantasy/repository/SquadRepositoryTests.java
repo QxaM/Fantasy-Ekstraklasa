@@ -87,8 +87,22 @@ public class SquadRepositoryTests {
     void shouldGetSquadWithPlayers() {
         //Given
         Squad squad = new Squad("Squad 1", new HashSet<>());
-        Player player1 = new Player(2L, "Test1", "Test1", 21, BigDecimal.ONE, Position.ST);
-        Player player2 = new Player(3L, "Test2", "Test2", 21, BigDecimal.ONE, Position.ST);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(22)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .build();
         playerRepository.save(player1);
         playerRepository.save(player2);
         Long player1Id = player1.getId();

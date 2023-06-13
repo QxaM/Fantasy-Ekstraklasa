@@ -26,7 +26,15 @@ public class SquadTests {
         //Given
         Squad squad = new Squad("Squad 1", new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         //When + Then
@@ -42,7 +50,15 @@ public class SquadTests {
         Squad squad = new Squad("Squad 1", players);
 
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         //When + Then
@@ -55,7 +71,15 @@ public class SquadTests {
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
 
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
 
         //When + Then
@@ -66,7 +90,15 @@ public class SquadTests {
     void testRemovePlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player(1L, 2L, "Test", "Test", 21, BigDecimal.ONE, Position.ST, team1);
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test")
+                .lastname("Test")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
         team1.getPlayers().add(player1);
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         squad.getPlayers().add(player1);
