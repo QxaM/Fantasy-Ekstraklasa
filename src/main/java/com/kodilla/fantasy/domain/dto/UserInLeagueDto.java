@@ -10,4 +10,5 @@ public class UserInLeagueDto {
     private Long id;
     private String username;
     private String squadName;
+    private int points;
 }

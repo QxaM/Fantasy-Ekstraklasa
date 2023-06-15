@@ -45,7 +45,8 @@ public class UserMapper {
         return new UserInLeagueDto(
                 user.getId(),
                 user.getUsername(),
-                user.getSquad().getName()
+                user.getSquad().getName(),
+                user.getPoints()
         );
     }
 
