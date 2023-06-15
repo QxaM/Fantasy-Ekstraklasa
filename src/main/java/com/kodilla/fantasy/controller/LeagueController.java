@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("leagues")
 @RequiredArgsConstructor
@@ -19,11 +21,25 @@ public class LeagueController {
     private final LeagueDbService service;
     private final LeagueMapper mapper;
 
+    @GetMapping
+    public ResponseEntity<List<LeagueDto>> getLeagues() {
+        List<League> foundLeagues = service.getLeagues();
+        List<LeagueDto> mappedLeagues = mapper.mapToLeagueDtoList(foundLeagues);
+        return ResponseEntity.ok(mappedLeagues);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<LeagueDto> getLeague(@PathVariable Long id) throws ElementNotFoundException {
         League foundLeague = service.getLeague(id);
         LeagueDto leagueDto = mapper.mapToLeagueDto(foundLeague);
         return ResponseEntity.ok(leagueDto);
+    }
+
+    @GetMapping("byUser/{userId}")
+    public ResponseEntity<List<LeagueDto>> getUserLeagues(@PathVariable Long userId) {
+        List<League> foundLeagues = service.getLeaguesByUserId(userId);
+        List<LeagueDto> mappedLeagues = mapper.mapToLeagueDtoList(foundLeagues);
+        return ResponseEntity.ok(mappedLeagues);
     }
 
     @PostMapping("{leagueName}")

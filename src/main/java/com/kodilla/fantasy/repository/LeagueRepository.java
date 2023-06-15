@@ -11,4 +11,5 @@ public interface LeagueRepository extends CrudRepository<League, Long> {
 
     @Override
     List<League> findAll();
+    List<League> findLeaguesByUsersId(Long userId);
 }
