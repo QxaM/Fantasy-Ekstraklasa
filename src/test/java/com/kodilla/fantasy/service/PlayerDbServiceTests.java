@@ -132,6 +132,31 @@ public class PlayerDbServiceTests {
     }
 
     @Test
+    void shouldGetPlayersByTeamId() {
+        //Given
+        Team team = new Team(1L, 1L, "Team 1", "TE1", new ArrayList<>());
+        Player player1 = new Player.PlayerBuilder()
+                .firstname("Firstname 1")
+                .lastname("Lastname 1")
+                .team(team)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .firstname("Firstname 2")
+                .lastname("Lastname 2")
+                .team(team)
+                .build();
+
+        when(playerRepository.findPlayersByTeamId(1L)).thenReturn(List.of(player1, player2));
+
+        //When
+        List<Player> foundPlayers = playerDbService.getPlayersByTeamId(1L);
+
+        //Then
+        assertAll(() -> assertEquals("Firstname 2", foundPlayers.get(1).getFirstname()),
+                () -> assertEquals("Lastname 2", foundPlayers.get(1).getLastname()));
+    }
+
+    @Test
     void shouldUpdatePlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
@@ -166,6 +191,29 @@ public class PlayerDbServiceTests {
 
         //Then
         assertEquals("Test changed", updatedPlayer.getFirstname());
+    }
+
+    @Test
+    void shouldSaveAllPlayers() {
+        //Given
+        Team team = new Team(1L, 1L, "Team 1", "TE1", new ArrayList<>());
+        Player player1 = new Player.PlayerBuilder()
+                .firstname("Firstname 1")
+                .lastname("Lastname 1")
+                .team(team)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .firstname("Firstname 2")
+                .lastname("Lastname 2")
+                .team(team)
+                .build();
+        List<Player> players = List.of(player1, player2);
+
+        //When
+        playerDbService.saveAllPlayers(players);
+
+        //Then
+        verify(playerRepository, times(1)).saveAll(players);
     }
 
     @Test

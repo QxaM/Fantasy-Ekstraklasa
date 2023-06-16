@@ -3,7 +3,6 @@ package com.kodilla.fantasy.livescore.mapper;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
 import com.kodilla.fantasy.domain.Team;
-import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.livescore.domain.EventType;
 import com.kodilla.fantasy.livescore.domain.Match;
 import com.kodilla.fantasy.livescore.domain.dto.*;
@@ -115,8 +114,8 @@ public class LiveScoreMapperTests {
         Player player1 = new Player(3L, 3L, "name", "Firstname", "Lastname", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
         Player player2 = new Player(3L, 3L, "name 1", "Firstname 1", "Lastname 1", 21, BigDecimal.ZERO, Position.GK, team1, new ArrayList<>(), 0);
 
-        when(playerDbService.getPlayerByTeamId(1L)).thenReturn(List.of(player1, player2));
-        when(playerDbService.getPlayerByTeamId(2L)).thenReturn(List.of(player2, player1));
+        when(playerDbService.getPlayersByTeamId(1L)).thenReturn(List.of(player1, player2));
+        when(playerDbService.getPlayersByTeamId(2L)).thenReturn(List.of(player2, player1));
 
         //When
         liveScoreMapper.mapLineup(match, getLineupsDto);

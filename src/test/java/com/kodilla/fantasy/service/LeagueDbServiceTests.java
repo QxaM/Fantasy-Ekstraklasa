@@ -73,6 +73,22 @@ public class LeagueDbServiceTests {
     }
 
     @Test
+    void shouldFetchUsersLeague() {
+        //Given
+        League league1 = new League(1L, "League 1", new ArrayList<>());
+        League league2 = new League(2L, "League 2", new ArrayList<>());
+        when(leagueRepository.findLeaguesByUsersId(1L)).thenReturn(List.of(league1, league2));
+
+        //When
+        List<League> foundLeagues = leagueDbService.getLeaguesByUserId(1L);
+
+        //Then
+        assertAll(() -> assertEquals(2, foundLeagues.size()),
+                () -> assertEquals(2L, foundLeagues.get(1).getId()),
+                () -> assertEquals("League 2", foundLeagues.get(1).getName()));
+    }
+
+    @Test
     void shouldSaveLeague() {
         //Given
         League league1 = new League(1L, "League 1", new ArrayList<>());

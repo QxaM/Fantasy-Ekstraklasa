@@ -114,7 +114,7 @@ public class LiveScoreMapper {
     }
 
     private void populateLineup(Match match, List<LiveScorePlayerDto> players, Long teamId) {
-        List<Player> foundPlayers = playerDbService.getPlayerByTeamId(teamId);
+        List<Player> foundPlayers = playerDbService.getPlayersByTeamId(teamId);
 
         for(LiveScorePlayerDto player: players) {
 

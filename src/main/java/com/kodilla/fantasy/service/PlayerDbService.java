@@ -38,7 +38,7 @@ public class PlayerDbService {
                 .orElseThrow(() -> new ElementNotFoundException("Player with given id: " + id + " does not exist"));
     }
 
-    public List<Player> getPlayerByTeamId(Long id) {
+    public List<Player> getPlayersByTeamId(Long id) {
         return repository.findPlayersByTeamId(id);
     }
 
