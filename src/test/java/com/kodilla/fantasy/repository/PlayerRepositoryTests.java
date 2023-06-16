@@ -2,6 +2,7 @@ package com.kodilla.fantasy.repository;
 
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
+import com.kodilla.fantasy.domain.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
@@ -23,6 +25,8 @@ public class PlayerRepositoryTests {
 
     @Autowired
     private PlayerRepository repository;
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Test
     void testSave() {
@@ -112,6 +116,82 @@ public class PlayerRepositoryTests {
         long playerId2 = player2.getId();
         repository.deleteById(playerId1);
         repository.deleteById(playerId2);
+    }
+
+    @Test
+    void testGetSortedPlayers() {
+        //Given
+        Team team1 = new Team(1L, "Team1", "TE1");
+        Team team2 = new Team(2L, "Team2", "TE2");
+        Team team3 = new Team(3L, "Team3", "TE3");
+        Player player1 = new Player.PlayerBuilder()
+                .apiFootballId(2L)
+                .firstname("Test1")
+                .lastname("Test1")
+                .age(21)
+                .value(BigDecimal.ONE)
+                .position(Position.ST)
+                .team(team1)
+                .build();
+        Player player2 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test2")
+                .lastname("Test2")
+                .age(21)
+                .value(BigDecimal.valueOf(3))
+                .position(Position.GK)
+                .team(team2)
+                .build();
+        Player player3 = new Player.PlayerBuilder()
+                .apiFootballId(3L)
+                .firstname("Test3")
+                .lastname("Test3")
+                .age(21)
+                .value(BigDecimal.valueOf(3))
+                .position(Position.MID)
+                .team(team3)
+                .build();
+        teamRepository.saveAll(List.of(team1, team2, team3));
+        repository.save(player1);
+        repository.save(player2);
+        repository.save(player3);
+
+        Pageable pageIdAscending = PageRequest.of(0, 1, Sort.by("id").ascending());
+        Pageable pageIdDescending = PageRequest.of(0, 2, Sort.by("id").descending());
+        Pageable pageLastnameAscending = PageRequest.of(0, 3, Sort.by("lastname").ascending());
+        Pageable pageLastnameDescending = PageRequest.of(0, 3, Sort.by("lastname").descending());
+        Pageable pageValueAscending = PageRequest.of(0, 3, Sort.by("value").ascending());
+        Pageable pageValueDescending = PageRequest.of(0, 3, Sort.by("value").descending());
+        Pageable pageTeamAscending = PageRequest.of(0, 3, Sort.by("team").ascending());
+        Pageable pageTeamDescending = PageRequest.of(0, 3, Sort.by("team").descending());
+
+        //When
+        Page<Player> idAscending = repository.findAll(pageIdAscending);
+        Page<Player> idDescending = repository.findAll(pageIdDescending);
+        Page<Player> lastnameAscending = repository.findAll(pageLastnameAscending);
+        Page<Player> lastnameDescending = repository.findAll(pageLastnameDescending);
+        Page<Player> valueAscending = repository.findAll(pageValueAscending);
+        Page<Player> valueDescending = repository.findAll(pageValueDescending);
+        Page<Player> teamAscending = repository.findAll(pageTeamAscending);
+        Page<Player> teamDescending = repository.findAll(pageTeamDescending);
+
+        //Then
+        assertAll(() -> assertEquals("Test1", idAscending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test3", idDescending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test1", lastnameAscending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test3", lastnameDescending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test1", valueAscending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test2", valueDescending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test1", teamAscending.getContent().get(0).getFirstname()),
+                () -> assertEquals("Test3", teamDescending.getContent().get(0).getFirstname()));
+
+        //CleanUp
+        repository.deleteById(player1.getId());
+        repository.deleteById(player2.getId());
+        repository.deleteById(player3.getId());
+        teamRepository.deleteById(team1.getId());
+        teamRepository.deleteById(team2.getId());
+        teamRepository.deleteById(team3.getId());
     }
 
     @Test

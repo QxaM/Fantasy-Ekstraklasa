@@ -116,6 +116,36 @@ public class LeagueRepositoryTests {
     }
 
     @Test
+    void testGetLeaguesByUsers() {
+        //Given
+        User user = new User("User 1", new ArrayList<>(), new Squad());
+        League league1 = new League("League 1", new ArrayList<>());
+        League league2 = new League("League 2", new ArrayList<>());
+        league1.getUsers().add(user);
+        league2.getUsers().add(user);
+        user.getLeagues().addAll(List.of(league1, league2));
+
+        leagueRepository.saveAll(List.of(league1, league2));
+        Long league1Id = league1.getId();
+        Long league2Id = league2.getId();
+        userRepository.save(user);
+        Long id = user.getId();
+
+        //When
+        List<League> leagues = leagueRepository.findLeaguesByUsersId(id);
+
+        //Then
+        assertAll(() -> assertEquals(2, leagues.size()),
+                () -> assertEquals("League 1", leagues.get(0).getName()),
+                () -> assertEquals("League 2", leagues.get(1).getName()));
+
+        //CleanUp
+        userRepository.deleteById(id);
+        leagueRepository.deleteById(league1Id);
+        leagueRepository.deleteById(league2Id);
+    }
+
+    @Test
     void testDeleteLeague() {
         //Given
         League league = new League("League 1", new ArrayList<>());
