@@ -8,18 +8,17 @@ import com.kodilla.fantasy.service.LeagueDbService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -45,6 +44,27 @@ public class LeagueControllerTests {
     }
 
     @Test
+    void shouldFetchLeagues() throws Exception {
+        //Given
+        League league2 = new League(2L, "League 2", new ArrayList<>());
+        LeagueDto leagueDto2 = new LeagueDto(2L, "League 2", new ArrayList<>());
+        List<League> leagues = List.of(league, league2);
+        List<LeagueDto> leagueDtos = List.of(leagueDto, leagueDto2);
+
+        when(leagueDbService.getLeagues()).thenReturn(leagues);
+        when(leagueMapper.mapToLeagueDtoList(leagues)).thenReturn(leagueDtos);
+
+        //When + Then
+        mockMvc.perform(MockMvcRequestBuilders
+                    .get("/fantasy/v1/leagues")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is("League 2")));
+    }
+
+    @Test
     void shouldFetchLeague() throws Exception {
         //Given
         when(leagueDbService.getLeague(1L)).thenReturn(league);
@@ -57,6 +77,27 @@ public class LeagueControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("League 1")));
+    }
+
+    @Test
+    void shouldFetchUsersLeagues() throws Exception {
+        //Given
+        League league2 = new League(2L, "League 2", new ArrayList<>());
+        LeagueDto leagueDto2 = new LeagueDto(2L, "League 2", new ArrayList<>());
+        List<League> leagues = List.of(league, league2);
+        List<LeagueDto> leagueDtos = List.of(leagueDto, leagueDto2);
+
+        when(leagueDbService.getLeaguesByUserId(1L)).thenReturn(leagues);
+        when(leagueMapper.mapToLeagueDtoList(leagues)).thenReturn(leagueDtos);
+
+        //When + Then
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/fantasy/v1/leagues/byUser/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is("League 2")));
     }
 
     @Test
