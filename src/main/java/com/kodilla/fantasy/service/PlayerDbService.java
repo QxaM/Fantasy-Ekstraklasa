@@ -1,12 +1,15 @@
 package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.SortType;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.factory.PlayerSorterFactory;
 import com.kodilla.fantasy.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,8 +27,9 @@ public class PlayerDbService {
         repository.saveAll(players);
     }
 
-    public Page<Player> getPlayers(Integer page) {
-        Pageable pageWith20Elements = PageRequest.of(page, 20);
+    public Page<Player> getPlayers(Integer page, SortType sortType) {
+        Sort sort = PlayerSorterFactory.makeSorter(sortType);
+        Pageable pageWith20Elements = PageRequest.of(page, 20, sort);
         return repository.findAll(pageWith20Elements);
     }
 

@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.controller;
 
 import com.kodilla.fantasy.domain.Player;
+import com.kodilla.fantasy.domain.SortType;
 import com.kodilla.fantasy.domain.dto.PlayerDto;
 import com.kodilla.fantasy.domain.dto.PlayersPagedDto;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
@@ -20,9 +21,10 @@ public class PlayerController {
     private final PlayerDbService service;
     private final PlayerMapper mapper;
 
-    @GetMapping("/page/{pageNo}")
-    public ResponseEntity<PlayersPagedDto> getPlayers(@PathVariable Integer pageNo) {
-        Page<Player> foundPlayers = service.getPlayers(pageNo);
+    @GetMapping("/page/{pageNo}/sortBy/{sortType}")
+    public ResponseEntity<PlayersPagedDto> getPlayers(@PathVariable Integer pageNo,
+                                                      @PathVariable SortType sortType) {
+        Page<Player> foundPlayers = service.getPlayers(pageNo, sortType);
         PlayersPagedDto mappedPlayers = mapper.mapToPlayersPagedDto(foundPlayers);
         return ResponseEntity.ok(mappedPlayers);
     }

@@ -3,6 +3,7 @@ package com.kodilla.fantasy.controller;
 import com.google.gson.Gson;
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
+import com.kodilla.fantasy.domain.SortType;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.dto.PageDto;
 import com.kodilla.fantasy.domain.dto.PlayerDto;
@@ -86,12 +87,12 @@ public class PlayerControllerTests {
                 pageDto,
                 createPlayersDtoList()
         );
-        when(playerDbService.getPlayers(0)).thenReturn(players);
+        when(playerDbService.getPlayers(0, SortType.ID_ASCENDING)).thenReturn(players);
         when(playerMapper.mapToPlayersPagedDto(any())).thenReturn(mappedPlayers);
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                    .get("/fantasy/v1/players/page/0")
+                    .get("/fantasy/v1/players/page/0/sortBy/ID_ASCENDING")
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.page.currentPage", Matchers.is(0)))

@@ -2,6 +2,7 @@ package com.kodilla.fantasy.service;
 
 import com.kodilla.fantasy.domain.Player;
 import com.kodilla.fantasy.domain.Position;
+import com.kodilla.fantasy.domain.SortType;
 import com.kodilla.fantasy.domain.Team;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
 import com.kodilla.fantasy.repository.PlayerRepository;
@@ -10,10 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -85,11 +83,11 @@ public class PlayerDbServiceTests {
     void shouldGetPlayers() {
         //Given
         Page<Player> players = createPlayersPage();
-        Pageable pageWith20Elements = PageRequest.of(2, 20);
+        Pageable pageWith20Elements = PageRequest.of(2, 20, Sort.by("id").ascending());
         when(playerRepository.findAll(pageWith20Elements)).thenReturn(players);
 
         //Then
-        Page<Player> foundPlayers = playerDbService.getPlayers(2);
+        Page<Player> foundPlayers = playerDbService.getPlayers(2, SortType.ID_ASCENDING);
 
         //When
         assertAll(() -> assertEquals(20L, foundPlayers.getNumberOfElements()),
