@@ -5,6 +5,7 @@ import com.kodilla.fantasy.domain.dto.LeagueDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,12 @@ public class LeagueMapper {
     private final UserMapper userMapper;
 
     public League mapToLeague(LeagueDto leagueDto) {
-        return new League(
-                leagueDto.getId(),
-                leagueDto.getName()
-        );
+        League league = League.builder()
+                .name(leagueDto.getName())
+                .users(new ArrayList<>())
+                .build();
+        league.setId(leagueDto.getId());
+        return league;
     }
 
     public LeagueDto mapToLeagueDto(League league) {

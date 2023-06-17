@@ -108,8 +108,14 @@ public class UserRepositoryTests {
                 .leagues(new ArrayList<>())
                 .squad(new Squad())
                 .build();
-        League league1 = new League("League 1", new ArrayList<>());
-        League league2 = new League("League 2", new ArrayList<>());
+        League league1 = League.builder()
+                .name("League 1")
+                .users(new ArrayList<>())
+                .build();
+        League league2 = League.builder()
+                .name("League 2")
+                .users(new ArrayList<>())
+                .build();
         user.getLeagues().addAll(List.of(league1, league2));
         league1.getUsers().add(user);
         league2.getUsers().add(user);
@@ -148,7 +154,10 @@ public class UserRepositoryTests {
                 .leagues(new ArrayList<>())
                 .squad(new Squad())
                 .build();
-        League league1 = new League("League 1", new ArrayList<>());
+        League league1 = League.builder()
+                .name("League 1")
+                .users(new ArrayList<>())
+                .build();
         user1.getLeagues().add(league1);
         user2.getLeagues().add(league1);
         league1.getUsers().addAll(List.of(user1, user2));

@@ -44,7 +44,9 @@ public class LeagueController {
 
     @PostMapping("{leagueName}")
     public ResponseEntity<LeagueDto> createLeague(@PathVariable String leagueName) {
-        League leagueToSave = new League(leagueName);
+        League leagueToSave = League.builder()
+                .name(leagueName)
+                .build();
         League savedLeague = service.saveLeague(leagueToSave);
         LeagueDto mappedLeague = mapper.mapToLeagueDto(savedLeague);
         return ResponseEntity.ok(mappedLeague);

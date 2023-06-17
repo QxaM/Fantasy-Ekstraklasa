@@ -28,7 +28,9 @@ public class LeagueRepositoryTests {
     @Test
     void testSave() {
         //Given
-        League league = new League("League 1", new ArrayList<>());
+        League league = League.builder()
+                .name("League 1")
+                .build();
 
         //When
         leagueRepository.save(league);
@@ -46,8 +48,12 @@ public class LeagueRepositoryTests {
     @Test
     void testGetAll() {
         //Given
-        League league1 = new League("League 1", new ArrayList<>());
-        League league2 = new League("League 2", new ArrayList<>());
+        League league1 = League.builder()
+                .name("League 1")
+                .build();
+        League league2 = League.builder()
+                .name("League 2")
+                .build();
         leagueRepository.saveAll(List.of(league1, league2));
         Long id1 = league1.getId();
         Long id2 = league2.getId();
@@ -68,7 +74,9 @@ public class LeagueRepositoryTests {
     @Test
     void testGetLeague() {
         //Given
-        League league = new League("League 1", new ArrayList<>());
+        League league = League.builder()
+                .name("League 1")
+                .build();
         leagueRepository.save(league);
         Long id = league.getId();
 
@@ -97,7 +105,10 @@ public class LeagueRepositoryTests {
                 .leagues(new ArrayList<>())
                 .squad(new Squad())
                 .build();
-        League league = new League("League 1", new ArrayList<>());
+        League league = League.builder()
+                .name("League 1")
+                .users(new ArrayList<>())
+                .build();
         league.getUsers().addAll(List.of(user1, user2));
         user1.getLeagues().add(league);
         user2.getLeagues().add(league);
@@ -131,8 +142,14 @@ public class LeagueRepositoryTests {
                 .leagues(new ArrayList<>())
                 .squad(new Squad())
                 .build();
-        League league1 = new League("League 1", new ArrayList<>());
-        League league2 = new League("League 2", new ArrayList<>());
+        League league1 = League.builder()
+                .name("League 1")
+                .users(new ArrayList<>())
+                .build();
+        League league2 = League.builder()
+                .name("League 2")
+                .users(new ArrayList<>())
+                .build();
         league1.getUsers().add(user);
         league2.getUsers().add(user);
         user.getLeagues().addAll(List.of(league1, league2));
@@ -160,7 +177,9 @@ public class LeagueRepositoryTests {
     @Test
     void testDeleteLeague() {
         //Given
-        League league = new League("League 1", new ArrayList<>());
+        League league = League.builder()
+                .name("League 1")
+                .build();
         leagueRepository.save(league);
         Long id = league.getId();
 
