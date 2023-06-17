@@ -139,7 +139,12 @@ public class UserDbServiceTests {
     void shouldDetachUsers() {
         //Given
         League league = new League(1L, "Test League", new ArrayList<>());
-        User user = new User(1L, "Test 1", "user@test.com");
+        User user = User.builder()
+                .username("Test 1")
+                .email("user@test.com")
+                .leagues(new ArrayList<>())
+                .build();
+        user.setId(1L);
         user.getLeagues().add(league);
         when(userRepository.findUserByLeaguesId(1L)).thenReturn(List.of(user));
 

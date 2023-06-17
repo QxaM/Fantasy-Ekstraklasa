@@ -28,7 +28,11 @@ public class UserRepositoryTests {
     @Test
     void shouldSaveUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>(), new Squad());
+        User user = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
 
         //When
         userRepository.save(user);
@@ -46,8 +50,16 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUsers() {
         //Given
-        User user1 = new User("User 1", new ArrayList<>(), new Squad());
-        User user2 = new User("User 2", new ArrayList<>(), new Squad());
+        User user1 = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
+        User user2 = User.builder()
+                .username("User 2")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         userRepository.saveAll(List.of(user1, user2));
         Long id1 = user1.getId();
         Long id2 = user2.getId();
@@ -68,7 +80,11 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>(), new Squad());
+        User user = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         userRepository.save(user);
         Long id = user.getId();
 
@@ -87,7 +103,11 @@ public class UserRepositoryTests {
     @Transactional
     void shouldGetUserWithLeagues() {
         //Given
-        User user = new User("User 1", new ArrayList<>(), new Squad());
+        User user = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         League league1 = new League("League 1", new ArrayList<>());
         League league2 = new League("League 2", new ArrayList<>());
         user.getLeagues().addAll(List.of(league1, league2));
@@ -118,8 +138,16 @@ public class UserRepositoryTests {
     @Test
     void shouldGetUserByLeagueId() {
         //Given
-        User user1 = new User("User 1", new ArrayList<>(), new Squad());
-        User user2 = new User("User 2", new ArrayList<>(), new Squad());
+        User user1 = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
+        User user2 = User.builder()
+                .username("User 2")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         League league1 = new League("League 1", new ArrayList<>());
         user1.getLeagues().add(league1);
         user2.getLeagues().add(league1);
@@ -148,7 +176,11 @@ public class UserRepositoryTests {
     @Test
     void shouldDeleteUser() {
         //Given
-        User user = new User("User 1", new ArrayList<>(), new Squad());
+        User user = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         userRepository.save(user);
         Long id = user.getId();
 

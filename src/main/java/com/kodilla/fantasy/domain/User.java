@@ -1,10 +1,7 @@
 package com.kodilla.fantasy.domain;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +17,7 @@ public class User {
     @GeneratedValue
     @NotNull
     @Column(name = "ID")
+    @Setter
     private Long id;
     @Column(name = "USERNAME")
     private String username;
@@ -48,24 +46,12 @@ public class User {
                 .reduce(0, Integer::sum);
     }
 
-    public User(String username) {
-        this.username = username;
-    }
-
-    public User(String username, String email) {
+    @Builder
+    public User(String username, String email, List<League> leagues, Squad squad, int points) {
         this.username = username;
         this.email = email;
-    }
-
-    public User(Long id, String username, String email) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-    }
-
-    public User(String username, List<League> leagues, Squad squad) {
-        this.username = username;
         this.leagues = leagues;
         this.squad = squad;
+        this.points = points;
     }
 }

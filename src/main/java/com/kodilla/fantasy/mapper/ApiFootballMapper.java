@@ -31,7 +31,7 @@ public class ApiFootballMapper {
     public Player mapToPlayer(PlayerResponseDto playerResponseDto) {
         PlayerValues playerValue = new DefaultPlayerDecorator();
         String playerRating = playerResponseDto.getStatistics().get(0).getGames().getRating();
-        if(playerRating != null && Long.parseLong(playerRating) > 6.0) {
+        if(playerRating != null && Double.parseDouble(playerRating) > 6.0) {
             playerValue = new PlayerValueByScore(playerValue, playerRating);
         }
 

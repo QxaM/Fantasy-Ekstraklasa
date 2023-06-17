@@ -87,8 +87,16 @@ public class LeagueRepositoryTests {
     @Transactional
     void testGetLeagueWithUsers() {
         //Given
-        User user1 = new User("User 1", new ArrayList<>(), new Squad());
-        User user2 = new User("User 2", new ArrayList<>(), new Squad());
+        User user1 = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
+        User user2 = User.builder()
+                .username("User 2")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         League league = new League("League 1", new ArrayList<>());
         league.getUsers().addAll(List.of(user1, user2));
         user1.getLeagues().add(league);
@@ -118,7 +126,11 @@ public class LeagueRepositoryTests {
     @Test
     void testGetLeaguesByUsers() {
         //Given
-        User user = new User("User 1", new ArrayList<>(), new Squad());
+        User user = User.builder()
+                .username("User 1")
+                .leagues(new ArrayList<>())
+                .squad(new Squad())
+                .build();
         League league1 = new League("League 1", new ArrayList<>());
         League league2 = new League("League 2", new ArrayList<>());
         league1.getUsers().add(user);
