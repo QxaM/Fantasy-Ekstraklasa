@@ -1,5 +1,7 @@
 # Fantasy Ekstraklasa
 
+front: https://github.com/QxaM/Fantasy-Ektraklasa-Frontend
+
 Welcome to Fantasy Ekstraklasa project! The project allows to create a team of Ekstraklasa players, that will later score according to match events, that happen in “real world”. The project fetches players and teams data from API-FOOTBALL API and later fetches games data from LiveScore API.
 
 The project generally uses 6 REST API Controllers, that allows to handle football players, football teams, users, squads and leagues. Lastly there is one service controller, that allows to fetch data “by hand”.
