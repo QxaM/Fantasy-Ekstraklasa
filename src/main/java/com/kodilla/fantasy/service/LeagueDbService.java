@@ -3,6 +3,7 @@ package com.kodilla.fantasy.service;
 import com.kodilla.fantasy.domain.League;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.domain.exception.UserAlreadyInLeagueException;
 import com.kodilla.fantasy.repository.LeagueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,13 @@ public class LeagueDbService {
     }
 
     @Transactional
-    public void addUser(Long leagueId, Long userId) throws ElementNotFoundException {
+    public void addUser(Long leagueId, Long userId) throws ElementNotFoundException, UserAlreadyInLeagueException {
         League foundLeague = getLeague(leagueId);
         User foundUser = userDbService.getUser(userId);
+
+        if(foundLeague.getUsers().contains(foundUser)) {
+            throw new UserAlreadyInLeagueException();
+        }
 
         foundUser.getLeagues().add(foundLeague);
         foundLeague.getUsers().add(foundUser);

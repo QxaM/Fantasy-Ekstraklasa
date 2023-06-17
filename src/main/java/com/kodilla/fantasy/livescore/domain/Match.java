@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Match {
+public class  Match {
     private String matchId;
     private Team team1;
     private Team team2;

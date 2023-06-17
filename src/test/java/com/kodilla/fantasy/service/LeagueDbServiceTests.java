@@ -4,6 +4,7 @@ import com.kodilla.fantasy.domain.League;
 import com.kodilla.fantasy.domain.Squad;
 import com.kodilla.fantasy.domain.User;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.domain.exception.UserAlreadyInLeagueException;
 import com.kodilla.fantasy.repository.LeagueRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -115,7 +116,7 @@ public class LeagueDbServiceTests {
     }
 
     @Test
-    void shouldAddUser() throws ElementNotFoundException {
+    void shouldAddUser() throws ElementNotFoundException, UserAlreadyInLeagueException {
         //Given
         User user = new User(1L, "User 1", "user@test.com", new ArrayList<>(), new Squad(), 0);
         League league1 = new League(2L, "League 1", new ArrayList<>());

@@ -3,6 +3,7 @@ package com.kodilla.fantasy.controller;
 import com.kodilla.fantasy.domain.League;
 import com.kodilla.fantasy.domain.dto.LeagueDto;
 import com.kodilla.fantasy.domain.exception.ElementNotFoundException;
+import com.kodilla.fantasy.domain.exception.UserAlreadyInLeagueException;
 import com.kodilla.fantasy.mapper.LeagueMapper;
 import com.kodilla.fantasy.service.LeagueDbService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,7 @@ public class LeagueController {
     public ResponseEntity<LeagueDto> createLeague(@PathVariable String leagueName) {
         League leagueToSave = League.builder()
                 .name(leagueName)
+                .users(new ArrayList<>())
                 .build();
         League savedLeague = service.saveLeague(leagueToSave);
         LeagueDto mappedLeague = mapper.mapToLeagueDto(savedLeague);
@@ -75,7 +78,8 @@ public class LeagueController {
 
     @PutMapping("{leagueId}/addUser/{userId}")
     public ResponseEntity<Void> addUser(@PathVariable Long leagueId,
-                                        @PathVariable Long userId) throws ElementNotFoundException {
+                                        @PathVariable Long userId) throws ElementNotFoundException,
+                                                                            UserAlreadyInLeagueException {
         service.addUser(leagueId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
