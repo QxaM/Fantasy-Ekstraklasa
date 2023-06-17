@@ -39,7 +39,9 @@ public class LeagueControllerTests {
 
     @BeforeEach
     void createLeague() {
-        league = new League(1L, "League 1", new ArrayList<>());
+        league = League.builder().build();
+
+                new League(1L, "League 1", new ArrayList<>());
         leagueDto = new LeagueDto(1L, "League 1", new ArrayList<>());
     }
 

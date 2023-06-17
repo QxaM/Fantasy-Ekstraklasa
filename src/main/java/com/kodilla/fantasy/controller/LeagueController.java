@@ -55,11 +55,13 @@ public class LeagueController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LeagueDto> updateLeague(@RequestBody LeagueDto leagueDto) throws ElementNotFoundException {
         League foundLeague = service.getLeague(leagueDto.getId());
-        League leagueToSave = new League(
-                foundLeague.getId(),
-                leagueDto.getName(),
-                foundLeague.getUsers()
-        );
+
+        League leagueToSave = League.builder()
+                .name(leagueDto.getName())
+                .users(foundLeague.getUsers())
+                .build();
+        leagueToSave.setId(foundLeague.getId());
+
         League savedLeague = service.saveLeague(leagueToSave);
         LeagueDto mappedLeague = mapper.mapToLeagueDto(savedLeague);
         return ResponseEntity.ok(mappedLeague);

@@ -39,14 +39,16 @@ public class UserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) throws ElementNotFoundException {
         User foundUser = service.getUser(userDto.getId());
-        User userToSave = new User(
-                foundUser.getId(),
-                userDto.getUsername(),
-                userDto.getEmail(),
-                foundUser.getLeagues(),
-                foundUser.getSquad(),
-                foundUser.getPoints()
-        );
+
+        User userToSave = User.builder()
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
+                .leagues(foundUser.getLeagues())
+                .squad(foundUser.getSquad())
+                .points(foundUser.getPoints())
+                .build();
+        userToSave.setId(foundUser.getId());
+
         User savedUser = service.saveUser(userToSave);
         UserDto mappedUser = mapper.mapToUserDto(savedUser);
         return ResponseEntity.ok(mappedUser);
