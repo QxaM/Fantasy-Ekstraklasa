@@ -47,7 +47,7 @@ public class PlayerControllerTests {
 
     private Page<Player> createPlayersPage() {
         List<Player> players = IntStream.range(0, 20)
-                .mapToObj((i) -> new Player.PlayerBuilder()
+                .mapToObj((i) -> Player.builder()
                                     .apiFootballId(Integer.toUnsignedLong(i))
                                     .firstname("Test" + i)
                                     .lastname("Test" + i)
@@ -107,7 +107,7 @@ public class PlayerControllerTests {
         PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -145,7 +145,7 @@ public class PlayerControllerTests {
         PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")

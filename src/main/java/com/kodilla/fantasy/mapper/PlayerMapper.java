@@ -20,7 +20,7 @@ public class PlayerMapper {
     private final TeamMapper teamMapper;
 
     public Player mapToPlayer(PlayerDto playerDto) {
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .firstname(playerDto.getFirstname())
                 .lastname(playerDto.getLastname())
                 .age(playerDto.getAge())

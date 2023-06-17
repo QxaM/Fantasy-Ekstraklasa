@@ -78,7 +78,7 @@ public class ApiFootballFacadeTests {
     @Test
     void testShouldFetchPlayers() {
         //Given
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .firstname("Test name")
                 .lastname("Test name")
                 .age(21)

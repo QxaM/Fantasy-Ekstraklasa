@@ -48,7 +48,7 @@ public class SquadMapperTests {
         //Given
         Squad squad = new Squad(1L, "Squad 1", BigDecimal.valueOf(30000000), new HashSet<>());
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")

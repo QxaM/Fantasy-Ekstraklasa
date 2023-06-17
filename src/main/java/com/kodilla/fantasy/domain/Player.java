@@ -2,10 +2,7 @@ package com.kodilla.fantasy.domain;
 
 import com.kodilla.fantasy.decorator.PlayerValues;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -50,55 +47,9 @@ public class Player {
         this.points = decorator.getPoints(this.points);
     }
 
-    public static class PlayerBuilder {
-        private Long apiFootballId;
-        private String name;
-        private String firstname;
-        private String lastname;
-        private int age;
-        private BigDecimal value;
-        private Position position;
-        private Team team;
-
-        public PlayerBuilder apiFootballId(Long apiFootballId) {
-            this.apiFootballId = apiFootballId;
-            return this;
-        }
-        public PlayerBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-        public PlayerBuilder firstname(String firstname) {
-            this.firstname = firstname;
-            return this;
-        }
-        public PlayerBuilder lastname(String lastname) {
-            this.lastname = lastname;
-            return this;
-        }
-        public PlayerBuilder age(int age) {
-            this.age = age;
-            return this;
-        }
-        public PlayerBuilder value(BigDecimal value) {
-            this.value = value;
-            return this;
-        }
-        public PlayerBuilder position(Position position) {
-            this.position = position;
-            return this;
-        }
-        public PlayerBuilder team(Team team) {
-            this.team = team;
-            return this;
-        }
-
-        public Player build() {
-            return new Player(apiFootballId, name, firstname, lastname, age, value, position, team);
-        }
-    }
-
-    public Player(Long apiFootballId, String name, String firstname, String lastname, int age, BigDecimal value, Position position, Team team) {
+    @Builder
+    public Player(Long apiFootballId, String name, String firstname, String lastname, int age,
+                  BigDecimal value, Position position, Team team, List<Squad> squads, int points) {
         this.apiFootballId = apiFootballId;
         this.name = name;
         this.firstname = firstname;
@@ -107,5 +58,7 @@ public class Player {
         this.value = value;
         this.position = position;
         this.team = team;
+        this.squads = squads;
+        this.points = points;
     }
 }

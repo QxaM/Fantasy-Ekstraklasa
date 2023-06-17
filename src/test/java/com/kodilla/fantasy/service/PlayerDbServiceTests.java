@@ -33,7 +33,7 @@ public class PlayerDbServiceTests {
 
     private Page<Player> createPlayersPage() {
         List<Player> players = IntStream.range(0, 20)
-                .mapToObj((i) -> new Player.PlayerBuilder()
+                .mapToObj((i) -> Player.builder()
                         .apiFootballId(Integer.toUnsignedLong(i))
                         .firstname("Test" + i)
                         .lastname("Test" + i)
@@ -50,7 +50,7 @@ public class PlayerDbServiceTests {
     void shouldInitPlayers() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")
@@ -59,7 +59,7 @@ public class PlayerDbServiceTests {
                 .position(Position.ST)
                 .team(team1)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")
@@ -98,7 +98,7 @@ public class PlayerDbServiceTests {
     void shouldGetPlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")
@@ -135,12 +135,12 @@ public class PlayerDbServiceTests {
     void shouldGetPlayersByTeamId() {
         //Given
         Team team = new Team(1L, 1L, "Team 1", "TE1", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .firstname("Firstname 1")
                 .lastname("Lastname 1")
                 .team(team)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .firstname("Firstname 2")
                 .lastname("Lastname 2")
                 .team(team)
@@ -160,7 +160,7 @@ public class PlayerDbServiceTests {
     void shouldUpdatePlayer() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")
@@ -169,7 +169,7 @@ public class PlayerDbServiceTests {
                 .position(Position.ST)
                 .team(team1)
                 .build();
-        Player changedPlayer = new Player.PlayerBuilder()
+        Player changedPlayer = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test changed")
                 .lastname("Test")
@@ -197,12 +197,12 @@ public class PlayerDbServiceTests {
     void shouldSaveAllPlayers() {
         //Given
         Team team = new Team(1L, 1L, "Team 1", "TE1", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .firstname("Firstname 1")
                 .lastname("Lastname 1")
                 .team(team)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .firstname("Firstname 2")
                 .lastname("Lastname 2")
                 .team(team)

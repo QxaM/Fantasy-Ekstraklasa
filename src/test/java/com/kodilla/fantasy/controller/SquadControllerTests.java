@@ -48,7 +48,7 @@ public class SquadControllerTests {
     void buildSquad() {
         squad = new Squad(1L, "Squad 1", BigDecimal.ONE, new HashSet<>());
         Team team1 = new Team(2L, 4L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(5L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -93,7 +93,7 @@ public class SquadControllerTests {
         //Given
         Squad newSquad = new Squad(1L, "Squad updated", BigDecimal.ZERO, new HashSet<>());
         Team team1 = new Team(2L, 4L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(5L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")

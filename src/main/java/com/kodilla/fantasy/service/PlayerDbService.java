@@ -46,19 +46,21 @@ public class PlayerDbService {
     public Player updatePlayer(Player player) throws ElementNotFoundException {
         Player foundPlayer = repository.findById(player.getId())
                 .orElseThrow(() -> new ElementNotFoundException("Player with given id: " + player.getId() + " does not exist"));
-        Player changedPlayer = new Player(
-                player.getId(),
-                foundPlayer.getApiFootballId(),
-                player.getName(),
-                player.getFirstname(),
-                player.getLastname(),
-                player.getAge(),
-                player.getValue(),
-                player.getPosition(),
-                player.getTeam(),
-                player.getSquads(),
-                player.getPoints()
-        );
+
+        Player changedPlayer = Player.builder()
+                .apiFootballId(foundPlayer.getApiFootballId())
+                .name(player.getName())
+                .firstname(player.getFirstname())
+                .lastname(player.getLastname())
+                .age(player.getAge())
+                .value(player.getValue())
+                .position(player.getPosition())
+                .team(player.getTeam())
+                .squads(player.getSquads())
+                .points(player.getPoints())
+                .build();
+        changedPlayer.setId(foundPlayer.getId());
+
         return repository.save(changedPlayer);
     }
 

@@ -87,7 +87,7 @@ public class SquadRepositoryTests {
     void shouldGetSquadWithPlayers() {
         //Given
         Squad squad = new Squad("Squad 1", new HashSet<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -95,7 +95,7 @@ public class SquadRepositoryTests {
                 .value(BigDecimal.ONE)
                 .position(Position.ST)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")

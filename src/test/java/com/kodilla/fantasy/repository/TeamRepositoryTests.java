@@ -109,7 +109,7 @@ public class TeamRepositoryTests {
     void testSaveTeam_PlayersShouldNotBeSaved() {
         //Given
         Team team = new Team(2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -118,7 +118,7 @@ public class TeamRepositoryTests {
                 .position(Position.ST)
                 .team(team)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")
@@ -155,7 +155,7 @@ public class TeamRepositoryTests {
     void testTeamDelete_PlayersShouldDelete() {
         //Given
         Team team = new Team(2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -164,7 +164,7 @@ public class TeamRepositoryTests {
                 .position(Position.ST)
                 .team(team)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")

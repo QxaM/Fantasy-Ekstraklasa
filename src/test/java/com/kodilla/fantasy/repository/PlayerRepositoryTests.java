@@ -31,7 +31,7 @@ public class PlayerRepositoryTests {
     @Test
     void testSave() {
         //Given
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")
@@ -56,7 +56,7 @@ public class PlayerRepositoryTests {
     @Test
     void testPlayerGetById() {
         //Given
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")
@@ -81,7 +81,7 @@ public class PlayerRepositoryTests {
     @Test
     void testGetAllPlayers() {
         //Given
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -89,7 +89,7 @@ public class PlayerRepositoryTests {
                 .value(BigDecimal.ONE)
                 .position(Position.ST)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")
@@ -124,7 +124,7 @@ public class PlayerRepositoryTests {
         Team team1 = new Team(1L, "Team1", "TE1");
         Team team2 = new Team(2L, "Team2", "TE2");
         Team team3 = new Team(3L, "Team3", "TE3");
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -133,7 +133,7 @@ public class PlayerRepositoryTests {
                 .position(Position.ST)
                 .team(team1)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")
@@ -142,7 +142,7 @@ public class PlayerRepositoryTests {
                 .position(Position.GK)
                 .team(team2)
                 .build();
-        Player player3 = new Player.PlayerBuilder()
+        Player player3 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test3")
                 .lastname("Test3")
@@ -197,7 +197,7 @@ public class PlayerRepositoryTests {
     @Test
     void testDeletePlayerById() {
         //Given
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test")
                 .lastname("Test")

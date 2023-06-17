@@ -55,7 +55,7 @@ public class DataServiceTests {
     void testShouldInitPlayers() {
         //Given
         Team team1 = new Team(1L, 2L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(2L)
                 .firstname("Test1")
                 .lastname("Test1")
@@ -64,7 +64,7 @@ public class DataServiceTests {
                 .position(Position.ST)
                 .team(team1)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(3L)
                 .firstname("Test2")
                 .lastname("Test2")

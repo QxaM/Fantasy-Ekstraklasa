@@ -39,7 +39,7 @@ public class ApiFootballMapper {
                                                     .getTeam().getId();
         Team foundTeam = teamDbService.getTeamByApiFootballId(teamApiFootballId);
 
-        return new Player.PlayerBuilder()
+        return Player.builder()
                 .apiFootballId(playerResponseDto
                         .getPlayer().getId())
                 .name(StringUtils.stripAccents(playerResponseDto

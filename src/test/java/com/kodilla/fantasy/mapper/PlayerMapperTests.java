@@ -35,7 +35,7 @@ public class PlayerMapperTests {
 
     private Page<Player> createPlayersPage() {
         List<Player> players = IntStream.range(0, 20)
-                .mapToObj((i) -> new Player.PlayerBuilder()
+                .mapToObj((i) -> Player.builder()
                         .apiFootballId(Integer.toUnsignedLong(i))
                         .firstname("Test" + i)
                         .lastname("Test" + i)
@@ -58,7 +58,7 @@ public class PlayerMapperTests {
         PlayerDto playerDto = new PlayerDto(4L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -93,7 +93,7 @@ public class PlayerMapperTests {
         PlayerDto playerDto2 = new PlayerDto(5L, "Test firstname", "Test lastname", 21, BigDecimal.ONE, Position.ST, teamDto, 1);
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -119,7 +119,7 @@ public class PlayerMapperTests {
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player = new Player.PlayerBuilder()
+        Player player = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -152,7 +152,7 @@ public class PlayerMapperTests {
         TeamDto teamDto = new TeamDto(3L, "Test", "TET");
 
         Team team = new Team(3L, 5L, "Test", "TET", new ArrayList<>());
-        Player player1 = new Player.PlayerBuilder()
+        Player player1 = Player.builder()
                 .apiFootballId(6L)
                 .firstname("Test firstname")
                 .lastname("Test lastname")
@@ -161,7 +161,7 @@ public class PlayerMapperTests {
                 .position(Position.ST)
                 .team(team)
                 .build();
-        Player player2 = new Player.PlayerBuilder()
+        Player player2 = Player.builder()
                 .apiFootballId(7L)
                 .firstname("Test firstname 2")
                 .lastname("Test lastname 2")
@@ -170,7 +170,7 @@ public class PlayerMapperTests {
                 .position(Position.MID)
                 .team(team)
                 .build();
-        Player player3 = new Player.PlayerBuilder()
+        Player player3 = Player.builder()
                 .apiFootballId(8L)
                 .firstname("Test firstname 3")
                 .lastname("Test lastname 3")
