@@ -1,6 +1,7 @@
 package com.kodilla.fantasy.controller;
 
 import com.kodilla.fantasy.service.DataFetchingService;
+import com.kodilla.fantasy.service.ServiceDataDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +23,8 @@ public class ServiceControllerTests {
     private MockMvc mockMvc;
     @MockBean
     private DataFetchingService dataInitializer;
+    @MockBean
+    private ServiceDataDbService serviceDataDbService;
 
     @Test
     void shouldInitTeams() throws Exception {
@@ -53,9 +56,9 @@ public class ServiceControllerTests {
 
         //When + Then
         mockMvc.perform(MockMvcRequestBuilders
-                    .put("/fantasy/v1/service/getScores/1")
+                    .put("/fantasy/v1/service/getScores")
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
-        verify(dataInitializer, times(1)).addScores(1);
+        verify(dataInitializer, times(1)).addScores(0);
     }
 }
