@@ -8,8 +8,6 @@ The project generally uses 6 REST API Controllers, that allows to handle footbal
 
 ## Known issues
 
-As of 17.06.23 LiveScore API decided to already switch to 2023 season and last season’s matches are no longer available - to fully use the functionality it is necessary to wait for 2023 season matches to start
-
 API-FOOTBALL controller does not correctly return the list of players (not all players are available, there is one repetition) - possibly it is an issue connected with 2022 seasons ending and developers have already started work to switch to new season
 
 ## Service Controller
